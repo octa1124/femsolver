@@ -38,7 +38,7 @@ These types are placeholders, but they are not arbitrary placeholders. They are 
 - nonlinear solve policy
 - post-processing outputs
 
-By freezing these seams early, later MFEM-specific logic can be attached without first redesigning the repository layout.
+By freezing these seams early, later kernel logic can be attached without first redesigning the repository layout.
 
 ## Application Entrypoints
 
@@ -59,6 +59,6 @@ This keeps CI realistic without pretending the physics layer already exists.
 ## Deferred Work
 
 - real file parsing
-- MFEM object ownership and lifetimes
+- finite-element kernel object ownership and lifetimes
 - numerical assembly
 - result export formats beyond placeholder text reports

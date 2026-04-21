@@ -1,0 +1,4 @@
+type: changed
+scope: architecture
+summary: Reposition the project as a self-owned multiphysics solver, set the robot-joint motor as the first MVP, and rewrite the roadmap away from an MFEM-first production path.
+breaking: false

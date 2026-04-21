@@ -17,49 +17,88 @@ Implementation documentation and git hygiene:
 
 Not in scope:
 
-- MFEM integration
-- Gmsh-driven geometry generation
+- kernel mesh and basis implementation
+- matrix assembly
 - physical material laws
 - nonlinear solvers
 
-## `v1.0.0` 3D Locked-Rotor IPM Full Model
+## `v0.2.0` Kernel Foundation MVP
 
 Planned deliverables:
 
-- `MFEM` production solver path
-- 3D magnetostatic `A in H(curl)` formulation
-- permanent magnet and current-density excitations
-- linear isotropic and anisotropic materials
-- orthotropic nonlinear `B-H`
-- `Picard + damped Newton`
-- magnetic energy, `B = curl(A)`, and Maxwell-stress torque post-processing
-- simplified 360-degree IPM full model
+- self-owned mesh and topology model for simple tetrahedral meshes
+- reference tetrahedron, quadrature rules, geometric mapping, and Jacobians
+- self-owned `H1` linear basis support
+- local stiffness/load assembly and global sparse assembly
+- one scalar benchmark, such as Poisson or heat conduction, end to end
+
+Explicitly deferred:
+
+- `H(curl)` vector finite elements
+- motor-specific physics
+- nonlinear materials
+- multiphysics coupling
+
+## `v0.3.0` Vector-Field FEM Foundation
+
+Planned deliverables:
+
+- edge orientation and DoF ownership for vector elements
+- first-kind Nedelec `H(curl)` basis on tetrahedra
+- curl-curl assembly
+- current-source and simple magnetization source support
+- canonical vector-field validation cases
+
+Explicitly deferred:
+
+- full motor geometry workflows
+- nonlinear `B-H`
+- coupled thermal or mechanical physics
+
+## `v1.0.0` Robot-Joint Motor MVP
+
+Planned deliverables:
+
+- self-owned electromagnetics solver path for a robot-joint permanent-magnet motor
+- 3D locked-rotor magnetostatic `A in H(curl)` formulation
+- permanent-magnet and current-density excitations
+- field output, magnetic energy, and torque post-processing
+- benchmark and regression validation for the first machine demonstrator
 
 Explicitly deferred:
 
 - periodic sectors
 - multi-angle sweeps
 - motion, eddy current, thermal, and circuit coupling
+- advanced nonlinear anisotropic material support
 
-## `v2.0.0` Periodic Sector And Validation Expansion
-
-Planned deliverables:
-
-- periodic topology meshes
-- IPM sector models
-- full-model versus sector regression
-- FEniCSx canonical validation cases
-- expanded benchmark and convergence coverage
-- batch case runner
-
-## `v3.0.0` Multi-Operating-Point Design Platform
+## `v1.1.0` Nonlinear And Anisotropic Magnetic Materials
 
 Planned deliverables:
 
-- multi-angle magnetostatic scans
-- batch operating-point evaluation
-- torque ripple and air-gap field outputs
-- richer anisotropic `B-H` configuration
+- nonlinear isotropic `B-H`
+- local-frame anisotropic and orthotropic magnetic material support
+- consistent tangent construction
+- nonlinear solve stabilization and regression coverage
+
+## `v2.0.0` Multiphysics Coupling Foundation
+
+Planned deliverables:
+
+- block-system architecture for coupled fields
+- shared time-stepping and nonlinear-problem interfaces
+- first electro-thermal or magneto-thermal coupling path
+- extensible interfaces for later magneto-mechanical work
+- stronger canonical validation and expanded convergence coverage
+
+## `v3.0.0` Design Studies And Physics-AI Interfaces
+
+Planned deliverables:
+
+- multi-operating-point studies and batch execution
+- reduced-order and surrogate-data export hooks
+- interfaces for neural operator or surrogate-model workflows
+- sensor-data and RL-environment integration interfaces
 - nightly long-run regression and performance tracking
 
 ## `v4.0.0` Motion And Low-Frequency Transients
@@ -68,7 +107,7 @@ Planned deliverables:
 
 - angle stepping or sliding-band infrastructure
 - low-frequency transient and eddy-current capability
-- output interfaces for later thermal, circuit, and NVH work
+- tighter multiphysics state exchange for thermal, circuit, and NVH work
 
 ## Release Summary Rule
 

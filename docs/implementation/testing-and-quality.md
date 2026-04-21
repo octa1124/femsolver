@@ -67,5 +67,5 @@ The current baseline has been verified locally with:
 
 - schema contract tests
 - benchmark regression tests
-- MFEM versus FEniCSx canonical validation
+- canonical validation against reference tools such as MFEM or FEniCSx
 - long-running nightly physics regression

@@ -10,4 +10,4 @@ This repository separates product code, test code, tooling, and governance:
 - `docker/`: reproducible development and CI images
 - `.github/`: workflows, templates, and repository metadata bootstrap files
 
-The design principle is to keep future MFEM solver code isolated from geometry-generation scripts and repository automation.
+The design principle is to keep the self-owned solver kernel isolated from geometry-generation scripts, external reference tooling, and repository automation.

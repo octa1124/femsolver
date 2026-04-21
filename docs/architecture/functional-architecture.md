@@ -8,19 +8,31 @@ It is intentionally written from the viewpoint of user-visible capability rather
 
 ## Product Positioning
 
-`femsolver` is a finite element solver and validation platform for 3D electrical-machine analysis.
+`femsolver` is a self-owned finite element solver project that targets controllable and explainable multiphysics simulation.
 
 Its scope is intentionally staged:
 
-- use `MFEM` as the production solver path
-- use `FEniCSx/DOLFINx` only for canonical validation problems
-- begin with locked-rotor 3D magnetostatics
-- expand toward periodic sectors, multi-angle design studies, and then motion/transient capability
+- own the solver kernel and explain every major numerical layer
+- use `MFEM` and `FEniCSx/DOLFINx` only as reference and validation tools
+- use a robot-joint permanent-magnet motor as the first applied MVP
+- expand from electromagnetics toward a coupled multiphysics solver and later physics-AI interfaces
 
 ## Functional Tree
 
 ```text
 femsolver
+├─ Kernel
+│  ├─ mesh and topology
+│  ├─ reference elements and quadrature
+│  ├─ basis functions and DoF maps
+│  ├─ local and global assembly
+│  └─ linear and nonlinear algebra interfaces
+├─ Physics Modules
+│  ├─ electromagnetics
+│  ├─ thermal
+│  ├─ mechanical
+│  ├─ coupled operators
+│  └─ time integration
 ├─ Case Definition
 │  ├─ case configuration
 │  ├─ mesh and region manifest
@@ -45,7 +57,7 @@ femsolver
 │  └─ regression summaries
 └─ Validation And Governance
    ├─ benchmark comparison
-   ├─ MFEM vs FEniCS canonical checks
+   ├─ MFEM/FEniCS canonical checks
    ├─ test automation
    ├─ release notes and changelog
    └─ GitHub review and quality gates
@@ -70,15 +82,43 @@ Cannot do yet:
 - parse physical material data
 - export real field results
 
+### `v0.2.0`
+
+Target capabilities:
+
+- self-owned tetrahedral mesh and topology support
+- reference elements, quadrature, and mapping
+- scalar `H1` assembly
+- sparse matrix assembly on a simple scalar PDE benchmark
+
+Explicitly out of scope:
+
+- vector finite elements
+- motor-specific physics
+- multiphysics coupling
+
+### `v0.3.0`
+
+Target capabilities:
+
+- edge-based `H(curl)` infrastructure
+- curl-curl assembly
+- canonical electromagnetic vector-field benchmarks
+
+Explicitly out of scope:
+
+- full motor MVP
+- nonlinear anisotropic materials
+- coupled thermal or mechanical fields
+
 ### `v1.0.0`
 
 Target capabilities:
 
-- solve 3D locked-rotor IPM full-model magnetostatics
+- solve a robot-joint permanent-magnet motor magnetostatic MVP
 - support permanent magnets and prescribed current-density windings
-- support linear isotropic steel, linear laminated steel, and orthotropic nonlinear `B-H`
-- compute `B = curl(A)`, magnetic energy, and Maxwell-stress torque
-- run minimal benchmark and regression validation
+- compute `B = curl(A)`, magnetic energy, and torque
+- run benchmark and regression validation on the first machine demonstrator
 
 Explicitly out of scope:
 
@@ -88,47 +128,46 @@ Explicitly out of scope:
 - time stepping
 - eddy current
 - thermal, circuit, or NVH coupling
+- advanced nonlinear anisotropic material support
+
+### `v1.1.0`
+
+Target capabilities:
+
+- nonlinear isotropic and anisotropic magnetic materials
+- local-frame constitutive handling
+- stronger nonlinear verification
+
+Still out of scope:
+
+- full multiphysics coupling
+- transient and moving-interface behavior
 
 ### `v2.0.0`
 
 Target capabilities:
 
-- periodic topology meshes and periodic IPM sectors
-- equivalence checks between full model and sector model
-- stronger canonical validation
-- batch case running
+- multiphysics coupling foundation
+- block operators for coupled fields
+- first electro-thermal or magneto-thermal workflows
+- shared nonlinear and time-stepping infrastructure
 
 Still out of scope:
 
-- low-frequency transient behavior
-- rotor motion interface
-- coupled thermal and circuit simulation
+- advanced surrogate and AI workflows
+- full transient motion
 
 ### `v3.0.0`
 
 Target capabilities:
 
-- multi-angle magnetostatic sweeps
-- design-study style batch execution
-- torque ripple and air-gap field outputs
-- richer anisotropic `B-H` configuration
-
-Still out of scope:
-
-- full transient eddy current
-- inverter and controller co-simulation
-
-### `v4.0.0`
-
-Target capabilities:
-
-- motion-related infrastructure
-- low-frequency transient and eddy-current path
-- interfaces for later thermal, circuit, and NVH expansion
+- design-study automation
+- interfaces for neural operator, reduced-model, sensor, and RL workflows
+- long-run data generation and regression tracking
 
 Still not promised:
 
-- a complete industrial multi-physics digital twin
+- a complete industrial digital twin or end-to-end physical AI stack
 
 ## Current Capability Boundary
 
@@ -159,8 +198,8 @@ The intended production workflow is:
 
 - define a machine case and mesh manifest
 - preprocess geometry and mesh metadata
-- run the MFEM solve path
+- run the self-owned solve path
 - post-process fields and torque
-- validate against benchmark or canonical comparison
+- validate against benchmark or canonical comparison, including MFEM/FEniCS references where useful
 
 That workflow is planned but not fully implemented yet.

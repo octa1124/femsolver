@@ -1,0 +1,4 @@
+type: docs
+scope: architecture
+summary: Add a dedicated architecture note for multiphysics and physics-AI expansion so future coupling and learned-model workflows have a clear place in the roadmap.
+breaking: false

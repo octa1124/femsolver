@@ -1,6 +1,6 @@
 # femsolver
 
-`femsolver` is a greenfield repository for a finite element solver and validation platform focused on 3D electrical machine magnetostatics.
+`femsolver` is a greenfield repository for a self-owned, controllable, and explainable finite element solver that is intended to grow into a multiphysics coupled solver.
 
 The current repository state implements the `v0.1.0` engineering baseline:
 
@@ -10,17 +10,18 @@ The current repository state implements the `v0.1.0` engineering baseline:
 - GitHub Actions, CodeRabbit, SonarQube Cloud, and Codecov integration files
 - a documented roadmap from `v0.1.0` through `v4.0.0`
 
-The production physics stack is planned around:
+The project direction is:
 
-- `MFEM` as the production finite element kernel
-- `FEniCSx/DOLFINx` as a validation sidecar for canonical problems
-- a 3D IPM machine roadmap that begins with locked-rotor magnetostatics
+- own the kernel architecture, basis functions, assembly path, and solver interfaces
+- use `MFEM` and `FEniCSx/DOLFINx` only as reference, verification, and benchmarking tools
+- use a robot-joint permanent-magnet motor as the first application MVP
+- expand from electromagnetics toward a multiphysics coupled solver and, later, physics-AI workflows
 
 ## Repository Status
 
 - Current milestone: `v0.1.0`
 - Current focus: governance, build/test infrastructure, and repository automation
-- Explicitly not implemented yet: MFEM coupling, Gmsh geometry generation, nonlinear `B-H`, or electrical-machine physics
+- Explicitly not implemented yet: kernel mesh/DoF/basis infrastructure, matrix assembly, real electromagnetic physics, or coupled multiphysics behavior
 
 ## Quick Start
 
@@ -41,6 +42,8 @@ The `clang-asan` and `gcc-coverage` presets are available for CI-style checks.
 - Change history: `CHANGELOG.md`
 - Implementation docs index: `docs/implementation/README.md`
 - Functional architecture: `docs/architecture/functional-architecture.md`
+- Kernel architecture: `docs/architecture/kernel-architecture.md`
+- Multiphysics and physics-AI expansion: `docs/architecture/multiphysics-and-physics-ai.md`
 - Physical architecture: `docs/physics/physical-architecture.md`
 - GitHub administration notes: `docs/governance/github-admin.md`
 - Draft release summary: `docs/releases/v0.1.0.md`

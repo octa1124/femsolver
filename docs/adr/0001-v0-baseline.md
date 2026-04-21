@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted. Solver-core direction is later refined by ADR 0002.
 
 ## Context
 
@@ -23,5 +23,5 @@ Create `v0.1.0` as a repository-baseline milestone that includes:
 ## Consequences
 
 - The repository gains a stable foundation for future solver work.
-- Production MFEM integration is deferred to `v1.0.0`.
+- The solver-core direction is intentionally separated from the repository-baseline decision.
 - Some GitHub-side settings still require admin credentials and cannot be fully enforced from local files alone.

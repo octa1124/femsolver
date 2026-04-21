@@ -3,15 +3,20 @@
 The solver roadmap is intentionally staged:
 
 - `v0.1.0`: repository and quality baseline
-- `v1.0.0`: locked-rotor 3D IPM magnetostatics with orthotropic nonlinear `B-H`
-- `v2.0.0`: periodic sectors and stronger validation
-- `v3.0.0`: multi-point magnetostatic design platform
+- `v0.2.0`: self-owned kernel foundation for scalar FEM
+- `v0.3.0`: self-owned vector-field FEM foundation with `H(curl)`
+- `v1.0.0`: robot-joint motor electromagnetics MVP
+- `v1.1.0`: nonlinear and anisotropic magnetic materials
+- `v2.0.0`: multiphysics coupling foundation
+- `v3.0.0`: design-study and physics-AI interfaces
 - `v4.0.0`: motion and low-frequency transient infrastructure
 
-`MFEM` is the production path. `FEniCSx/DOLFINx` is reserved for canonical validation problems rather than a second full production application.
+`MFEM` and `FEniCSx/DOLFINx` are reference and validation tools. The production path is a self-owned kernel.
 
 See also:
 
 - `docs/architecture/functional-architecture.md`
+- `docs/architecture/kernel-architecture.md`
+- `docs/architecture/multiphysics-and-physics-ai.md`
 - `docs/physics/physical-architecture.md`
 - `docs/implementation/v1.0.0-solver-implementation-path.md`

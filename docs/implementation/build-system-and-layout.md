@@ -54,12 +54,12 @@ The tree is organized by responsibility:
 - `include/femsolver/...` for public headers
 - `src/...` for implementation
 - `tests/...` for automated tests
-- `tools/...` for scripts and future Gmsh/FEniCS helpers
+- `tools/...` for scripts and future Gmsh/FEniCS reference helpers
 
-This layout is intentionally stable so future MFEM integration can happen without moving repository-level tooling around.
+This layout is intentionally stable so the self-owned solver kernel can grow without mixing repository automation and external reference tooling into the production path.
 
 ## Deferred Work
 
-- dependency discovery for MFEM, Hypre, Gmsh, and FEniCSx
+- dependency discovery for optional external reference tooling and future linear-algebra backends
 - package-level install/export logic
 - packaging or binary distribution

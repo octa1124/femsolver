@@ -4,16 +4,19 @@ This file defines the repository engineering rules for `femsolver`. It is the hi
 
 ## Mission
 
-`femsolver` is being built as a finite element solver and validation platform for 3D electrical-machine magnetostatics, with `MFEM` as the production solver core and `FEniCSx/DOLFINx` as a validation sidecar.
+`femsolver` is being built as a self-owned, controllable, and explainable finite element solver that is intended to expand into a multiphysics coupled solver.
 
-The current implementation target is `v0.1.0`, which establishes governance, CI, testing, release hygiene, and a minimal application skeleton. Production physics begins in `v1.0.0`.
+The current implementation target is `v0.1.0`, which establishes governance, CI, testing, release hygiene, and a minimal application skeleton. Real solver-kernel implementation begins after this baseline.
 
 ## Version Scope
 
 - `v0.1.0`: governance, tooling, build/test automation, repository management
-- `v1.0.0`: 3D locked-rotor IPM full model with orthotropic nonlinear `B-H`
-- `v2.0.0`: periodic sectors and stronger validation
-- `v3.0.0`: multi-operating-point design platform
+- `v0.2.0`: self-owned kernel foundation with tetra mesh, quadrature, `H1`, and scalar assembly
+- `v0.3.0`: vector-field FEM foundation with `H(curl)` support
+- `v1.0.0`: robot-joint motor electromagnetics MVP
+- `v1.1.0`: nonlinear and anisotropic magnetic materials
+- `v2.0.0`: multiphysics coupling foundation
+- `v3.0.0`: design-study and physics-AI interfaces
 - `v4.0.0`: motion and low-frequency transients
 
 ## Repository Structure
@@ -59,7 +62,9 @@ The current implementation target is `v0.1.0`, which establishes governance, CI,
 ## Numerical And Physics Constraints
 
 - Do not hard-code mesh attribute integers in solver code.
-- Do not place Gmsh geometry generation logic inside the MFEM solve core.
+- Do not place Gmsh geometry generation logic inside the solver core.
+- The kernel path must remain self-owned and explainable: mesh semantics, basis definitions, quadrature, DoF maps, and assembly contracts may not be outsourced to MFEM or FEniCS.
+- `MFEM` and `FEniCSx/DOLFINx` may be used for study, benchmark comparison, and cross-check tooling, but they must not become the production kernel without an explicit ADR.
 - Any change to `material`, `fem`, `nonlinear`, or `post` must ship with tests.
 - Any change to `B-H` constitutive behavior must ship with a consistent-tangent validation.
 - Important numerical-strategy changes require an ADR under `docs/adr/`.

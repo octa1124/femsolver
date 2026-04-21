@@ -6,8 +6,8 @@ TEST(ProjectStatusTest, RoadmapContainsExpectedMilestones) {
   const auto milestones = femsolver::solver::BootstrapRoadmap();
   const auto apps = femsolver::solver::ApplicationNames();
 
-  EXPECT_EQ(milestones.size(), 5U);
+  EXPECT_EQ(milestones.size(), 8U);
   EXPECT_EQ(milestones.front().version, "v0.1.0");
   EXPECT_EQ(apps.size(), 3U);
-  EXPECT_NE(femsolver::solver::RepositoryScope().find("MFEM-first"), std::string::npos);
+  EXPECT_NE(femsolver::solver::RepositoryScope().find("Self-owned"), std::string::npos);
 }

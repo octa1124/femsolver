@@ -1,3 +1,3 @@
 # Validation Tests
 
-This directory is reserved for canonical MFEM versus FEniCSx comparison cases and documented benchmark validation tests.
+This directory is reserved for canonical comparison cases, documented benchmark validation tests, and future reference checks against tools such as MFEM or FEniCSx.

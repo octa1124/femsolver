@@ -5,9 +5,12 @@ namespace femsolver::solver {
 std::vector<RoadmapMilestone> BootstrapRoadmap() {
   return {
       {"v0.1.0", "repository governance and engineering baseline"},
-      {"v1.0.0", "3D locked-rotor IPM full model with orthotropic nonlinear B-H"},
-      {"v2.0.0", "periodic sectors and validation expansion"},
-      {"v3.0.0", "multi-operating-point design platform"},
+      {"v0.2.0", "self-owned kernel foundation with tetra mesh, quadrature, H1, and scalar assembly"},
+      {"v0.3.0", "self-owned vector-field FEM foundation with H(curl) support"},
+      {"v1.0.0", "robot-joint permanent-magnet motor electromagnetics MVP"},
+      {"v1.1.0", "nonlinear and anisotropic magnetic materials"},
+      {"v2.0.0", "multiphysics coupling foundation"},
+      {"v3.0.0", "design-study and physics-AI interfaces"},
       {"v4.0.0", "motion and low-frequency transients"}};
 }
 
@@ -16,7 +19,7 @@ std::vector<std::string> ApplicationNames() {
 }
 
 std::string RepositoryScope() {
-  return "MFEM-first finite element solver and validation platform for 3D electrical machines";
+  return "Self-owned finite element and multiphysics solver with a robot-joint motor as the first application MVP";
 }
 
 }  // namespace femsolver::solver
