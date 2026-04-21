@@ -1,0 +1,23 @@
+name: Benchmark or validation case
+description: Track a benchmark, validation, or reference problem.
+labels: ["area:test"]
+body:
+  - type: textarea
+    id: case_description
+    attributes:
+      label: Case description
+      description: Describe the benchmark or validation target.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What outputs or error thresholds must pass?
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Link papers, docs, or datasets.

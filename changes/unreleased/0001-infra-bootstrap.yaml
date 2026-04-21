@@ -1,0 +1,4 @@
+type: added
+scope: infra
+summary: Bootstrap the repository structure, governance documents, CI files, and minimal build-and-test skeleton for v0.1.0.
+breaking: false

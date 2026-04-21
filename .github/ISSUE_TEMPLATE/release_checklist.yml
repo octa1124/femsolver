@@ -1,0 +1,16 @@
+name: Release checklist
+description: Prepare a versioned release.
+labels: ["type:infra"]
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Release checklist
+      options:
+        - label: CHANGELOG entries are curated
+        - label: Implementation technical documents are updated
+        - label: Release summary is updated
+        - label: Required checks are green
+        - label: Version identifiers are consistent
+        - label: Completed version state has a dedicated git commit
+        - label: Follow-up work is captured for the next milestone

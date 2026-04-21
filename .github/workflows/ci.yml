@@ -1,0 +1,129 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  gcc-debug:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build clang-format clang-tidy
+          python -m pip install --upgrade pip
+          python -m pip install pytest ruff PyYAML gcovr
+      - name: Validate changelog fragments
+        run: python tools/scripts/check_changelog.py --directory changes/unreleased
+      - name: Configure
+        run: cmake --preset gcc-debug
+      - name: Build
+        run: cmake --build --preset gcc-debug
+      - name: Run CTest
+        run: ctest --preset gcc-debug
+
+  clang-asan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang ninja-build
+          python -m pip install --upgrade pip
+          python -m pip install PyYAML
+      - name: Configure
+        run: cmake --preset clang-asan
+      - name: Build
+        run: cmake --build --preset clang-asan
+      - name: Run CTest
+        run: ctest --preset clang-asan
+
+  python-tooling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Python tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+          python -m pip install --upgrade pip
+          python -m pip install pytest ruff PyYAML
+      - name: Run Ruff
+        run: ruff check .
+      - name: Run pytest
+        run: pytest tests/python
+      - name: Lint C++ formatting
+        run: |
+          find include src tests -type f \( -name '*.hpp' -o -name '*.cpp' \) -print0 \
+            | xargs -0 clang-format --dry-run --Werror
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+          python -m pip install --upgrade pip
+          python -m pip install pytest PyYAML gcovr
+      - name: Configure
+        run: cmake --preset gcc-coverage
+      - name: Build
+        run: cmake --build --preset gcc-coverage
+      - name: Test
+        run: ctest --preset gcc-coverage
+      - name: Generate coverage report
+        run: |
+          gcovr \
+            --root . \
+            --exclude-directories 'build' \
+            --xml-pretty \
+            --output build/gcc-coverage/coverage.xml \
+            build/gcc-coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: build/gcc-coverage/coverage.xml
+          fail_ci_if_error: false
+
+  sonar:
+    if: ${{ secrets.SONAR_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+      - name: Configure
+        run: cmake --preset gcc-debug
+      - name: Build
+        run: cmake --build --preset gcc-debug
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

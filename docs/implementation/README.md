@@ -1,0 +1,18 @@
+# Implementation Documents
+
+This directory stores implementation-level technical documents for each meaningful workstream.
+
+Rules:
+
+- every non-trivial subsystem change must update one of these documents or add a new one
+- repository and infrastructure changes live here even when no solver physics is implemented yet
+- release completion requires that the shipped work is reflected here before the version is considered done
+
+## `v0.1.0` Baseline Documents
+
+- [Repository Baseline Overview](./v0.1.0-repository-baseline.md)
+- [Governance And Documentation Workflow](./governance-and-docs.md)
+- [Build System And Code Layout](./build-system-and-layout.md)
+- [Application Skeleton And Core Types](./application-bootstrap.md)
+- [Testing And Quality Gates](./testing-and-quality.md)
+- [GitHub Automation And Release Flow](./github-automation-and-release.md)

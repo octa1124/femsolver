@@ -1,0 +1,4 @@
+type: docs
+scope: governance
+summary: Require implementation technical documentation for each workstream and require a git commit for every completed version milestone.
+breaking: false

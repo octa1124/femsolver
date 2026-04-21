@@ -1,0 +1,36 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+jobs:
+  nightly-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+          python -m pip install --upgrade pip
+          python -m pip install pytest PyYAML gcovr
+      - name: Configure coverage build
+        run: cmake --preset gcc-coverage
+      - name: Build
+        run: cmake --build --preset gcc-coverage
+      - name: Run CTest
+        run: ctest --preset gcc-coverage
+      - name: Run Python tooling tests
+        run: pytest tests/python
+      - name: Generate draft nightly release notes
+        run: python tools/release/render_release_notes.py --version nightly --output build/gcc-coverage/nightly.md
+      - name: Upload nightly artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-artifacts
+          path: build/gcc-coverage/nightly.md

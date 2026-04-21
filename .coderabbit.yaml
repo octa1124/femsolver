@@ -1,0 +1,24 @@
+reviews:
+  profile: assertive
+  high_level_summary: true
+  review_status: true
+  collapse_walkthrough: false
+  path_filters:
+    - "!**/*.vtk"
+    - "!**/*.vtu"
+    - "!**/*.pvtu"
+    - "!**/*.msh"
+    - "!build/**"
+    - "!results/**"
+    - "!generated/**"
+chat:
+  auto_reply: true
+knowledge_base:
+  file_paths:
+    - Agent.md
+    - ROADMAP.md
+    - CHANGELOG.md
+language: en-US
+tone_instructions: >
+  Review against the repository-specific rules in Agent.md. Prioritize correctness,
+  test obligations, changelog hygiene, and roadmap alignment over generic style feedback.

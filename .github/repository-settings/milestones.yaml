@@ -1,0 +1,11 @@
+milestones:
+  - title: v0.1.0
+    description: Repository governance and engineering baseline.
+  - title: v1.0.0
+    description: 3D locked-rotor IPM full model with orthotropic nonlinear B-H.
+  - title: v2.0.0
+    description: Periodic sectors and validation expansion.
+  - title: v3.0.0
+    description: Multi-operating-point design platform.
+  - title: v4.0.0
+    description: Motion and low-frequency transient infrastructure.

@@ -1,0 +1,43 @@
+labels:
+  - name: type:feature
+    color: "1d76db"
+    description: New feature or capability.
+  - name: type:bug
+    color: "d73a4a"
+    description: Defect or regression.
+  - name: type:infra
+    color: "6f42c1"
+    description: Build, CI, tooling, or repository management work.
+  - name: type:docs
+    color: "0e8a16"
+    description: Documentation-only change.
+  - name: area:solver
+    color: "5319e7"
+    description: Solver application or orchestration logic.
+  - name: area:material
+    color: "c2e0c6"
+    description: Material models and constitutive behavior.
+  - name: area:mesh
+    color: "bfdadc"
+    description: Mesh, manifest, or geometry-related work.
+  - name: area:test
+    color: "fbca04"
+    description: Tests, validation, or regression coverage.
+  - name: area:ci
+    color: "f9d0c4"
+    description: Continuous integration, automation, or release tooling.
+  - name: physics:bh
+    color: "0052cc"
+    description: B-H constitutive modeling work.
+  - name: physics:magnetostatics
+    color: "0366d6"
+    description: Magnetostatic formulation or post-processing.
+  - name: priority:p0
+    color: "b60205"
+    description: Highest priority.
+  - name: priority:p1
+    color: "d93f0b"
+    description: Important but not blocking.
+  - name: priority:p2
+    color: "fbca04"
+    description: Useful follow-up.
