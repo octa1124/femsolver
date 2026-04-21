@@ -40,6 +40,8 @@ The `clang-asan` and `gcc-coverage` presets are available for CI-style checks.
 - Product and release plan: `ROADMAP.md`
 - Change history: `CHANGELOG.md`
 - Implementation docs index: `docs/implementation/README.md`
+- Functional architecture: `docs/architecture/functional-architecture.md`
+- Physical architecture: `docs/physics/physical-architecture.md`
 - GitHub administration notes: `docs/governance/github-admin.md`
 - Draft release summary: `docs/releases/v0.1.0.md`
 

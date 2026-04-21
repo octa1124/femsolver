@@ -9,3 +9,9 @@ The solver roadmap is intentionally staged:
 - `v4.0.0`: motion and low-frequency transient infrastructure
 
 `MFEM` is the production path. `FEniCSx/DOLFINx` is reserved for canonical validation problems rather than a second full production application.
+
+See also:
+
+- `docs/architecture/functional-architecture.md`
+- `docs/physics/physical-architecture.md`
+- `docs/implementation/v1.0.0-solver-implementation-path.md`

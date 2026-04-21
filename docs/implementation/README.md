@@ -16,3 +16,4 @@ Rules:
 - [Application Skeleton And Core Types](./application-bootstrap.md)
 - [Testing And Quality Gates](./testing-and-quality.md)
 - [GitHub Automation And Release Flow](./github-automation-and-release.md)
+- [v1 Solver Implementation Path](./v1.0.0-solver-implementation-path.md)

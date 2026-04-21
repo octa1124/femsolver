@@ -1,0 +1,4 @@
+type: docs
+scope: architecture
+summary: Add detailed technical documentation for product functions, physical architecture, solver algorithms, and the v1 implementation path.
+breaking: false
