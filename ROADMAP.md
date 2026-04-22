@@ -40,6 +40,21 @@ Explicitly deferred:
 - nonlinear materials
 - multiphysics coupling
 
+## Cross-Version Case Strategy
+
+The machine-case strategy is fixed early so the kernel can grow against real inputs instead of generic placeholders.
+
+- `joint_type_i_12s10p`: first simple real robot-joint motor case, intended to become the first electromagnetics smoke and regression case
+- `exo_outer_rotor_36s40p`: first validation-oriented outer-rotor robot-joint case, intended to become the first main validation case
+- `quadruped_joint_36s32p`: staged nonlinear and overload-oriented case for `v1.1.0`
+- `tbm76_envelope`: industrial envelope-only case used for preprocessing, packaging, and naming regression rather than early electromagnetics claims
+
+Variant policy:
+
+- every real machine case must maintain `section_2d` and `extruded_3d`
+- `full_3d` is optional and only enabled where public geometry information is sufficient
+- early preprocessing may use simplified concentric envelopes, but those simplifications must be declared explicitly
+
 ## Cross-Version Discretization Objective
 
 The long-term discretization target is broader than the first delivered kernel slice.
@@ -51,19 +66,26 @@ The long-term discretization target is broader than the first delivered kernel s
 
 ## `v0.3.0` Vector-Field FEM Foundation
 
-Planned deliverables:
+Implemented so far:
 
-- generic element descriptors for cell type, FE family, and polynomial order
-- edge orientation and DoF ownership for vector elements
-- first-kind Nedelec `H(curl)` basis on tetrahedra
-- curl-curl assembly
+- machine-case catalog under `cases/machines/` with source traceability, reconstruction levels, and declared geometry variants
+- simplified preprocessing generator and `motor_pre --case --variant --output-dir`
+- tetrahedral edge extraction and edge-boundary discovery in the self-owned mesh layer
+- tetrahedral scalar and edge DoF maps under a dedicated `kernel/space` module
+- first-order tetrahedral `Nedelec` basis functions
+- tetrahedral curl-curl local/global assembly
+- canonical `H(curl)` benchmark wired into `motor_check`
+
+Remaining before the milestone is truly complete:
+
 - current-source and simple magnetization source support
 - canonical vector-field validation cases
-- interface planning for hexahedral and higher-order extensions without rewriting upper layers
+- documented interface planning for hexahedral and higher-order extensions without rewriting upper layers
+- first machine-coupled electromagnetics smoke path on top of the vector kernel
 
 Explicitly deferred:
 
-- full motor geometry workflows
+- faithful tooth/slot/magnet geometry reconstruction
 - nonlinear `B-H`
 - coupled thermal or mechanical physics
 
@@ -75,7 +97,9 @@ Planned deliverables:
 - 3D locked-rotor magnetostatic `A in H(curl)` formulation
 - permanent-magnet and current-density excitations
 - field output, magnetic energy, and torque post-processing
-- benchmark and regression validation for the first machine demonstrator
+- `joint_type_i_12s10p` as the first simple real electromagnetics regression case
+- `exo_outer_rotor_36s40p` as the first main validation case
+- `tbm76_envelope` retained as preprocessing and packaging regression only unless higher-fidelity public data becomes available
 
 Explicitly deferred:
 
@@ -92,6 +116,7 @@ Planned deliverables:
 - local-frame anisotropic and orthotropic magnetic material support
 - consistent tangent construction
 - nonlinear solve stabilization and regression coverage
+- `quadruped_joint_36s32p` as the staged nonlinear and overload-oriented validation case
 - staged expansion toward hexahedral and higher-order `H1`/`Nedelec`/`Raviart-Thomas` support on the same kernel contracts
 
 ## `v2.0.0` Multiphysics Coupling Foundation

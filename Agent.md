@@ -6,7 +6,7 @@ This file defines the repository engineering rules for `femsolver`. It is the hi
 
 `femsolver` is being built as a self-owned, controllable, and explainable finite element solver that is intended to expand into a multiphysics coupled solver.
 
-The current implementation target is `v0.3.0`, which extends the delivered `v0.2.0` tetrahedral scalar kernel toward a generic, self-owned discretization architecture that can host tetrahedral and hexahedral elements, multiple polynomial orders, and multiple finite-element families.
+The current implementation target is `v0.3.0`, which extends the delivered `v0.2.0` tetrahedral scalar kernel toward a generic, self-owned discretization architecture that can host tetrahedral and hexahedral elements, multiple polynomial orders, and multiple finite-element families, while also establishing a real machine-case catalog and preprocessing path for robot-joint motor examples.
 
 ## Version Scope
 
@@ -35,19 +35,24 @@ The `v0.2.0` kernel foundation is organized so later `H(curl)`, multiphysics, an
 
 - `kernel/common` owns shared discretization descriptors such as cell type, space family, and polynomial order.
 - `kernel/mesh` owns only mesh geometry, topology, orientation normalization, and boundary-node discovery.
+- `kernel/mesh` also owns edge extraction and boundary-edge discovery for tetrahedral vector elements.
 - `kernel/reference` owns only reference-cell definitions.
 - `kernel/quadrature` owns only quadrature rules on reference cells.
 - `kernel/basis` owns only basis-function values and gradients on reference cells.
+- `kernel/space` owns local-to-global DoF numbering, entity orientation, and boundary-DoF selection.
 - `kernel/algebra` owns only sparse-matrix and linear-solver primitives.
-- `kernel/assembly` may depend on `mesh`, `reference`, `quadrature`, `basis`, and `algebra`, and owns local/global assembly plus boundary-condition application.
+- `kernel/assembly` may depend on `mesh`, `reference`, `quadrature`, `basis`, `space`, and `algebra`, and owns local/global assembly plus boundary-condition application.
 - `kernel/benchmark` may depend on all kernel modules and owns canonical verification problems, but it must not contain application CLI logic.
 - Application entrypoints under `src/app` and reporting under `io` may consume benchmark results, but they must not back-feed policies into kernel internals.
+- `tools/gmsh` owns case-catalog validation, simplified geometry generation, and optional Gmsh invocation; solver-kernel code must not embed that logic.
+- `cases/machines` owns machine-case metadata, source traceability, and simplification declarations.
 
 Hard dependency rules:
 
 - `kernel/common` may be consumed by all kernel modules, but it must remain lightweight and algorithm-free.
 - `kernel/mesh` must not depend on `basis`, `assembly`, `benchmark`, or application modules.
 - `kernel/reference`, `kernel/quadrature`, and `kernel/basis` must remain reference-domain abstractions and must not depend on physical meshes.
+- `kernel/space` may depend on `mesh` and element-family metadata, but it must not contain PDE-specific assembly or benchmark logic.
 - `kernel/algebra` must not depend on mesh, basis, material, or application code.
 - Physics modules must depend on kernel layers; kernel layers must not depend on any physics module.
 
@@ -88,6 +93,8 @@ Hard dependency rules:
 - The kernel path must remain self-owned and explainable: mesh semantics, basis definitions, quadrature, DoF maps, and assembly contracts may not be outsourced to MFEM or FEniCS.
 - Cross-module discretization interfaces must not hard-code "tetrahedron only", "first order only", or "single FE family only" assumptions above the concrete implementation layer.
 - The long-term discretization target includes tetrahedral and hexahedral cells, low- and high-order approximation, and at least `H1` nodal, `Nedelec`, and `Raviart-Thomas` families.
+- Machine cases must declare a real `source_url`, a `reconstruction_level`, and at least `section_2d` plus `extruded_3d` variants.
+- Paper or industrial cases reconstructed with simplified geometry must say so explicitly in both the case metadata and the case-facing documentation; never present a simplified rebuild as the original paper geometry.
 - `MFEM` and `FEniCSx/DOLFINx` may be used for study, benchmark comparison, and cross-check tooling, but they must not become the production kernel without an explicit ADR.
 - Module-boundary changes inside `kernel/` must update the architecture and implementation notes that describe those boundaries.
 - Any change to `material`, `fem`, `nonlinear`, or `post` must ship with tests.
@@ -100,6 +107,7 @@ Hard dependency rules:
 - Parser and schema changes require contract tests.
 - Application-level behavior changes require at least one integration or regression test.
 - Python tooling changes require `pytest` coverage.
+- Preprocessing or case-catalog changes require both schema-level validation and at least one generated-artifact integration test.
 - CI must stay green on all required checks before merge.
 
 ## Technical Documentation Obligations
@@ -107,6 +115,7 @@ Hard dependency rules:
 - Every meaningful implementation step must have technical documentation at an appropriate level of detail.
 - For repository and infrastructure work, document the implemented subsystem under `docs/implementation/`.
 - For solver, material, nonlinear, mesh, or post-processing work, document the design, inputs, outputs, data flow, edge cases, and verification strategy.
+- For case-catalog or preprocessing work, document the schema, source provenance rules, simplification assumptions, generator outputs, and current fidelity limits.
 - If a change is too small for a new standalone document, update the nearest existing implementation document explicitly.
 - Public workflow changes must update `README.md` or a governance document in addition to code comments.
 

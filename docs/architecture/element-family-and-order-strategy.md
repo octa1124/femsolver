@@ -65,6 +65,13 @@ The practical rule is simple:
 - first tetrahedral `Nedelec` implementation
 - interfaces that are ready for hexahedral and higher-order growth
 
+The current repository state has already started this stage by adding:
+
+- tetrahedral edge topology
+- a dedicated `kernel/space` module
+- first-order tetrahedral `Nedelec`
+- a canonical curl-curl benchmark
+
 ### After `v0.3.0`
 
 The roadmap should continue in a controlled order:

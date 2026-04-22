@@ -4,6 +4,7 @@
 
 #include "femsolver/case/case_spec.hpp"
 #include "femsolver/fem/discretization_strategy.hpp"
+#include "femsolver/kernel/benchmark/curl_curl_benchmark.hpp"
 #include "femsolver/kernel/benchmark/poisson_benchmark.hpp"
 #include "femsolver/nonlinear/nonlinear_policy.hpp"
 #include "femsolver/post/solution_bundle.hpp"
@@ -18,5 +19,7 @@ std::string RenderSolveReport(const case_config::CaseSpec& spec,
 std::string RenderCheckReport(const post::SolutionBundle& bundle);
 std::string RenderKernelPoissonBenchmarkReport(
     const kernel::benchmark::PoissonBenchmarkResult& result);
+std::string RenderKernelCurlCurlBenchmarkReport(
+    const kernel::benchmark::CurlCurlBenchmarkResult& result);
 
 }  // namespace femsolver::io

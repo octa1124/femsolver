@@ -1,0 +1,4 @@
+type: added
+scope: kernel
+summary: Start the v0.3.0 vector-field baseline with tetra edge topology, first-order Nedelec DoF maps and basis functions, curl-curl assembly, and a canonical H(curl) benchmark in motor_check.
+breaking: false

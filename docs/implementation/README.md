@@ -24,3 +24,8 @@ Rules:
 - [Kernel Mesh And Topology](./kernel-mesh-topology.md)
 - [Kernel Reference, Quadrature, And Basis](./kernel-reference-basis-quadrature.md)
 - [Kernel Assembly, Algebra, And Benchmark](./kernel-assembly-and-benchmark.md)
+
+## `v0.3.0` Current Development Documents
+
+- [Case Catalog And Preprocessing](./case-catalog-and-preprocessing.md)
+- [Vector-Kernel Baseline](./v0.3.0-vector-kernel-baseline.md)

@@ -17,6 +17,8 @@ struct ElementGeometry {
   std::array<Vector3, 4> physical_gradients{};
 
   [[nodiscard]] mesh::Point3D MapToPhysical(const Vector3& reference_point) const;
+  [[nodiscard]] Vector3 MapReferenceHcurlVectorToPhysical(const Vector3& reference_vector) const;
+  [[nodiscard]] Vector3 MapReferenceCurlToPhysical(const Vector3& reference_curl) const;
 };
 
 ElementGeometry BuildElementGeometry(const mesh::TetraMesh& tetra_mesh, int cell_index);

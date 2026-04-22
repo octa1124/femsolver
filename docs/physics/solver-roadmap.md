@@ -13,6 +13,13 @@ The solver roadmap is intentionally staged:
 
 `MFEM` and `FEniCSx/DOLFINx` are reference and validation tools. The production path is a self-owned kernel.
 
+The current real-case ladder is:
+
+- `joint_type_i_12s10p` for first electromagnetics smoke and regression
+- `exo_outer_rotor_36s40p` for first validation-oriented robot-joint case
+- `quadruped_joint_36s32p` for nonlinear and overload validation
+- `tbm76_envelope` for industrial preprocessing and packaging regression
+
 See also:
 
 - `docs/architecture/functional-architecture.md`
@@ -22,4 +29,6 @@ See also:
 - `docs/architecture/multiphysics-and-physics-ai.md`
 - `docs/physics/physical-architecture.md`
 - `docs/implementation/v0.2.0-kernel-foundation.md`
+- `docs/implementation/case-catalog-and-preprocessing.md`
+- `docs/implementation/v0.3.0-vector-kernel-baseline.md`
 - `docs/implementation/v1.0.0-solver-implementation-path.md`

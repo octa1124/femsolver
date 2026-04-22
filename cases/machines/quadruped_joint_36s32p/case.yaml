@@ -1,0 +1,37 @@
+case_id: quadruped_joint_36s32p
+source_kind: paper
+source_url: https://www.mdpi.com/2079-9292/12/3/702
+reconstruction_level: simplified_reconstruction
+geometry_variants:
+  - section_2d
+  - extruded_3d
+cell_type: tetrahedron
+space_family: nedelec
+polynomial_order: 1
+materials_profile:
+  profile_id: simplified_quadruped_joint_motor
+  stator_core: electrical_steel_placeholder
+  rotor_core: electrical_steel_placeholder
+  permanent_magnet: ndfeb_placeholder
+  conductor: copper_placeholder
+excitation_profile:
+  profile_id: placeholder_pm_current_excitation
+  magnetization_model: radial_pm_placeholder
+  current_density_model: balanced_three_phase_placeholder
+validation_targets:
+  - preprocessing
+  - geometry_summary
+  - future_nonlinear_validation
+geometry_parameters:
+  slot_count: 36
+  pole_count: 32
+  outer_diameter_mm: 116.0
+  stator_inner_diameter_mm: 74.0
+  rotor_outer_diameter_mm: 72.8
+  rotor_inner_diameter_mm: 38.0
+  shaft_diameter_mm: 28.0
+  airgap_mm: 0.6
+  magnet_thickness_mm: 3.0
+  axial_length_mm: 35.0
+  air_buffer_mm: 8.0
+  slot_opening_mm: 2.0

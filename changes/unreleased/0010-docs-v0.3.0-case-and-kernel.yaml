@@ -1,0 +1,4 @@
+type: docs
+scope: implementation
+summary: Add detailed technical documentation for the machine-case catalog, preprocessing path, and the first v0.3.0 H(curl) kernel baseline, including current limits and next-step algorithms.
+breaking: false

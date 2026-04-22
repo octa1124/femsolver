@@ -56,6 +56,14 @@ Vector3 MultiplyTranspose(const std::array<std::array<double, 3>, 3>& matrix,
   };
 }
 
+Vector3 Multiply(const std::array<std::array<double, 3>, 3>& matrix, const Vector3& vector) {
+  return {
+      matrix[0][0] * vector[0] + matrix[0][1] * vector[1] + matrix[0][2] * vector[2],
+      matrix[1][0] * vector[0] + matrix[1][1] * vector[1] + matrix[1][2] * vector[2],
+      matrix[2][0] * vector[0] + matrix[2][1] * vector[1] + matrix[2][2] * vector[2],
+  };
+}
+
 }  // namespace
 
 mesh::Point3D ElementGeometry::MapToPhysical(const Vector3& reference_point) const {
@@ -68,6 +76,15 @@ mesh::Point3D ElementGeometry::MapToPhysical(const Vector3& reference_point) con
       origin.z + jacobian[2][0] * reference_point[0] + jacobian[2][1] * reference_point[1] +
           jacobian[2][2] * reference_point[2],
   };
+}
+
+Vector3 ElementGeometry::MapReferenceHcurlVectorToPhysical(const Vector3& reference_vector) const {
+  return MultiplyTranspose(inverse_jacobian, reference_vector);
+}
+
+Vector3 ElementGeometry::MapReferenceCurlToPhysical(const Vector3& reference_curl) const {
+  const Vector3 mapped = Multiply(jacobian, reference_curl);
+  return {mapped[0] / determinant, mapped[1] / determinant, mapped[2] / determinant};
 }
 
 ElementGeometry BuildElementGeometry(const mesh::TetraMesh& tetra_mesh, const int cell_index) {

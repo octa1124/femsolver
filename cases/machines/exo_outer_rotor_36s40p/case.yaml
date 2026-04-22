@@ -1,0 +1,38 @@
+case_id: exo_outer_rotor_36s40p
+source_kind: paper
+source_url: https://www.mdpi.com/2079-9292/12/2/397
+reconstruction_level: simplified_reconstruction
+geometry_variants:
+  - section_2d
+  - extruded_3d
+  - full_3d
+cell_type: tetrahedron
+space_family: nedelec
+polynomial_order: 1
+materials_profile:
+  profile_id: simplified_outer_rotor_joint_motor
+  stator_core: electrical_steel_placeholder
+  rotor_core: electrical_steel_placeholder
+  permanent_magnet: ndfeb_placeholder
+  conductor: copper_placeholder
+excitation_profile:
+  profile_id: placeholder_pm_current_excitation
+  magnetization_model: outer_rotor_radial_pm_placeholder
+  current_density_model: balanced_three_phase_placeholder
+validation_targets:
+  - preprocessing
+  - geometry_summary
+  - future_main_validation
+geometry_parameters:
+  slot_count: 36
+  pole_count: 40
+  outer_diameter_mm: 132.0
+  stator_inner_diameter_mm: 88.0
+  rotor_outer_diameter_mm: 86.8
+  rotor_inner_diameter_mm: 44.0
+  shaft_diameter_mm: 32.0
+  airgap_mm: 0.6
+  magnet_thickness_mm: 3.5
+  axial_length_mm: 45.0
+  air_buffer_mm: 8.0
+  slot_opening_mm: 2.0

@@ -1,0 +1,34 @@
+case_id: tbm76_envelope
+source_kind: industrial
+source_url: https://www.kollmorgen.com/en-us/products/motors/direct-drive/tbm-series/
+reconstruction_level: industrial_envelope_only
+geometry_variants:
+  - section_2d
+  - extruded_3d
+cell_type: tetrahedron
+space_family: nedelec
+polynomial_order: 1
+materials_profile:
+  profile_id: industrial_envelope_placeholder
+  stator_core: unknown_public_spec
+  rotor_core: unknown_public_spec
+  permanent_magnet: unknown_public_spec
+  conductor: unknown_public_spec
+excitation_profile:
+  profile_id: envelope_only_placeholder
+  magnetization_model: not_declared
+  current_density_model: not_declared
+validation_targets:
+  - preprocessing
+  - geometry_summary
+  - packaging_regression
+geometry_parameters:
+  outer_diameter_mm: 76.0
+  stator_inner_diameter_mm: 48.0
+  rotor_outer_diameter_mm: 46.8
+  rotor_inner_diameter_mm: 24.0
+  shaft_diameter_mm: 18.0
+  airgap_mm: 0.6
+  magnet_thickness_mm: 2.5
+  axial_length_mm: 26.0
+  air_buffer_mm: 6.0

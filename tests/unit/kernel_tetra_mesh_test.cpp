@@ -10,7 +10,9 @@ TEST(KernelTetraMeshTest, CentroidRefinedReferenceMeshIsValidAndPositivelyOrient
   EXPECT_TRUE(mesh.IsValid());
   EXPECT_EQ(mesh.nodes().size(), 5U);
   EXPECT_EQ(mesh.cells().size(), 4U);
+  EXPECT_EQ(mesh.edges().size(), 10U);
   EXPECT_EQ(mesh.BoundaryNodeIds().size(), 4U);
+  EXPECT_EQ(mesh.BoundaryEdgeIds().size(), 6U);
 
   double total_volume = 0.0;
   for (int cell_index = 0; cell_index < static_cast<int>(mesh.cells().size()); ++cell_index) {

@@ -49,4 +49,16 @@ std::string RenderKernelPoissonBenchmarkReport(
   return stream.str();
 }
 
+std::string RenderKernelCurlCurlBenchmarkReport(
+    const kernel::benchmark::CurlCurlBenchmarkResult& result) {
+  std::ostringstream stream;
+  stream << "kernel curl-curl benchmark\n";
+  stream << "linear_solver: converged=" << (result.linear_solver.converged ? "true" : "false")
+         << ", iterations=" << result.linear_solver.iterations
+         << ", residual_norm=" << result.linear_solver.residual_norm << '\n';
+  stream << "solution: edge_dofs=" << result.solution_dofs.size()
+         << ", max_abs_error=" << result.max_abs_error;
+  return stream.str();
+}
+
 }  // namespace femsolver::io

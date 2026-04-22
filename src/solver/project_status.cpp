@@ -6,7 +6,9 @@ std::vector<RoadmapMilestone> BootstrapRoadmap() {
   return {
       {"v0.1.0", "repository governance and engineering baseline"},
       {"v0.2.0", "self-owned kernel foundation with tetra mesh, quadrature, H1, and scalar assembly"},
-      {"v0.3.0", "generic element/space/order contracts plus self-owned vector-field FEM foundation with H(curl) support"},
+      {"v0.3.0",
+       "case catalog and preprocessing baseline plus generic element/space/order contracts and "
+       "self-owned vector-field FEM foundation with H(curl) support"},
       {"v1.0.0", "robot-joint permanent-magnet motor electromagnetics MVP"},
       {"v1.1.0", "nonlinear and anisotropic magnetic materials plus broader element-family expansion"},
       {"v2.0.0", "multiphysics coupling foundation"},

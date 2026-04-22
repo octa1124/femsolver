@@ -84,7 +84,7 @@ Cannot do yet:
 
 ### `v0.2.0`
 
-Target capabilities:
+Delivered capabilities:
 
 - self-owned tetrahedral mesh and topology support
 - reference elements, quadrature, and mapping
@@ -99,13 +99,21 @@ Explicitly out of scope:
 
 ### `v0.3.0`
 
-Target capabilities:
+Implemented so far:
 
+- tracked machine-case catalog with paper and industrial provenance
+- simplified preprocessing for `section_2d`, `extruded_3d`, and provisional `full_3d`
 - edge-based `H(curl)` infrastructure
 - curl-curl assembly
 - canonical electromagnetic vector-field benchmarks
 
-Explicitly out of scope:
+Still required before the milestone is complete:
+
+- machine-coupled source assembly
+- actual motor electromagnetics smoke cases
+- more complete vector-field validation coverage
+
+Explicitly out of scope for this stage:
 
 - full motor MVP
 - nonlinear anisotropic materials
@@ -171,16 +179,21 @@ Still not promised:
 
 ## Current Capability Boundary
 
-As of the repository state created in `v0.1.0`, the codebase is a framework and governance baseline, not yet a physics solver.
+As of the current repository state, the codebase is no longer only a framework baseline.
 
-This means:
+It is now:
 
-- the repository structure and contracts are real
-- the application binaries are real
-- the tests and automation are real
-- the physics behavior is still a planned next stage
+- a real self-owned scalar benchmark solver
+- a real first-slice vector `H(curl)` benchmark solver
+- a real machine-case catalog and preprocessing workflow
 
-This distinction matters because future commits should not claim solver capability before numerical assembly, constitutive laws, and validation exist.
+It is not yet:
+
+- a full robot-joint motor electromagnetics solver
+- a nonlinear magnetic solver
+- a multiphysics solver
+
+This distinction matters because the repository can already claim concrete discretization and preprocessing capability, but it still must not claim machine-level electromagnetics or multiphysics readiness before those layers exist.
 
 ## Main User Workflows
 
@@ -191,6 +204,13 @@ This distinction matters because future commits should not claim solver capabili
 - run `CTest`
 - run Python tooling checks
 - review changelog fragments and release-note drafts
+
+### Current Preprocessing Workflow
+
+- select a tracked case under `cases/machines/`
+- run `motor_pre --case --variant --output-dir`
+- inspect `mesh_manifest.yaml` and `preprocess_summary.txt`
+- use the generated contract as the input boundary for later solver coupling
 
 ### Future Solver Workflow
 

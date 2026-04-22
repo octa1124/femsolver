@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <map>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -33,6 +34,10 @@ bool HasUniqueIndices(const std::vector<int>& indices) {
   return std::set<int>(indices.begin(), indices.end()).size() == indices.size();
 }
 
+std::array<int, 2> CanonicalEdge(const int first, const int second) {
+  return first < second ? std::array<int, 2>{first, second} : std::array<int, 2>{second, first};
+}
+
 }  // namespace
 
 TetraMesh::TetraMesh(std::vector<Point3D> nodes,
@@ -42,6 +47,7 @@ TetraMesh::TetraMesh(std::vector<Point3D> nodes,
       cells_(std::move(cells)),
       boundary_faces_(std::move(boundary_faces)) {
   CanonicalizeCellOrientations();
+  BuildEdges();
 }
 
 const std::vector<Point3D>& TetraMesh::nodes() const {
@@ -54,6 +60,10 @@ const std::vector<TetraCell>& TetraMesh::cells() const {
 
 const std::vector<BoundaryFace>& TetraMesh::boundary_faces() const {
   return boundary_faces_;
+}
+
+const std::vector<TetraEdge>& TetraMesh::edges() const {
+  return edges_;
 }
 
 bool TetraMesh::IsValid() const {
@@ -92,6 +102,23 @@ std::vector<int> TetraMesh::BoundaryNodeIds() const {
   return {node_ids.begin(), node_ids.end()};
 }
 
+std::vector<int> TetraMesh::BoundaryEdgeIds() const {
+  std::map<std::array<int, 2>, int> edge_lookup;
+  for (std::size_t edge_index = 0; edge_index < edges_.size(); ++edge_index) {
+    edge_lookup[edges_.at(edge_index).node_ids] = static_cast<int>(edge_index);
+  }
+
+  std::set<int> boundary_edge_ids;
+  for (const auto& face : boundary_faces_) {
+    for (const auto& edge : {CanonicalEdge(face.node_ids[0], face.node_ids[1]),
+                             CanonicalEdge(face.node_ids[1], face.node_ids[2]),
+                             CanonicalEdge(face.node_ids[2], face.node_ids[0])}) {
+      boundary_edge_ids.insert(edge_lookup.at(edge));
+    }
+  }
+  return {boundary_edge_ids.begin(), boundary_edge_ids.end()};
+}
+
 double TetraMesh::SignedCellVolume(const int cell_index) const {
   const auto& cell = cells_.at(static_cast<std::size_t>(cell_index));
   return SignedTetraVolume(nodes_.at(static_cast<std::size_t>(cell.node_ids[0])),
@@ -103,7 +130,7 @@ double TetraMesh::SignedCellVolume(const int cell_index) const {
 std::string TetraMesh::Summary() const {
   std::ostringstream stream;
   stream << "tetra_mesh(nodes=" << nodes_.size() << ", cells=" << cells_.size()
-         << ", boundary_faces=" << boundary_faces_.size() << ")";
+         << ", edges=" << edges_.size() << ", boundary_faces=" << boundary_faces_.size() << ")";
   return stream.str();
 }
 
@@ -121,6 +148,23 @@ void TetraMesh::CanonicalizeCellOrientations() {
     if (signed_volume < 0.0) {
       std::swap(cell.node_ids[0], cell.node_ids[1]);
     }
+  }
+}
+
+void TetraMesh::BuildEdges() {
+  std::set<std::array<int, 2>> unique_edges;
+  for (const auto& cell : cells_) {
+    unique_edges.insert(CanonicalEdge(cell.node_ids[0], cell.node_ids[1]));
+    unique_edges.insert(CanonicalEdge(cell.node_ids[0], cell.node_ids[2]));
+    unique_edges.insert(CanonicalEdge(cell.node_ids[0], cell.node_ids[3]));
+    unique_edges.insert(CanonicalEdge(cell.node_ids[1], cell.node_ids[2]));
+    unique_edges.insert(CanonicalEdge(cell.node_ids[1], cell.node_ids[3]));
+    unique_edges.insert(CanonicalEdge(cell.node_ids[2], cell.node_ids[3]));
+  }
+
+  edges_.clear();
+  for (const auto& edge : unique_edges) {
+    edges_.push_back(TetraEdge{edge});
   }
 }
 

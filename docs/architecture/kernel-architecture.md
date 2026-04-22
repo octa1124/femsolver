@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document describes the planned internal layers of the self-owned solver kernel.
+This document describes the planned internal layers of the self-owned solver kernel and the currently implemented path through those layers.
 
 The kernel must remain controllable and explainable. External libraries may help with benchmarking or selected linear-algebra backends, but the core numerical semantics should belong to this repository.
 
@@ -13,6 +13,18 @@ The kernel must remain controllable and explainable. External libraries may help
 - support multiple cell families, space families, and polynomial orders under repository-owned interfaces
 - support future multiphysics block systems
 - support later reduced-order and physics-AI workflows through stable interfaces
+
+## Outside-The-Kernel Boundary
+
+The kernel is not the whole application stack.
+
+Case metadata, simplified motor geometry generation, and optional Gmsh invocation currently live above the kernel in:
+
+- `cases/machines/`
+- `tools/gmsh/`
+- `src/app/motor_pre_main.cpp`
+
+This boundary is deliberate. The kernel should own discretization and operator semantics, while case-catalog and preprocessing code own source provenance, reconstruction assumptions, and geometry-script generation.
 
 ## Kernel Layers
 
@@ -61,8 +73,8 @@ Responsibilities:
 
 Initial scope:
 
-- `H1` first
-- `H(curl)` next because of the motor MVP
+- `H1` delivered in `v0.2.0`
+- first tetrahedral `H(curl)` delivered as the early `v0.3.0` slice
 - `H(div)` must be part of the kernel plan because flux-conforming post-processing and multiphysics coupling will need it
 
 ### Assembly Pipeline
@@ -126,21 +138,32 @@ Future AI-facing workflows should consume outputs from the kernel through stable
 
 The kernel remains the trusted physical reference even when learned components are introduced later.
 
-## `v0.2.0` Concrete Module Map
+## Current Concrete Module Map
 
-The first implemented kernel slice is now documented in more detail in:
+The currently implemented path spans the completed `v0.2.0` scalar baseline and the first `v0.3.0` vector extension.
+
+See:
 
 - `docs/architecture/kernel-module-boundaries.md`
 - `docs/architecture/element-family-and-order-strategy.md`
 - `docs/implementation/v0.2.0-kernel-foundation.md`
+- `docs/implementation/v0.3.0-vector-kernel-baseline.md`
 
-That concrete slice fixes the initial module ownership for:
+Current concrete ownership now covers:
 
 - `common`
 - `mesh`
 - `reference`
 - `quadrature`
 - `basis`
+- `space`
 - `algebra`
 - `assembly`
 - `benchmark`
+
+Concretely, this means the repository already owns:
+
+- tetrahedral scalar `H1` benchmark assembly
+- tetrahedral edge topology and edge-based DoF numbering
+- tetrahedral first-order `Nedelec` basis evaluation and curl handling
+- scalar and vector canonical benchmark orchestration

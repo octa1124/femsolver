@@ -2,13 +2,17 @@ add_library(
   femsolver_kernel
   kernel/algebra/conjugate_gradient.cpp
   kernel/algebra/sparse_matrix.cpp
+  kernel/assembly/curl_curl_assembler.cpp
   kernel/assembly/element_geometry.cpp
   kernel/assembly/poisson_assembler.cpp
   kernel/basis/lagrange_p1_tetrahedron.cpp
+  kernel/basis/nedelec_p1_tetrahedron.cpp
+  kernel/benchmark/curl_curl_benchmark.cpp
   kernel/benchmark/poisson_benchmark.cpp
   kernel/mesh/tetra_mesh.cpp
   kernel/quadrature/tetrahedron_quadrature.cpp
-  kernel/reference/reference_tetrahedron.cpp)
+  kernel/reference/reference_tetrahedron.cpp
+  kernel/space/tetra_dof_map.cpp)
 
 target_include_directories(femsolver_kernel PUBLIC ${CMAKE_SOURCE_DIR}/include)
 femsolver_apply_target_defaults(femsolver_kernel)

@@ -17,6 +17,17 @@ The initial production target is not “all multiphysics.” It is the narrower 
 - prescribed excitations
 - field, energy, and torque post-processing
 
+## Current Selected Motor Cases
+
+The first tracked application cases are already fixed even though the production motor solver is not complete yet:
+
+- `joint_type_i_12s10p`: first simple robot-joint motor regression target
+- `exo_outer_rotor_36s40p`: first validation-oriented outer-rotor target
+- `quadruped_joint_36s32p`: staged nonlinear and overload target
+- `tbm76_envelope`: industrial packaging and preprocessing regression target
+
+At the current stage these are still simplified parameterized reconstructions, not faithful production CAD.
+
 ## Physical Layers
 
 ### Electromagnetic Core
@@ -70,14 +81,19 @@ Planned physical outputs:
 
 ### Can Do Today
 
-At `v0.1.0`, the repository can describe the future physical architecture and test repository tooling, but it does not solve any electromagnetic problem yet.
+The repository can already do the following numerically:
+
+- solve a scalar manufactured Poisson benchmark on a self-owned tetrahedral kernel
+- solve a canonical tetrahedral curl-curl benchmark with first-order `Nedelec` edge DoFs
+- represent simplified robot-joint motor case metadata and generate preprocessing artifacts for declared geometry variants
 
 ### Cannot Do Today
 
-- assemble finite-element operators
+- assemble the full magnetostatic `A in H(curl)` motor operator with permanent-magnet and winding sources
 - read or interpret `B-H` curves
 - solve a nonlinear magnetic system
 - compute flux density, energy, or torque from a machine model
+- claim paper-level validation against published machine performance
 
 ## `v1.0.0` Physical Contract
 

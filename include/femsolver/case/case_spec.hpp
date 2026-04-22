@@ -1,17 +1,26 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <vector>
 
 namespace femsolver::case_config {
 
 struct CaseSpec {
-  std::string machine_name;
-  std::string mesh_path;
-  bool periodic_sector;
-  std::vector<std::string> requested_outputs;
+  std::string case_id;
+  std::string source_kind;
+  std::string source_url;
+  std::string reconstruction_level;
+  std::vector<std::string> geometry_variants;
+  std::string cell_type;
+  std::string space_family;
+  int polynomial_order = 1;
+  std::map<std::string, std::string> materials_profile;
+  std::map<std::string, std::string> excitation_profile;
+  std::vector<std::string> validation_targets;
 
   static CaseSpec Bootstrap();
+  [[nodiscard]] bool SupportsVariant(const std::string& variant) const;
   [[nodiscard]] std::string Summary() const;
 };
 

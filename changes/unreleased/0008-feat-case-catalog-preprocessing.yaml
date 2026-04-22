@@ -1,0 +1,4 @@
+type: added
+scope: cases
+summary: Add a tracked robot-joint motor case catalog, a simplified Gmsh-based preprocessing generator, and motor_pre integration that emits geometry, manifests, and summaries.
+breaking: false
