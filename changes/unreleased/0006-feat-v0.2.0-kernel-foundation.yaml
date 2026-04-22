@@ -1,0 +1,4 @@
+type: added
+scope: kernel
+summary: Add the v0.2.0 self-owned tetrahedral FEM kernel foundation with explicit module boundaries, scalar Poisson assembly, and a canonical benchmark wired into motor_check.
+breaking: false

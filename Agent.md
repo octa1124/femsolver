@@ -6,7 +6,7 @@ This file defines the repository engineering rules for `femsolver`. It is the hi
 
 `femsolver` is being built as a self-owned, controllable, and explainable finite element solver that is intended to expand into a multiphysics coupled solver.
 
-The current implementation target is `v0.1.0`, which establishes governance, CI, testing, release hygiene, and a minimal application skeleton. Real solver-kernel implementation begins after this baseline.
+The current implementation target is `v0.2.0`, which establishes the first self-owned kernel foundation on tetrahedral meshes while preserving the governance and CI baseline created in `v0.1.0`.
 
 ## Version Scope
 
@@ -28,6 +28,26 @@ The current implementation target is `v0.1.0`, which establishes governance, CI,
 - `docs/`: ADRs, architecture notes, physics notes, and release summaries
 - `docker/`: reproducible development and CI images
 - `.github/`: workflows, templates, and repository bootstrap settings
+
+## Kernel Module Boundaries
+
+The `v0.2.0` kernel foundation is organized so later `H(curl)`, multiphysics, and AI-facing work can grow on top of stable internal contracts.
+
+- `kernel/mesh` owns only mesh geometry, topology, orientation normalization, and boundary-node discovery.
+- `kernel/reference` owns only reference-cell definitions.
+- `kernel/quadrature` owns only quadrature rules on reference cells.
+- `kernel/basis` owns only basis-function values and gradients on reference cells.
+- `kernel/algebra` owns only sparse-matrix and linear-solver primitives.
+- `kernel/assembly` may depend on `mesh`, `reference`, `quadrature`, `basis`, and `algebra`, and owns local/global assembly plus boundary-condition application.
+- `kernel/benchmark` may depend on all kernel modules and owns canonical verification problems, but it must not contain application CLI logic.
+- Application entrypoints under `src/app` and reporting under `io` may consume benchmark results, but they must not back-feed policies into kernel internals.
+
+Hard dependency rules:
+
+- `kernel/mesh` must not depend on `basis`, `assembly`, `benchmark`, or application modules.
+- `kernel/reference`, `kernel/quadrature`, and `kernel/basis` must remain reference-domain abstractions and must not depend on physical meshes.
+- `kernel/algebra` must not depend on mesh, basis, material, or application code.
+- Physics modules must depend on kernel layers; kernel layers must not depend on any physics module.
 
 ## Coding Standards
 
@@ -65,6 +85,7 @@ The current implementation target is `v0.1.0`, which establishes governance, CI,
 - Do not place Gmsh geometry generation logic inside the solver core.
 - The kernel path must remain self-owned and explainable: mesh semantics, basis definitions, quadrature, DoF maps, and assembly contracts may not be outsourced to MFEM or FEniCS.
 - `MFEM` and `FEniCSx/DOLFINx` may be used for study, benchmark comparison, and cross-check tooling, but they must not become the production kernel without an explicit ADR.
+- Module-boundary changes inside `kernel/` must update the architecture and implementation notes that describe those boundaries.
 - Any change to `material`, `fem`, `nonlinear`, or `post` must ship with tests.
 - Any change to `B-H` constitutive behavior must ship with a consistent-tangent validation.
 - Important numerical-strategy changes require an ADR under `docs/adr/`.

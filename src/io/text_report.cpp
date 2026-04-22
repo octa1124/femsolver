@@ -37,4 +37,16 @@ std::string RenderCheckReport(const post::SolutionBundle& bundle) {
   return stream.str();
 }
 
+std::string RenderKernelPoissonBenchmarkReport(
+    const kernel::benchmark::PoissonBenchmarkResult& result) {
+  std::ostringstream stream;
+  stream << "kernel poisson benchmark\n";
+  stream << "linear_solver: converged=" << (result.linear_solver.converged ? "true" : "false")
+         << ", iterations=" << result.linear_solver.iterations
+         << ", residual_norm=" << result.linear_solver.residual_norm << '\n';
+  stream << "solution: nodes=" << result.solution.size()
+         << ", max_abs_error=" << result.max_abs_error;
+  return stream.str();
+}
+
 }  // namespace femsolver::io

@@ -24,13 +24,14 @@ Not in scope:
 
 ## `v0.2.0` Kernel Foundation MVP
 
-Planned deliverables:
+Completed deliverables:
 
 - self-owned mesh and topology model for simple tetrahedral meshes
 - reference tetrahedron, quadrature rules, geometric mapping, and Jacobians
 - self-owned `H1` linear basis support
 - local stiffness/load assembly and global sparse assembly
-- one scalar benchmark, such as Poisson or heat conduction, end to end
+- one scalar manufactured Poisson benchmark wired into `motor_check`
+- explicit kernel module boundaries for `mesh`, `reference`, `quadrature`, `basis`, `assembly`, `algebra`, and `benchmark`
 
 Explicitly deferred:
 

@@ -4,6 +4,11 @@
 
 This document explains the minimal application and library bootstrap created in `v0.1.0`.
 
+The repository has since grown a real `v0.2.0` kernel foundation. For the current numerical path, see:
+
+- `docs/implementation/v0.2.0-kernel-foundation.md`
+- `docs/implementation/kernel-assembly-and-benchmark.md`
+
 ## Implemented Files
 
 - `src/app/motor_pre_main.cpp`
@@ -14,7 +19,7 @@ This document explains the minimal application and library bootstrap created in 
 
 ## Purpose
 
-The current C++ code does not solve physics yet. Its job is to create the module boundaries that future solver work will fill in.
+At `v0.1.0`, the C++ code did not solve physics yet. Its job was to create module seams that later solver work could fill in without reshaping the repository.
 
 The baseline already encodes the planned domain vocabulary:
 
@@ -48,7 +53,7 @@ Three executables exist today:
 - `motor_solve`
 - `motor_check`
 
-Their current behavior is intentionally small:
+Their `v0.1.0` behavior was intentionally small:
 
 - print usage with `--help`
 - render a bootstrap report
@@ -56,9 +61,13 @@ Their current behavior is intentionally small:
 
 This keeps CI realistic without pretending the physics layer already exists.
 
+At `v0.2.0`:
+
+- `motor_pre` and `motor_solve` remain conservative scaffolds
+- `motor_check` now runs the canonical Poisson benchmark and reports convergence/error information
+
 ## Deferred Work
 
 - real file parsing
-- finite-element kernel object ownership and lifetimes
-- numerical assembly
+- full finite-element kernel object ownership and lifetimes
 - result export formats beyond placeholder text reports

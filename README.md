@@ -2,9 +2,10 @@
 
 `femsolver` is a greenfield repository for a self-owned, controllable, and explainable finite element solver that is intended to grow into a multiphysics coupled solver.
 
-The current repository state implements the `v0.1.0` engineering baseline:
+The current repository state implements the `v0.2.0` kernel-foundation baseline:
 
-- repository governance and project conventions
+- repository governance and project conventions from `v0.1.0`
+- a self-owned tetrahedral kernel slice for mesh, reference elements, quadrature, `H1` basis, scalar assembly, and a Poisson benchmark
 - a CMake/CTest bootstrap for C++ applications and libraries
 - Python tooling scaffolding for release and repository management
 - GitHub Actions, CodeRabbit, SonarQube Cloud, and Codecov integration files
@@ -19,9 +20,10 @@ The project direction is:
 
 ## Repository Status
 
-- Current milestone: `v0.1.0`
-- Current focus: governance, build/test infrastructure, and repository automation
-- Explicitly not implemented yet: kernel mesh/DoF/basis infrastructure, matrix assembly, real electromagnetic physics, or coupled multiphysics behavior
+- Current delivered milestone: `v0.2.0`
+- Current focus: self-owned kernel foundations that lead toward `H(curl)` electromagnetics and later multiphysics
+- Implemented now: tetra mesh container, reference tetrahedron, centroid quadrature, linear `H1` basis, scalar Poisson local/global assembly, Dirichlet elimination, and a canonical benchmark wired into `motor_check`
+- Explicitly not implemented yet: `H(curl)` basis, electromagnetic matrix assembly, nonlinear magnetic materials, or coupled multiphysics behavior
 
 ## Quick Start
 
@@ -43,10 +45,11 @@ The `clang-asan` and `gcc-coverage` presets are available for CI-style checks.
 - Implementation docs index: `docs/implementation/README.md`
 - Functional architecture: `docs/architecture/functional-architecture.md`
 - Kernel architecture: `docs/architecture/kernel-architecture.md`
+- Kernel module boundaries: `docs/architecture/kernel-module-boundaries.md`
 - Multiphysics and physics-AI expansion: `docs/architecture/multiphysics-and-physics-ai.md`
 - Physical architecture: `docs/physics/physical-architecture.md`
 - GitHub administration notes: `docs/governance/github-admin.md`
-- Draft release summary: `docs/releases/v0.1.0.md`
+- Draft release summaries: `docs/releases/v0.1.0.md`, `docs/releases/v0.2.0.md`
 
 ## Repository Layout
 

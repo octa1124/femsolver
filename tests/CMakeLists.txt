@@ -10,6 +10,13 @@ add_executable(
   femsolver_unit_tests
   unit/case_spec_test.cpp
   unit/excitation_def_test.cpp
+  unit/kernel_element_geometry_test.cpp
+  unit/kernel_poisson_assembly_test.cpp
+  unit/kernel_poisson_benchmark_test.cpp
+  unit/kernel_quadrature_basis_test.cpp
+  unit/kernel_reference_tetrahedron_test.cpp
+  unit/kernel_sparse_matrix_test.cpp
+  unit/kernel_tetra_mesh_test.cpp
   unit/material_catalog_test.cpp
   unit/mesh_manifest_test.cpp
   unit/nonlinear_policy_test.cpp
@@ -25,6 +32,7 @@ gtest_discover_tests(femsolver_unit_tests)
 add_test(NAME motor_pre_help COMMAND motor_pre --help)
 add_test(NAME motor_solve_help COMMAND motor_solve --help)
 add_test(NAME motor_check_help COMMAND motor_check --help)
+add_test(NAME motor_check_poisson_benchmark COMMAND motor_check --poisson-benchmark)
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 execute_process(

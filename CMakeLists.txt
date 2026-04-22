@@ -15,7 +15,7 @@ endif()
 
 project(
   femsolver
-  VERSION 0.1.0
+  VERSION 0.2.0
   DESCRIPTION "Finite element solver and validation platform for 3D electrical machines"
   LANGUAGES CXX)
 

@@ -17,3 +17,10 @@ Rules:
 - [Testing And Quality Gates](./testing-and-quality.md)
 - [GitHub Automation And Release Flow](./github-automation-and-release.md)
 - [v1 Solver Implementation Path](./v1.0.0-solver-implementation-path.md)
+
+## `v0.2.0` Kernel Foundation Documents
+
+- [Kernel Foundation Overview](./v0.2.0-kernel-foundation.md)
+- [Kernel Mesh And Topology](./kernel-mesh-topology.md)
+- [Kernel Reference, Quadrature, And Basis](./kernel-reference-basis-quadrature.md)
+- [Kernel Assembly, Algebra, And Benchmark](./kernel-assembly-and-benchmark.md)

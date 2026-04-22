@@ -17,6 +17,8 @@ See also:
 
 - `docs/architecture/functional-architecture.md`
 - `docs/architecture/kernel-architecture.md`
+- `docs/architecture/kernel-module-boundaries.md`
 - `docs/architecture/multiphysics-and-physics-ai.md`
 - `docs/physics/physical-architecture.md`
+- `docs/implementation/v0.2.0-kernel-foundation.md`
 - `docs/implementation/v1.0.0-solver-implementation-path.md`

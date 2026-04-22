@@ -118,3 +118,20 @@ Future AI-facing workflows should consume outputs from the kernel through stable
 - reduced-order export data
 
 The kernel remains the trusted physical reference even when learned components are introduced later.
+
+## `v0.2.0` Concrete Module Map
+
+The first implemented kernel slice is now documented in more detail in:
+
+- `docs/architecture/kernel-module-boundaries.md`
+- `docs/implementation/v0.2.0-kernel-foundation.md`
+
+That concrete slice fixes the initial module ownership for:
+
+- `mesh`
+- `reference`
+- `quadrature`
+- `basis`
+- `algebra`
+- `assembly`
+- `benchmark`
