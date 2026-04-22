@@ -28,7 +28,7 @@ Status rule:
 - `[x]` Emit `mesh_manifest.yaml` and `preprocess_summary.txt`
 - `[x]` Wire `motor_pre --case --variant --output-dir`
 - `[x]` Add Python schema tests and `CTest` preprocessing integration tests
-- `[ ]` Replace Python bridge in `motor_pre` with native C++ case loading and preprocessing orchestration
+- `[-]` Replace Python bridge in `motor_pre` with native C++ case loading and preprocessing orchestration
 - `[ ]` Upgrade from concentric-envelope geometry to first tooth/slot/magnet-resolved reconstruction where public data is sufficient
 
 ### Kernel Contracts
@@ -46,9 +46,9 @@ Status rule:
 - `[x]` Implement `H(curl)` geometric mapping in `ElementGeometry`
 - `[x]` Implement tetrahedral curl-curl local/global assembly
 - `[x]` Add canonical curl-curl benchmark and expose it through `motor_check`
-- `[ ]` Add current-source assembly tied to machine regions
-- `[ ]` Add simple permanent-magnet source assembly tied to machine regions
-- `[ ]` Add a first machine-coupled electromagnetics smoke path on `joint_type_i_12s10p`
+- `[x]` Add current-source assembly tied to machine regions
+- `[x]` Add simple permanent-magnet source assembly tied to machine regions
+- `[-]` Add a first machine-coupled electromagnetics smoke path on `joint_type_i_12s10p`
 
 ### Validation And Docs
 
@@ -61,8 +61,8 @@ Status rule:
 
 ### Input, Case, And Region Semantics
 
-- `[ ]` Load case metadata without placeholder bootstrap shortcuts
-- `[ ]` Load mesh manifest and validate region/boundary names against solver expectations
+- `[x]` Load case metadata without placeholder bootstrap shortcuts
+- `[-]` Load mesh manifest and validate region/boundary names against solver expectations
 - `[ ]` Bind named regions to material descriptors
 - `[ ]` Bind named regions to excitation descriptors
 - `[ ]` Fail clearly on unsupported requests instead of silently degrading
@@ -77,10 +77,10 @@ Status rule:
 
 ### Solve Path
 
-- `[ ]` Build a first machine solve driver in `motor_solve`
+- `[-]` Build a first machine solve driver in `motor_solve`
 - `[ ]` Use linear material models only in the first `v1.0.0` machine path
 - `[ ]` Keep the first nonlinear solve hooks present but disabled or conservative until `v1.1.0`
-- `[ ]` Record convergence summary and failure modes in text output
+- `[x]` Record convergence summary and failure modes in text output
 
 ### Post-Processing
 
@@ -91,7 +91,7 @@ Status rule:
 
 ### Case Bring-Up
 
-- `[ ]` Use `joint_type_i_12s10p extruded_3d` as the first machine electromagnetics smoke case
+- `[-]` Use `joint_type_i_12s10p extruded_3d` as the first machine electromagnetics smoke case
 - `[ ]` Promote `joint_type_i_12s10p` to regression coverage
 - `[ ]` Bring `exo_outer_rotor_36s40p extruded_3d` into validation once the `v1.0.0` path is stable
 - `[ ]` Keep `tbm76_envelope` as preprocessing and packaging regression only unless fidelity improves
@@ -99,7 +99,7 @@ Status rule:
 ### Tests
 
 - `[ ]` Add unit tests for source-term assembly
-- `[ ]` Add integration tests for machine-case solve orchestration
+- `[x]` Add integration tests for machine-case solve orchestration
 - `[ ]` Add regression checks for selected scalar machine outputs
 - `[ ]` Add validation hooks for `exo_outer_rotor_36s40p`
 
@@ -144,14 +144,14 @@ Status rule:
 ### `src/app`
 
 - `[-]` `motor_pre`: usable for case-driven preprocessing, still Python-bridged
-- `[ ]` `motor_solve`: promote from placeholder to first real machine solve path
+- `[-]` `motor_solve`: promoted from placeholder to a first linear machine smoke path
 - `[-]` `motor_check`: scalar and vector benchmark runner present, needs machine regression orchestration
 
 ### `src/case`, `src/mesh`, `src/io`
 
-- `[-]` `CaseSpec`: richer schema contract exists, but real file parsing is not native yet
-- `[ ]` `MeshManifest`: bind generated manifest semantics into the solver path
-- `[ ]` Reporting: add machine solve, post-processing, and regression summaries
+- `[x]` `CaseSpec`: richer schema contract exists and now supports native file parsing for the current repository schema
+- `[-]` `MeshManifest`: generated manifest semantics now load in C++, but imported mesh connectivity is still missing
+- `[-]` Reporting: machine smoke summaries exist, but post-processing and regression summaries are still incomplete
 
 ### `src/kernel`
 
@@ -169,8 +169,8 @@ Status rule:
 
 ## Recommended Next Sequence
 
-1. Finish `v0.3.0` source-term assembly for current density and permanent magnets.
-2. Convert `joint_type_i_12s10p extruded_3d` into the first real motor smoke case.
-3. Promote `motor_solve` from placeholder to the first linear magnetostatic machine driver.
-4. Add `B`, energy, and torque post-processing for the `v1.0.0` gate.
+1. Replace the synthetic smoke mesh in `motor_solve` with imported preprocessing mesh data.
+2. Convert `joint_type_i_12s10p extruded_3d` into the first true geometry-backed motor smoke case.
+3. Add `B`, energy, and torque post-processing for the `v1.0.0` gate.
+4. Promote `exo_outer_rotor_36s40p` into validation once the first machine path is stable.
 5. Only then open the `v1.1.0` nonlinear material and `RT` workstream.

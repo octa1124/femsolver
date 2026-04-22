@@ -13,6 +13,7 @@ add_executable(
   unit/kernel_discretization_descriptor_test.cpp
   unit/kernel_curl_curl_benchmark_test.cpp
   unit/kernel_element_geometry_test.cpp
+  unit/kernel_linear_magnetostatic_assembler_test.cpp
   unit/kernel_nedelec_basis_test.cpp
   unit/kernel_poisson_assembly_test.cpp
   unit/kernel_poisson_benchmark_test.cpp
@@ -25,6 +26,7 @@ add_executable(
   unit/mesh_manifest_test.cpp
   unit/nonlinear_policy_test.cpp
   unit/project_status_test.cpp
+  unit/joint_motor_linear_smoke_test.cpp
   unit/solution_bundle_test.cpp)
 
 target_link_libraries(femsolver_unit_tests PRIVATE femsolver_core GTest::gtest_main)
@@ -48,6 +50,20 @@ add_test(
   COMMAND motor_pre --case cases/machines/tbm76_envelope/case.yaml --variant extruded_3d
           --output-dir ${CMAKE_BINARY_DIR}/generated/motor_pre_tbm_extruded_3d)
 set_tests_properties(motor_pre_tbm_extruded_3d PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+add_test(
+  NAME motor_pre_joint_extruded_3d
+  COMMAND motor_pre --case cases/machines/joint_type_i_12s10p/case.yaml --variant extruded_3d
+          --output-dir ${CMAKE_BINARY_DIR}/generated/motor_pre_joint_extruded_3d)
+set_tests_properties(
+  motor_pre_joint_extruded_3d
+  PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} FIXTURES_SETUP joint_motor_manifest)
+add_test(
+  NAME motor_solve_joint_linear_smoke
+  COMMAND motor_solve --case cases/machines/joint_type_i_12s10p/case.yaml --manifest
+          ${CMAKE_BINARY_DIR}/generated/motor_pre_joint_extruded_3d/mesh_manifest.yaml)
+set_tests_properties(
+  motor_solve_joint_linear_smoke
+  PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} FIXTURES_REQUIRED joint_motor_manifest)
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 execute_process(

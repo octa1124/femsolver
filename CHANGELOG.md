@@ -12,15 +12,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A tracked machine-case catalog for `joint_type_i_12s10p`, `exo_outer_rotor_36s40p`, `quadruped_joint_36s32p`, and `tbm76_envelope`, including source provenance and simplification notes.
 - A simplified Gmsh-oriented preprocessing path that generates geometry scripts, manifests, and summaries through `motor_pre`.
 - The first `v0.3.0` vector-kernel slice with tetra edge topology, edge DoF maps, first-order `Nedelec` basis functions, curl-curl assembly, and a canonical `H(curl)` benchmark.
+- Native C++ loading for the current `case.yaml` and generated `mesh_manifest.yaml` contracts.
+- A linear magnetostatic source assembly path for current density and remanent flux density, plus the first machine-coupled smoke solve in `motor_solve`.
 
 ### Changed
 
 - Case metadata now declares the intended production discretization family as `nedelec` for the robot-joint motor path.
 - `motor_check` now accepts combinable benchmark flags and runs both scalar and vector canonical checks by default.
+- `motor_solve` now accepts `--case` and `--manifest` and can execute the current linear joint-motor smoke path instead of acting only as a placeholder.
 
 ### Docs
 
 - Added detailed technical documentation for the machine-case catalog, preprocessing path, and the current `v0.3.0` vector-kernel baseline.
+- Added a dedicated implementation note for the linear magnetostatic smoke path and solver-side case/manifest loading.
 
 ## [0.2.0] - 2026-04-22
 

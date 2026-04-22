@@ -6,6 +6,7 @@
 #include "femsolver/fem/discretization_strategy.hpp"
 #include "femsolver/kernel/benchmark/curl_curl_benchmark.hpp"
 #include "femsolver/kernel/benchmark/poisson_benchmark.hpp"
+#include "femsolver/mesh/mesh_manifest.hpp"
 #include "femsolver/nonlinear/nonlinear_policy.hpp"
 #include "femsolver/post/solution_bundle.hpp"
 
@@ -16,6 +17,11 @@ std::string RenderPreReport(const case_config::CaseSpec& spec);
 std::string RenderSolveReport(const case_config::CaseSpec& spec,
                               const fem::DiscretizationStrategy& strategy,
                               const nonlinear::NonlinearPolicy& policy);
+std::string RenderMachineSolveReport(const case_config::CaseSpec& spec,
+                                     const mesh::MeshManifest& manifest,
+                                     const fem::DiscretizationStrategy& strategy,
+                                     const nonlinear::NonlinearPolicy& policy,
+                                     const post::SolutionBundle& bundle);
 std::string RenderCheckReport(const post::SolutionBundle& bundle);
 std::string RenderKernelPoissonBenchmarkReport(
     const kernel::benchmark::PoissonBenchmarkResult& result);

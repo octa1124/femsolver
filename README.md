@@ -38,11 +38,13 @@ The project direction is:
   - tetra first-order `Nedelec` basis, edge-based DoF maps, Piola-style `H(curl)` mapping support, curl-curl local/global assembly, and a canonical vector-field benchmark
   - four tracked machine cases under `cases/machines/` with source URLs, reconstruction levels, declared variants, and simplified-geometry assumptions
   - `motor_pre --case --variant --output-dir` for simplified geometry generation, optional Gmsh invocation, manifest writing, and summary reporting
+  - native C++ loading of `case.yaml` and generated `mesh_manifest.yaml`
+  - a first linear magnetostatic smoke solve in `motor_solve` that binds real case and manifest semantics, assembles `J` and `B_r` sources, and solves on a synthetic region-tagged kernel mesh
 - Explicitly not implemented yet:
-  - native C++ case-YAML parsing inside the solver executables
+  - imported `.msh` data in the self-owned mesh layer for machine solves
   - detailed slot/tooth/magnet OCC geometry reconstruction
-  - permanent-magnet and winding source assembly for real motor solves
-  - nonlinear magnetic materials, torque post-processing, or coupled multiphysics behavior
+  - machine-grade field post-processing and torque evaluation on real machine meshes
+  - nonlinear magnetic materials or coupled multiphysics behavior
 
 ## Quick Start
 
@@ -71,6 +73,14 @@ Run the canonical scalar and vector kernel checks:
 ./build/gcc-debug/src/motor_check
 ```
 
+Run the current linear joint-motor smoke solve after preprocessing:
+
+```bash
+./build/gcc-debug/src/motor_solve \
+  --case cases/machines/joint_type_i_12s10p/case.yaml \
+  --manifest build/generated/joint_type_i_12s10p_extruded_3d/mesh_manifest.yaml
+```
+
 ## Project Guides
 
 - Engineering rules: `Agent.md`
@@ -80,6 +90,7 @@ Run the canonical scalar and vector kernel checks:
 - Implementation docs index: `docs/implementation/README.md`
 - Case catalog and preprocessing implementation: `docs/implementation/case-catalog-and-preprocessing.md`
 - Vector-kernel implementation baseline: `docs/implementation/v0.3.0-vector-kernel-baseline.md`
+- Linear magnetostatic smoke path: `docs/implementation/linear-magnetostatic-smoke-path.md`
 - Functional architecture: `docs/architecture/functional-architecture.md`
 - Kernel architecture: `docs/architecture/kernel-architecture.md`
 - Kernel module boundaries: `docs/architecture/kernel-module-boundaries.md`

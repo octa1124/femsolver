@@ -29,3 +29,4 @@ Rules:
 
 - [Case Catalog And Preprocessing](./case-catalog-and-preprocessing.md)
 - [Vector-Kernel Baseline](./v0.3.0-vector-kernel-baseline.md)
+- [Linear Magnetostatic Smoke Path](./linear-magnetostatic-smoke-path.md)

@@ -4,6 +4,7 @@ add_library(
   kernel/algebra/sparse_matrix.cpp
   kernel/assembly/curl_curl_assembler.cpp
   kernel/assembly/element_geometry.cpp
+  kernel/assembly/linear_magnetostatic_assembler.cpp
   kernel/assembly/poisson_assembler.cpp
   kernel/basis/lagrange_p1_tetrahedron.cpp
   kernel/basis/nedelec_p1_tetrahedron.cpp
@@ -27,6 +28,7 @@ add_library(
   mesh/mesh_manifest.cpp
   nonlinear/nonlinear_policy.cpp
   post/solution_bundle.cpp
+  solver/joint_motor_linear_smoke.cpp
   solver/project_status.cpp)
 
 target_include_directories(femsolver_core PUBLIC ${CMAKE_SOURCE_DIR}/include)

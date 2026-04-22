@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <map>
 #include <string>
 #include <vector>
@@ -18,8 +19,11 @@ struct CaseSpec {
   std::map<std::string, std::string> materials_profile;
   std::map<std::string, std::string> excitation_profile;
   std::vector<std::string> validation_targets;
+  std::map<std::string, double> geometry_parameters;
 
   static CaseSpec Bootstrap();
+  static CaseSpec LoadFromFile(const std::filesystem::path& path);
+  [[nodiscard]] bool IsValid() const;
   [[nodiscard]] bool SupportsVariant(const std::string& variant) const;
   [[nodiscard]] std::string Summary() const;
 };

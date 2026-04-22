@@ -1,0 +1,4 @@
+type: added
+scope: solver
+summary: Add native C++ case and manifest loading, a linear magnetostatic source assembly path for current density and remanent flux, and the first machine-coupled joint-motor smoke solve in motor_solve.
+breaking: false

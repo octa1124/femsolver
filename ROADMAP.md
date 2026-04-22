@@ -70,18 +70,20 @@ Implemented so far:
 
 - machine-case catalog under `cases/machines/` with source traceability, reconstruction levels, and declared geometry variants
 - simplified preprocessing generator and `motor_pre --case --variant --output-dir`
+- native C++ loading for `case.yaml` and the generated `mesh_manifest.yaml`
 - tetrahedral edge extraction and edge-boundary discovery in the self-owned mesh layer
 - tetrahedral scalar and edge DoF maps under a dedicated `kernel/space` module
 - first-order tetrahedral `Nedelec` basis functions
 - tetrahedral curl-curl local/global assembly
+- linear magnetostatic source support for current density and remanent flux density
 - canonical `H(curl)` benchmark wired into `motor_check`
+- a first machine-coupled linear magnetostatic smoke path in `motor_solve`
 
 Remaining before the milestone is truly complete:
 
-- current-source and simple magnetization source support
 - canonical vector-field validation cases
 - documented interface planning for hexahedral and higher-order extensions without rewriting upper layers
-- first machine-coupled electromagnetics smoke path on top of the vector kernel
+- replace the synthetic smoke mesh in `motor_solve` with imported preprocessing mesh data
 
 Explicitly deferred:
 
@@ -100,6 +102,12 @@ Planned deliverables:
 - `joint_type_i_12s10p` as the first simple real electromagnetics regression case
 - `exo_outer_rotor_36s40p` as the first main validation case
 - `tbm76_envelope` retained as preprocessing and packaging regression only unless higher-fidelity public data becomes available
+
+Already started toward this milestone:
+
+- solver-side case and manifest loading
+- solver-side linear source assembly for `J` and `B_r`
+- first machine-coupled smoke execution in `motor_solve`
 
 Explicitly deferred:
 

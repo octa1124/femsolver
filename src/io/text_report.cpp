@@ -30,6 +30,21 @@ std::string RenderSolveReport(const case_config::CaseSpec& spec,
   return stream.str();
 }
 
+std::string RenderMachineSolveReport(const case_config::CaseSpec& spec,
+                                     const mesh::MeshManifest& manifest,
+                                     const fem::DiscretizationStrategy& strategy,
+                                     const nonlinear::NonlinearPolicy& policy,
+                                     const post::SolutionBundle& bundle) {
+  std::ostringstream stream;
+  stream << "machine solve report\n";
+  stream << "case: " << spec.Summary() << '\n';
+  stream << "manifest: " << manifest.Summary() << '\n';
+  stream << "discretization: " << strategy.Summary() << '\n';
+  stream << "nonlinear policy: " << policy.Summary() << '\n';
+  stream << "solution: " << bundle.Summary();
+  return stream.str();
+}
+
 std::string RenderCheckReport(const post::SolutionBundle& bundle) {
   std::ostringstream stream;
   stream << "bootstrap check report\n";
