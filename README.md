@@ -74,6 +74,7 @@ Run the canonical scalar and vector kernel checks:
 ## Project Guides
 
 - Engineering rules: `Agent.md`
+- Active delivery tracker: `TODO.md`
 - Product and release plan: `ROADMAP.md`
 - Change history: `CHANGELOG.md`
 - Implementation docs index: `docs/implementation/README.md`

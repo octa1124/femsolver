@@ -1,0 +1,4 @@
+type: docs
+scope: roadmap
+summary: Add a repository TODO tracker that records completed work and the executable delivery checklist from the current v0.3.0-dev state through v1.1.0.
+breaking: false
