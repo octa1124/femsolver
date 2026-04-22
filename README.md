@@ -15,6 +15,7 @@ The project direction is:
 
 - own the kernel architecture, basis functions, assembly path, and solver interfaces
 - use `MFEM` and `FEniCSx/DOLFINx` only as reference, verification, and benchmarking tools
+- grow the kernel toward both tetrahedral and hexahedral cells, low- and high-order discretizations, and `H1`/`Nedelec`/`Raviart-Thomas` element families
 - use a robot-joint permanent-magnet motor as the first application MVP
 - expand from electromagnetics toward a multiphysics coupled solver and, later, physics-AI workflows
 
@@ -46,6 +47,7 @@ The `clang-asan` and `gcc-coverage` presets are available for CI-style checks.
 - Functional architecture: `docs/architecture/functional-architecture.md`
 - Kernel architecture: `docs/architecture/kernel-architecture.md`
 - Kernel module boundaries: `docs/architecture/kernel-module-boundaries.md`
+- Element-family and order strategy: `docs/architecture/element-family-and-order-strategy.md`
 - Multiphysics and physics-AI expansion: `docs/architecture/multiphysics-and-physics-ai.md`
 - Physical architecture: `docs/physics/physical-architecture.md`
 - GitHub administration notes: `docs/governance/github-admin.md`

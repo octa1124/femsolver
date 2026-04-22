@@ -10,6 +10,7 @@ add_executable(
   femsolver_unit_tests
   unit/case_spec_test.cpp
   unit/excitation_def_test.cpp
+  unit/kernel_discretization_descriptor_test.cpp
   unit/kernel_element_geometry_test.cpp
   unit/kernel_poisson_assembly_test.cpp
   unit/kernel_poisson_benchmark_test.cpp

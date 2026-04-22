@@ -10,6 +10,7 @@ The main goal is to stop the project from drifting back into a loose collection 
 
 ```text
 kernel
+├─ common
 ├─ mesh
 ├─ reference
 ├─ quadrature
@@ -22,11 +23,12 @@ kernel
 Allowed dependency direction:
 
 ```text
-mesh        ─┐
-reference   ─┼─> assembly ─> benchmark
-quadrature  ─┤
-basis       ─┤
-algebra     ─┘
+common      ─┬─> mesh
+            ├─> reference
+            ├─> quadrature
+            ├─> basis
+            ├─> algebra
+            └─> assembly ─> benchmark
 ```
 
 Additional rule:
@@ -37,15 +39,42 @@ Additional rule:
 
 ## Module Contracts
 
+### `kernel/common`
+
+Public interface:
+
+- `CellType`
+- `SpaceFamily`
+- `PolynomialOrder`
+- `ElementDescriptor`
+
+Owns:
+
+- shared discretization vocabulary across kernel modules
+- cell-family identity
+- FE-family identity
+- polynomial-order identity
+
+Does not own:
+
+- geometry
+- basis evaluation
+- DoF maps
+- assembly algorithms
+- solver algorithms
+
 ### `kernel/mesh`
 
 Public interface:
 
-- `Point3D`
-- `TetraCell`
-- `BoundaryFace`
-- `TetraMesh`
-- `BuildCentroidRefinedReferenceTetraMesh()`
+- current concrete types:
+  - `Point3D`
+  - `TetraCell`
+  - `BoundaryFace`
+  - `TetraMesh`
+  - `BuildCentroidRefinedReferenceTetraMesh()`
+- future contract direction:
+  - mesh interfaces must stay extendable to hexahedral cells without rewriting upper-layer assembly and space APIs
 
 Owns:
 
@@ -68,7 +97,10 @@ Does not own:
 
 Public interface:
 
-- `ReferenceTetrahedron`
+- current concrete type:
+  - `ReferenceTetrahedron`
+- future contract direction:
+  - reference-cell interfaces must grow to tetrahedron and hexahedron families and be polynomial-order aware where needed
 
 Owns:
 
@@ -87,9 +119,12 @@ Does not own:
 
 Public interface:
 
-- `TetrahedronQuadraturePoint`
-- `TetrahedronQuadratureRule`
-- `MakeCentroidTetrahedronQuadrature()`
+- current concrete types:
+  - `TetrahedronQuadraturePoint`
+  - `TetrahedronQuadratureRule`
+  - `MakeCentroidTetrahedronQuadrature()`
+- future contract direction:
+  - quadrature selection must depend on cell family and requested exactness/order
 
 Owns:
 
@@ -107,7 +142,10 @@ Does not own:
 
 Public interface:
 
-- `LagrangeP1Tetrahedron`
+- current concrete type:
+  - `LagrangeP1Tetrahedron`
+- future contract direction:
+  - basis interfaces must grow to cover nodal `H1`, `Nedelec`, and `Raviart-Thomas` families on tetrahedral and hexahedral cells
 
 Owns:
 
@@ -196,5 +234,6 @@ Does not own:
 These boundaries intentionally prepare the next steps:
 
 - `v0.3.0` can add `H(curl)` basis and assembly without polluting mesh or algebra modules.
+- the same boundaries also leave room for hexahedral and higher-order elements instead of forcing a tetrahedral-only architecture.
 - `v1.x` motor physics can live above assembly contracts instead of reshaping the kernel around one application.
 - later multiphysics and physics-AI work can consume stable data structures and benchmark hooks rather than reverse-engineering ad hoc internal state.

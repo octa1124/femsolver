@@ -1,0 +1,4 @@
+type: changed
+scope: architecture
+summary: Record the long-term discretization strategy for tetrahedral and hexahedral cells, higher-order elements, and H1/Nedelec/Raviart-Thomas families, and add shared kernel descriptors for those dimensions.
+breaking: false

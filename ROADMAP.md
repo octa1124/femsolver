@@ -40,15 +40,26 @@ Explicitly deferred:
 - nonlinear materials
 - multiphysics coupling
 
+## Cross-Version Discretization Objective
+
+The long-term discretization target is broader than the first delivered kernel slice.
+
+- Cell families: both tetrahedral and hexahedral elements must be supported.
+- Approximation order: both low-order and higher-order elements must be supported.
+- Function spaces: ordinary nodal `H1`, `Nedelec` for `H(curl)`, and `Raviart-Thomas` for `H(div)` must all be part of the product roadmap.
+- Delivery is staged: the early motor MVP may use a validated subset, but kernel interfaces must not lock the project into tetrahedral first-order ND-only assumptions.
+
 ## `v0.3.0` Vector-Field FEM Foundation
 
 Planned deliverables:
 
+- generic element descriptors for cell type, FE family, and polynomial order
 - edge orientation and DoF ownership for vector elements
 - first-kind Nedelec `H(curl)` basis on tetrahedra
 - curl-curl assembly
 - current-source and simple magnetization source support
 - canonical vector-field validation cases
+- interface planning for hexahedral and higher-order extensions without rewriting upper layers
 
 Explicitly deferred:
 
@@ -81,6 +92,7 @@ Planned deliverables:
 - local-frame anisotropic and orthotropic magnetic material support
 - consistent tangent construction
 - nonlinear solve stabilization and regression coverage
+- staged expansion toward hexahedral and higher-order `H1`/`Nedelec`/`Raviart-Thomas` support on the same kernel contracts
 
 ## `v2.0.0` Multiphysics Coupling Foundation
 

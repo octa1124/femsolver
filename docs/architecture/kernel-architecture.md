@@ -10,6 +10,7 @@ The kernel must remain controllable and explainable. External libraries may help
 
 - own the finite-element abstractions
 - keep the assembly path explicit and inspectable
+- support multiple cell families, space families, and polynomial orders under repository-owned interfaces
 - support future multiphysics block systems
 - support later reduced-order and physics-AI workflows through stable interfaces
 
@@ -28,6 +29,7 @@ Responsibilities:
 Initial scope:
 
 - tetrahedral meshes first
+- hexahedral support as a permanent target, not an afterthought
 - controlled import path from external mesh generators
 
 ### Reference Elements And Quadrature
@@ -35,6 +37,7 @@ Initial scope:
 Responsibilities:
 
 - reference tetrahedron definitions
+- reference hexahedron definitions
 - quadrature points and weights
 - shape-function evaluation points
 - geometric Jacobians and transforms
@@ -42,6 +45,7 @@ Responsibilities:
 Initial scope:
 
 - linear tetrahedron
+- hexahedron and order-aware rule interfaces next
 - quadrature sufficient for scalar and later vector-field MVPs
 
 ### Finite-Element Spaces
@@ -49,14 +53,17 @@ Initial scope:
 Responsibilities:
 
 - scalar `H1` support
-- later `H(curl)` support
+- `H(curl)` support
+- `H(div)` support
 - DoF numbering and ownership
 - constraint and boundary-condition handling
+- polynomial-order awareness
 
 Initial scope:
 
 - `H1` first
 - `H(curl)` next because of the motor MVP
+- `H(div)` must be part of the kernel plan because flux-conforming post-processing and multiphysics coupling will need it
 
 ### Assembly Pipeline
 
@@ -124,10 +131,12 @@ The kernel remains the trusted physical reference even when learned components a
 The first implemented kernel slice is now documented in more detail in:
 
 - `docs/architecture/kernel-module-boundaries.md`
+- `docs/architecture/element-family-and-order-strategy.md`
 - `docs/implementation/v0.2.0-kernel-foundation.md`
 
 That concrete slice fixes the initial module ownership for:
 
+- `common`
 - `mesh`
 - `reference`
 - `quadrature`

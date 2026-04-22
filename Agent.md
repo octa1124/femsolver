@@ -6,15 +6,15 @@ This file defines the repository engineering rules for `femsolver`. It is the hi
 
 `femsolver` is being built as a self-owned, controllable, and explainable finite element solver that is intended to expand into a multiphysics coupled solver.
 
-The current implementation target is `v0.2.0`, which establishes the first self-owned kernel foundation on tetrahedral meshes while preserving the governance and CI baseline created in `v0.1.0`.
+The current implementation target is `v0.3.0`, which extends the delivered `v0.2.0` tetrahedral scalar kernel toward a generic, self-owned discretization architecture that can host tetrahedral and hexahedral elements, multiple polynomial orders, and multiple finite-element families.
 
 ## Version Scope
 
 - `v0.1.0`: governance, tooling, build/test automation, repository management
 - `v0.2.0`: self-owned kernel foundation with tetra mesh, quadrature, `H1`, and scalar assembly
-- `v0.3.0`: vector-field FEM foundation with `H(curl)` support
+- `v0.3.0`: generic element/space/order contracts plus vector-field FEM foundation with `H(curl)` support
 - `v1.0.0`: robot-joint motor electromagnetics MVP
-- `v1.1.0`: nonlinear and anisotropic magnetic materials
+- `v1.1.0`: nonlinear and anisotropic magnetic materials plus broader element-family expansion
 - `v2.0.0`: multiphysics coupling foundation
 - `v3.0.0`: design-study and physics-AI interfaces
 - `v4.0.0`: motion and low-frequency transients
@@ -33,6 +33,7 @@ The current implementation target is `v0.2.0`, which establishes the first self-
 
 The `v0.2.0` kernel foundation is organized so later `H(curl)`, multiphysics, and AI-facing work can grow on top of stable internal contracts.
 
+- `kernel/common` owns shared discretization descriptors such as cell type, space family, and polynomial order.
 - `kernel/mesh` owns only mesh geometry, topology, orientation normalization, and boundary-node discovery.
 - `kernel/reference` owns only reference-cell definitions.
 - `kernel/quadrature` owns only quadrature rules on reference cells.
@@ -44,6 +45,7 @@ The `v0.2.0` kernel foundation is organized so later `H(curl)`, multiphysics, an
 
 Hard dependency rules:
 
+- `kernel/common` may be consumed by all kernel modules, but it must remain lightweight and algorithm-free.
 - `kernel/mesh` must not depend on `basis`, `assembly`, `benchmark`, or application modules.
 - `kernel/reference`, `kernel/quadrature`, and `kernel/basis` must remain reference-domain abstractions and must not depend on physical meshes.
 - `kernel/algebra` must not depend on mesh, basis, material, or application code.
@@ -84,6 +86,8 @@ Hard dependency rules:
 - Do not hard-code mesh attribute integers in solver code.
 - Do not place Gmsh geometry generation logic inside the solver core.
 - The kernel path must remain self-owned and explainable: mesh semantics, basis definitions, quadrature, DoF maps, and assembly contracts may not be outsourced to MFEM or FEniCS.
+- Cross-module discretization interfaces must not hard-code "tetrahedron only", "first order only", or "single FE family only" assumptions above the concrete implementation layer.
+- The long-term discretization target includes tetrahedral and hexahedral cells, low- and high-order approximation, and at least `H1` nodal, `Nedelec`, and `Raviart-Thomas` families.
 - `MFEM` and `FEniCSx/DOLFINx` may be used for study, benchmark comparison, and cross-check tooling, but they must not become the production kernel without an explicit ADR.
 - Module-boundary changes inside `kernel/` must update the architecture and implementation notes that describe those boundaries.
 - Any change to `material`, `fem`, `nonlinear`, or `post` must ship with tests.
