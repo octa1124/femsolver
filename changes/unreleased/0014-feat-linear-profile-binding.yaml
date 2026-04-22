@@ -1,0 +1,4 @@
+type: added
+scope: solver
+summary: Add an explicit joint-motor linear profile-binding module so motor_solve maps case-declared material and excitation metadata into the current smoke-model coefficients and rejects unsupported envelope-only profiles.
+breaking: false

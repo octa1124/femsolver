@@ -13,6 +13,7 @@
 #include "femsolver/kernel/space/tetra_dof_map.hpp"
 #include "femsolver/mesh/gmsh_tetra_mesh_import.hpp"
 #include "femsolver/post/linear_magnetostatic_summary.hpp"
+#include "femsolver/solver/joint_motor_linear_model.hpp"
 
 namespace femsolver::solver {
 
@@ -52,6 +53,14 @@ std::map<std::string, int> BuildSequentialAttributes(const std::vector<std::stri
 
 bool HasNamedAttribute(const std::map<std::string, int>& attributes, const std::string& name) {
   return attributes.find(name) != attributes.end();
+}
+
+std::map<int, std::string> BuildRegionNamesById(const std::map<std::string, int>& region_attributes) {
+  std::map<int, std::string> names_by_id;
+  for (const auto& [name, attribute] : region_attributes) {
+    names_by_id[attribute] = name;
+  }
+  return names_by_id;
 }
 
 kernel::mesh::TetraMesh BuildJointMotorSmokeMesh(const std::map<std::string, int>& region_attributes,
@@ -149,31 +158,6 @@ ResolvedSmokeMesh ResolveJointMotorSmokeMesh(const mesh::MeshManifest& manifest)
           false};
 }
 
-kernel::assembly::LinearMagnetostaticCellData MakeCellData(
-    const int region_id,
-    const std::map<std::string, int>& region_attributes) {
-  const int outer_air = AttributeId(region_attributes, "outer_air", 1);
-  const int stator_core = AttributeId(region_attributes, "stator_core", 2);
-  const int magnet_ring = AttributeId(region_attributes, "magnet_ring", 3);
-  const int rotor_core = AttributeId(region_attributes, "rotor_core", 4);
-  const int airgap = AttributeId(region_attributes, "airgap", 5);
-  const int shaft = AttributeId(region_attributes, "shaft", 6);
-
-  kernel::assembly::LinearMagnetostaticCellData data;
-  if (region_id == outer_air || region_id == airgap) {
-    data.reluctivity = 1.0;
-  } else if (region_id == stator_core) {
-    data.reluctivity = 6.0;
-    data.current_density = {0.0, 0.0, 1.0};
-  } else if (region_id == magnet_ring) {
-    data.reluctivity = 1.15;
-    data.remanent_flux_density = {0.0, 0.0, 0.8};
-  } else if (region_id == rotor_core || region_id == shaft) {
-    data.reluctivity = 5.0;
-  }
-  return data;
-}
-
 }  // namespace
 
 post::SolutionBundle RunJointMotorLinearSmokeSolve(const case_config::CaseSpec& case_spec,
@@ -195,12 +179,18 @@ post::SolutionBundle RunJointMotorLinearSmokeSolve(const case_config::CaseSpec& 
     throw std::invalid_argument(
         "Joint motor smoke solve requires stator_core, magnet_ring, and rotor_core regions");
   }
+  const auto linear_model = JointMotorLinearModel::FromCaseSpec(case_spec);
+  const auto region_names_by_id = BuildRegionNamesById(resolved_mesh.region_attributes);
 
   const auto dof_map = kernel::space::BuildFirstOrderNedelecDofMap(resolved_mesh.tetra_mesh);
   auto system = kernel::assembly::AssembleLinearMagnetostaticSystem(
       resolved_mesh.tetra_mesh, dof_map, kernel::quadrature::MakeCentroidTetrahedronQuadrature(),
-      [&resolved_mesh](const kernel::mesh::TetraCell& cell, const int) {
-        return MakeCellData(cell.region_id, resolved_mesh.region_attributes);
+      [&linear_model, &region_names_by_id](const kernel::mesh::TetraCell& cell, const int) {
+        const auto iterator = region_names_by_id.find(cell.region_id);
+        if (iterator == region_names_by_id.end()) {
+          throw std::invalid_argument("Joint motor smoke solve encountered an unmapped region id");
+        }
+        return linear_model.CellDataForRegion(iterator->second);
       });
 
   const std::vector<double> zero_boundary_values(dof_map.boundary_dofs().size(), 0.0);
@@ -228,6 +218,8 @@ post::SolutionBundle RunJointMotorLinearSmokeSolve(const case_config::CaseSpec& 
   bundle.max_flux_density_magnitude = flux_summary.max_magnitude;
   bundle.torque_estimate = 0.0;
   bundle.warnings = resolved_mesh.warnings;
+  bundle.warnings.insert(bundle.warnings.end(), linear_model.warnings().begin(),
+                         linear_model.warnings().end());
   bundle.warnings.push_back("joint-motor-smoke-path-uses-simplified-linear-region-models");
   if (std::abs(bundle.magnetic_energy) <= 1.0e-14) {
     bundle.warnings.push_back("smoke-energy-is-near-zero");

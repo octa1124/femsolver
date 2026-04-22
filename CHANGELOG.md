@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Native C++ loading for the current `case.yaml` and generated `mesh_manifest.yaml` contracts.
 - A linear magnetostatic source assembly path for current density and remanent flux density, plus the first machine-coupled smoke solve in `motor_solve`.
 - A first Gmsh `MSH2` tetrahedral mesh import path plus recovered flux-density summaries for the joint-motor smoke solve.
+- An explicit joint-motor linear profile-binding layer that maps current case metadata into solver-owned material and excitation coefficients.
 
 ### Changed
 

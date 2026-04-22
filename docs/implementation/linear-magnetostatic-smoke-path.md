@@ -10,6 +10,7 @@ The current result is:
 
 - native C++ loading of `case.yaml`
 - native C++ loading of the generated `mesh_manifest.yaml`
+- explicit binding from case-declared material and excitation profiles into a solver-owned linear smoke model
 - a linear magnetostatic `A`-form smoke assembly with `Nedelec`
 - current-density and remanent-flux source support
 - a first Gmsh `MSH2` tetrahedral import path for generated preprocessing meshes
@@ -42,6 +43,36 @@ The new linear magnetostatic assembly path uses a per-cell data model:
 - remanent flux density `B_r`
 
 This is the minimum self-owned source model needed to connect the vector kernel to motor semantics.
+
+### Explicit Case-Profile Binding
+
+The current solver no longer hard-codes all region behavior directly inside the assembly callback.
+
+Instead it builds a `JointMotorLinearModel` from the current case metadata:
+
+- `materials_profile.profile_id`
+- `excitation_profile.profile_id`
+- `excitation_profile.current_density_model`
+- `excitation_profile.magnetization_model`
+
+That model resolves the current smoke-path region semantics explicitly:
+
+- `outer_air` and `airgap`
+- `stator_core`
+- `magnet_ring`
+- `rotor_core`
+- `shaft`
+
+The current implementation is still conservative and honest:
+
+- it supports only the repository's current smoke-profile ids
+- it rejects envelope-only profiles for `motor_solve`
+- it documents the current placeholder reductions through solver warnings
+
+Examples of those current reductions are:
+
+- balanced three-phase excitation collapsed to a uniform `stator_core` current density
+- radial permanent-magnet declarations collapsed to an axial remanent-flux source for the smoke path
 
 ### Weak Form Slice
 
@@ -79,6 +110,7 @@ Even with the remaining fallback path, this step closes several real gaps:
 - `motor_solve` is no longer only a placeholder
 - the repository now owns a solver-side case contract
 - the repository now owns a solver-side manifest contract
+- the repository now owns a first solver-side material and excitation profile binding layer
 - the repository now owns a linear `J + B_r` source assembly path
 - the repository now owns the first real preprocessing-mesh import path
 - the first end-to-end application command now exercises real case semantics and can consume generated meshes

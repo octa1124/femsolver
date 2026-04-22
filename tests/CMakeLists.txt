@@ -28,6 +28,7 @@ add_executable(
   unit/nonlinear_policy_test.cpp
   unit/project_status_test.cpp
   unit/joint_motor_linear_smoke_test.cpp
+  unit/joint_motor_linear_model_test.cpp
   unit/solution_bundle_test.cpp)
 
 target_link_libraries(femsolver_unit_tests PRIVATE femsolver_core GTest::gtest_main)

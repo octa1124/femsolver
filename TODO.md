@@ -63,9 +63,9 @@ Status rule:
 
 - `[x]` Load case metadata without placeholder bootstrap shortcuts
 - `[-]` Load mesh manifest and validate region/boundary names against solver expectations
-- `[-]` Bind named regions to material descriptors
-- `[-]` Bind named regions to excitation descriptors
-- `[ ]` Fail clearly on unsupported requests instead of silently degrading
+- `[x]` Bind named regions to material descriptors
+- `[x]` Bind named regions to excitation descriptors
+- `[-]` Fail clearly on unsupported requests instead of silently degrading
 
 ### Electromagnetic Assembly
 
@@ -163,7 +163,7 @@ Status rule:
 
 ### `src/material`, `src/nonlinear`, `src/post`
 
-- `[ ]` material-law objects beyond placeholders
+- `[-]` material-law objects beyond placeholders
 - `[ ]` real nonlinear update policies
 - `[ ]` real field and torque post-processing
 

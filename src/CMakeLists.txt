@@ -30,6 +30,7 @@ add_library(
   nonlinear/nonlinear_policy.cpp
   post/linear_magnetostatic_summary.cpp
   post/solution_bundle.cpp
+  solver/joint_motor_linear_model.cpp
   solver/joint_motor_linear_smoke.cpp
   solver/project_status.cpp)
 
