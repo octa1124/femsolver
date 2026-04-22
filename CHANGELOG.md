@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The first `v0.3.0` vector-kernel slice with tetra edge topology, edge DoF maps, first-order `Nedelec` basis functions, curl-curl assembly, and a canonical `H(curl)` benchmark.
 - Native C++ loading for the current `case.yaml` and generated `mesh_manifest.yaml` contracts.
 - A linear magnetostatic source assembly path for current density and remanent flux density, plus the first machine-coupled smoke solve in `motor_solve`.
+- A first Gmsh `MSH2` tetrahedral mesh import path plus recovered flux-density summaries for the joint-motor smoke solve.
 
 ### Changed
 

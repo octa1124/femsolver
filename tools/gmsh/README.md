@@ -24,7 +24,7 @@ It cannot do yet:
 - faithful tooth, slot, wedge, or discrete-magnet reconstruction
 - OCC-based detailed motor CAD
 - periodic topology generation
-- native mesh import into the self-owned solver kernel
+- general-purpose mesh import beyond the first `MSH2` tetrahedral bridge into the self-owned solver kernel
 
 ## Usage
 
@@ -53,7 +53,7 @@ Each run produces:
 - one `.geo` geometry script
 - one `mesh_manifest.yaml`
 - one `preprocess_summary.txt`
-- one `.msh` file when `gmsh` is available and succeeds
+- one ASCII `MSH2` `.msh` file when `gmsh` is available and succeeds
 
 The manifest always records:
 

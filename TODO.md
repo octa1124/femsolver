@@ -48,7 +48,7 @@ Status rule:
 - `[x]` Add canonical curl-curl benchmark and expose it through `motor_check`
 - `[x]` Add current-source assembly tied to machine regions
 - `[x]` Add simple permanent-magnet source assembly tied to machine regions
-- `[-]` Add a first machine-coupled electromagnetics smoke path on `joint_type_i_12s10p`
+- `[x]` Add a first machine-coupled electromagnetics smoke path on `joint_type_i_12s10p`
 
 ### Validation And Docs
 
@@ -63,35 +63,35 @@ Status rule:
 
 - `[x]` Load case metadata without placeholder bootstrap shortcuts
 - `[-]` Load mesh manifest and validate region/boundary names against solver expectations
-- `[ ]` Bind named regions to material descriptors
-- `[ ]` Bind named regions to excitation descriptors
+- `[-]` Bind named regions to material descriptors
+- `[-]` Bind named regions to excitation descriptors
 - `[ ]` Fail clearly on unsupported requests instead of silently degrading
 
 ### Electromagnetic Assembly
 
-- `[ ]` Assemble `A in H(curl)` magnetostatic operator on tetrahedral `Nedelec`
-- `[ ]` Add prescribed winding current-density contribution
-- `[ ]` Add permanent-magnet remanence or magnetization contribution
-- `[ ]` Add outer-air truncation boundary handling for the MVP
-- `[ ]` Define the conservative gauge/boundary strategy used by the first machine solves
+- `[-]` Assemble `A in H(curl)` magnetostatic operator on tetrahedral `Nedelec`
+- `[x]` Add prescribed winding current-density contribution
+- `[x]` Add permanent-magnet remanence or magnetization contribution
+- `[-]` Add outer-air truncation boundary handling for the MVP
+- `[x]` Define the conservative gauge/boundary strategy used by the first machine solves
 
 ### Solve Path
 
-- `[-]` Build a first machine solve driver in `motor_solve`
-- `[ ]` Use linear material models only in the first `v1.0.0` machine path
+- `[x]` Build a first machine solve driver in `motor_solve`
+- `[x]` Use linear material models only in the first `v1.0.0` machine path
 - `[ ]` Keep the first nonlinear solve hooks present but disabled or conservative until `v1.1.0`
 - `[x]` Record convergence summary and failure modes in text output
 
 ### Post-Processing
 
-- `[ ]` Compute `B = curl(A)` on machine results
-- `[ ]` Compute magnetic energy
+- `[x]` Compute `B = curl(A)` on machine results
+- `[x]` Compute magnetic energy
 - `[ ]` Compute Maxwell-stress torque on a declared air-gap surface
-- `[ ]` Emit solver summary plus stable scalar outputs for regression
+- `[x]` Emit solver summary plus stable scalar outputs for regression
 
 ### Case Bring-Up
 
-- `[-]` Use `joint_type_i_12s10p extruded_3d` as the first machine electromagnetics smoke case
+- `[x]` Use `joint_type_i_12s10p extruded_3d` as the first machine electromagnetics smoke case
 - `[ ]` Promote `joint_type_i_12s10p` to regression coverage
 - `[ ]` Bring `exo_outer_rotor_36s40p extruded_3d` into validation once the `v1.0.0` path is stable
 - `[ ]` Keep `tbm76_envelope` as preprocessing and packaging regression only unless fidelity improves
@@ -150,7 +150,7 @@ Status rule:
 ### `src/case`, `src/mesh`, `src/io`
 
 - `[x]` `CaseSpec`: richer schema contract exists and now supports native file parsing for the current repository schema
-- `[-]` `MeshManifest`: generated manifest semantics now load in C++, but imported mesh connectivity is still missing
+- `[-]` `MeshManifest`: generated manifest semantics now load in C++, and the first Gmsh `MSH2` tetra import path exists, but broader mesh semantics and formats are still missing
 - `[-]` Reporting: machine smoke summaries exist, but post-processing and regression summaries are still incomplete
 
 ### `src/kernel`
@@ -169,8 +169,8 @@ Status rule:
 
 ## Recommended Next Sequence
 
-1. Replace the synthetic smoke mesh in `motor_solve` with imported preprocessing mesh data.
-2. Convert `joint_type_i_12s10p extruded_3d` into the first true geometry-backed motor smoke case.
-3. Add `B`, energy, and torque post-processing for the `v1.0.0` gate.
+1. Replace the concentric-envelope preprocessing geometry with the first tooth/slot/magnet-resolved reconstruction while preserving the imported tetra path.
+2. Promote `joint_type_i_12s10p extruded_3d` from smoke coverage to scalar regression thresholds on imported-machine outputs.
+3. Add Maxwell-stress torque and air-gap-specific post-processing for the `v1.0.0` gate.
 4. Promote `exo_outer_rotor_36s40p` into validation once the first machine path is stable.
 5. Only then open the `v1.1.0` nonlinear material and `RT` workstream.

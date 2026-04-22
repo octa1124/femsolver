@@ -25,8 +25,10 @@ add_library(
   fem/discretization_strategy.cpp
   io/text_report.cpp
   material/material_catalog.cpp
+  mesh/gmsh_tetra_mesh_import.cpp
   mesh/mesh_manifest.cpp
   nonlinear/nonlinear_policy.cpp
+  post/linear_magnetostatic_summary.cpp
   post/solution_bundle.cpp
   solver/joint_motor_linear_smoke.cpp
   solver/project_status.cpp)

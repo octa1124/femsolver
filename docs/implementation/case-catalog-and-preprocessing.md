@@ -55,6 +55,7 @@ Today the preprocessing path can:
 - enforce the policy that real cases include both `section_2d` and `extruded_3d`
 - generate simplified concentric-envelope `.geo` files
 - optionally invoke `gmsh` if it is installed
+- emit an ASCII `MSH2` tetrahedral mesh artifact for the first native solver-side import path
 - emit a stable `mesh_manifest.yaml`
 - emit a human-readable `preprocess_summary.txt`
 
@@ -66,7 +67,7 @@ Today the preprocessing path does not yet:
 - generate periodic topology
 - represent end-turns, adhesive layers, vent holes, or manufacturing details
 - guarantee electromagnetics-ready mesh quality for real motor solves
-- provide a native C++ case parser for `motor_pre` or `motor_solve`
+- provide a native C++ preprocessing orchestrator for `motor_pre`
 
 ## Why The Case Schema Looks This Way
 
@@ -98,6 +99,7 @@ For each case and variant it:
 8. writes `mesh_manifest.yaml`
 9. writes `preprocess_summary.txt`
 10. runs `gmsh` only when available and not explicitly skipped
+11. requests `MSH2` output so the current self-owned tetrahedral import path can consume the generated mesh
 
 This path is intentionally auditable. There is no hidden CAD layer yet.
 
@@ -147,7 +149,8 @@ The current tests verify:
 - `motor_pre` currently bridges into Python rather than parsing YAML natively in C++
 - the generated geometry is a simplified concentric envelope
 - `full_3d` is still provisional for `exo_outer_rotor_36s40p`
-- case metadata already points to the intended production `Nedelec` path, but preprocessing still stays geometry-only
+- the first imported-mesh path is intentionally narrow and currently supports only ASCII Gmsh `MSH2` tetrahedral meshes
+- case metadata already points to the intended production `Nedelec` path, but preprocessing still stays geometry-first rather than full machine CAD
 
 ## Next Steps
 

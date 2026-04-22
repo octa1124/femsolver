@@ -1,0 +1,4 @@
+type: added
+scope: solver
+summary: Import first Gmsh MSH2 tetra preprocessing meshes into motor_solve, recover B-field magnitude summaries, and keep a documented synthetic fallback for the joint-motor smoke path.
+breaking: false

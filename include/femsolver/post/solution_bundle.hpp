@@ -10,6 +10,8 @@ struct SolutionBundle {
   std::string status;
   double magnetic_energy;
   double torque_estimate;
+  double average_flux_density_magnitude = 0.0;
+  double max_flux_density_magnitude = 0.0;
   int primary_dof_count = 0;
   int linear_iterations = 0;
   double residual_norm = 0.0;

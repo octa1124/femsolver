@@ -178,7 +178,7 @@ def maybe_run_gmsh(
         }
 
     dimension_flag = "-2" if variant == "section_2d" else "-3"
-    command = [gmsh_executable, str(geo_path), dimension_flag, "-format", "msh4", "-o", str(mesh_path)]
+    command = [gmsh_executable, str(geo_path), dimension_flag, "-format", "msh2", "-o", str(mesh_path)]
     completed = subprocess.run(command, check=False, capture_output=True, text=True)
     return {
         "attempted": True,
@@ -283,7 +283,7 @@ def render_geo(case_spec: dict[str, Any], geometry: dict[str, Any], variant: str
         for name in REGION_NAMES:
             lines.append(
                 f'{name}_extrude[] = Extrude {{0.0, 0.0, {float(geometry["axial_length_mm"]):.6f}}} '
-                f'{{ Surface{{{surface_tags[name]}}}; Layers{{1}}; }};'
+                f'{{ Surface{{{surface_tags[name]}}}; }};'
             )
         lines.append("")
         for name in REGION_NAMES:

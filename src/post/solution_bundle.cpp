@@ -5,7 +5,10 @@
 namespace femsolver::post {
 
 SolutionBundle SolutionBundle::Bootstrap() {
-  return {"", "placeholder", 0.0, 0.0, 0, 0, 0.0, false, {"physics-not-implemented"}};
+  SolutionBundle bundle;
+  bundle.status = "placeholder";
+  bundle.warnings = {"physics-not-implemented"};
+  return bundle;
 }
 
 bool SolutionBundle::IsHealthy() const {
@@ -16,6 +19,8 @@ std::string SolutionBundle::Summary() const {
   std::ostringstream stream;
   stream << "case_id=" << (case_id.empty() ? "unknown" : case_id) << ", status=" << status
          << ", magnetic_energy=" << magnetic_energy << ", torque_estimate=" << torque_estimate
+         << ", average_flux_density_magnitude=" << average_flux_density_magnitude
+         << ", max_flux_density_magnitude=" << max_flux_density_magnitude
          << ", primary_dofs=" << primary_dof_count
          << ", linear_iterations=" << linear_iterations
          << ", residual_norm=" << residual_norm
