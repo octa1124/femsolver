@@ -143,6 +143,13 @@ Design guardrail:
 
 - `v2.0.0` should establish coupling contracts and one small canonical coupling path; motion, eddy-current production runs, surrogate modeling, RL, and sensor feedback stay out of scope until later versions.
 
+Implemented first slice:
+
+- `FieldState` for owned named field blocks
+- callback-based `PhysicsOperator` to avoid deep inheritance hierarchies
+- `CoupledProblem` aggregation for residual and matrix contributions
+- non-visual analysis scripts for machine report completion scoring and inheritance-depth checks
+
 ## `v3.0.0` Design Studies And Physics-AI Interfaces
 
 Planned deliverables:

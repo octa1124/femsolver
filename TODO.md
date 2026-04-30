@@ -1,6 +1,6 @@
 # TODO
 
-This file tracks the executable delivery checklist from the current repository state through `v1.1.0`.
+This file tracks the executable delivery checklist from the current repository state through `v2.0.0`.
 
 Status rule:
 
@@ -15,6 +15,7 @@ Status rule:
 - `[-]` `v0.3.0` self-owned vector-field kernel baseline and machine-case preprocessing
 - `[ ]` `v1.0.0` first robot-joint motor magnetostatic MVP
 - `[ ]` `v1.1.0` nonlinear material upgrade plus `RT` and first higher-order expansion
+- `[-]` `v2.0.0` multiphysics coupling foundation
 
 ## `v0.3.0` Closeout Checklist
 
@@ -139,6 +140,28 @@ Status rule:
 - `[ ]` Extend `exo_outer_rotor_36s40p` into nightly validation coverage
 - `[ ]` Add stable validation thresholds for saturation-sensitive outputs
 
+## `v2.0.0` Coupling Foundation Checklist
+
+### Core Contracts
+
+- `[x]` Add `FieldState` for owned named field blocks and field metadata
+- `[x]` Add callback-based `PhysicsOperator` without introducing inheritance chains
+- `[x]` Add `CoupledProblem` aggregation for residual and matrix contributions
+- `[ ]` Lift the current magnetostatic path into the first production `PhysicsOperator`
+- `[ ]` Add shared nonlinear/time policy contracts for coupled solves
+
+### Canonical Coupling
+
+- `[x]` Add a synthetic multi-operator unit test for coupled assembly behavior
+- `[ ]` Add a small magneto-thermal canonical case
+- `[ ]` Add conservation and energy-shape checks for the first coupled case
+
+### Analysis And Quality
+
+- `[x]` Add non-visual machine report analysis with completion scoring
+- `[x]` Add inheritance-depth analysis and keep the codebase within depth `<= 3`
+- `[ ]` Wire analysis reports into nightly artifacts once CI storage is finalized
+
 ## Module-Oriented Work Queue
 
 ### `src/app`
@@ -146,6 +169,7 @@ Status rule:
 - `[-]` `motor_pre`: usable for case-driven preprocessing, still Python-bridged
 - `[-]` `motor_solve`: promoted from placeholder to a first linear machine smoke path
 - `[-]` `motor_check`: scalar and vector benchmark runner plus first machine regression orchestration present, needs validation orchestration
+- `[-]` analysis tooling: text/JSON report analysis exists, needs CI artifact wiring
 
 ### `src/case`, `src/mesh`, `src/io`
 
@@ -167,10 +191,17 @@ Status rule:
 - `[ ]` real nonlinear update policies
 - `[-]` real field and torque post-processing
 
+### `src/coupling`
+
+- `[x]` `FieldState`
+- `[x]` `PhysicsOperator`
+- `[x]` `CoupledProblem`
+- `[ ]` magnetostatic production operator adapter
+
 ## Recommended Next Sequence
 
 1. Replace the concentric-envelope preprocessing geometry with the first tooth/slot/magnet-resolved reconstruction while preserving the imported tetra path.
 2. Tighten `joint_type_i_12s10p extruded_3d` regression thresholds once Gmsh-backed meshes are available in CI.
 3. Promote `exo_outer_rotor_36s40p` into validation once the first machine path is stable.
-4. Introduce `FieldState` and `PhysicsOperator` design contracts before opening `v2.0.0` coupling work.
-5. Only then open the `v1.1.0` nonlinear material and `RT` workstream.
+4. Lift the current magnetostatic solve into the new `PhysicsOperator` contract.
+5. Add the first magneto-thermal canonical coupling case after the magnetostatic operator adapter exists.

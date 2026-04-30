@@ -31,3 +31,7 @@ Rules:
 - [Case Catalog And Preprocessing](./case-catalog-and-preprocessing.md)
 - [Vector-Kernel Baseline](./v0.3.0-vector-kernel-baseline.md)
 - [Linear Magnetostatic Smoke Path](./linear-magnetostatic-smoke-path.md)
+
+## `v2.0.0` Coupling Documents
+
+- [Coupling Foundation](./v2.0.0-coupling-foundation.md)

@@ -34,13 +34,15 @@ Do not expand `v1.0.0` into nonlinear material work. That belongs in `v1.1.0`.
 
 ## Optimized Pre-`v2.0.0` Design
 
-Before multiphysics coupling, the solver should introduce three stable contracts:
+The solver now has the first version of three stable contracts:
 
 - `FieldState`: owned vectors plus named field metadata for magnetic, thermal, and future mechanical unknowns
 - `PhysicsOperator`: assemble residual/Jacobian contributions for one physics domain without owning the global coupled solve
 - `CoupledProblem`: registers physics operators, shared parameters, coupling variables, and solve policy
 
 The current magnetostatic path should become the first `PhysicsOperator`, not a one-off application branch.
+
+The current implementation uses callback-based operators rather than inheritance. That keeps the extension model shallow while the contracts are still settling.
 
 ## `v2.0.0` Boundary
 

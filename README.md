@@ -43,11 +43,13 @@ The project direction is:
   - a first linear joint-motor profile binding layer that resolves case-declared material and excitation metadata into the current smoke-model coefficients
   - a first linear magnetostatic smoke solve in `motor_solve` that binds real case and manifest semantics, assembles `J` and `B_r` sources, imports the generated tetra mesh when available, and reports magnetic-energy, flux-density, and air-gap torque-surface summaries
   - `motor_check --machine-regression` for the first scalar regression gate on `joint_type_i_12s10p`
+  - first `v2.0` coupling contracts: `FieldState`, callback-based `PhysicsOperator`, and `CoupledProblem`
+  - non-visual analysis tooling for machine reports, completion scores, and inheritance-depth checks
 - Explicitly not implemented yet:
   - detailed slot/tooth/magnet OCC geometry reconstruction
   - general-purpose mesh import beyond the current Gmsh `MSH2` tetrahedral bridge
   - machine-grade field export and validated torque accuracy on real machine meshes
-  - nonlinear magnetic materials or coupled multiphysics behavior
+  - nonlinear magnetic materials or production coupled multiphysics behavior
 
 ## Quick Start
 
@@ -110,6 +112,8 @@ Run the first machine regression gate:
 - Kernel module boundaries: `docs/architecture/kernel-module-boundaries.md`
 - Element-family and order strategy: `docs/architecture/element-family-and-order-strategy.md`
 - Multiphysics and physics-AI expansion: `docs/architecture/multiphysics-and-physics-ai.md`
+- `v2.0` coupling foundation: `docs/implementation/v2.0.0-coupling-foundation.md`
+- Analysis tooling: `tools/analysis/README.md`
 - Physical architecture: `docs/physics/physical-architecture.md`
 - GitHub administration notes: `docs/governance/github-admin.md`
 - Draft release summaries: `docs/releases/v0.1.0.md`, `docs/releases/v0.2.0.md`, `docs/releases/v0.3.0.md`

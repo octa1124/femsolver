@@ -9,6 +9,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable(
   femsolver_unit_tests
   unit/case_spec_test.cpp
+  unit/coupling_contract_test.cpp
   unit/excitation_def_test.cpp
   unit/gmsh_tetra_mesh_import_test.cpp
   unit/kernel_discretization_descriptor_test.cpp

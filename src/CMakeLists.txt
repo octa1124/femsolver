@@ -21,6 +21,9 @@ femsolver_apply_target_defaults(femsolver_kernel)
 add_library(
   femsolver_core
   case/case_spec.cpp
+  coupling/coupled_problem.cpp
+  coupling/field_state.cpp
+  coupling/physics_operator.cpp
   excitation/excitation_def.cpp
   fem/discretization_strategy.cpp
   io/text_report.cpp

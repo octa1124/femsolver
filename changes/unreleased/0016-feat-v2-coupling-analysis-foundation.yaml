@@ -1,0 +1,4 @@
+type: added
+scope: coupling
+summary: Add first v2 coupling contracts, shallow-composition assembly tests, machine report analysis tooling, and inheritance-depth checks.
+breaking: false
