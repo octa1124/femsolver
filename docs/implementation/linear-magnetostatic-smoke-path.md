@@ -16,6 +16,7 @@ The current result is:
 - a first Gmsh `MSH2` tetrahedral import path for generated preprocessing meshes
 - a first machine-coupled smoke solve that binds real case, manifest, and imported mesh semantics
 - per-cell `B = curl(A)` recovery with average and max flux-density summaries
+- a first Maxwell-stress-style `z` torque estimate on the declared `airgap_torque_surface`
 
 ## What Is Implemented
 
@@ -101,7 +102,7 @@ In machine smoke mode it:
 6. assembles the linear magnetostatic system
 7. applies zero edge Dirichlet boundary conditions
 8. solves with the self-owned conjugate-gradient path
-9. reports energy, recovered flux-density summaries, and solve status
+9. reports energy, recovered flux-density summaries, torque-surface metadata, and solve status
 
 ## Why This Is Still Valuable
 
@@ -113,6 +114,7 @@ Even with the remaining fallback path, this step closes several real gaps:
 - the repository now owns a first solver-side material and excitation profile binding layer
 - the repository now owns a linear `J + B_r` source assembly path
 - the repository now owns the first real preprocessing-mesh import path
+- the repository now owns a first air-gap torque-surface post-processing path and machine regression gate
 - the first end-to-end application command now exercises real case semantics and can consume generated meshes
 
 This is the right kind of intermediate step because it improves real behavior without pretending the full motor MVP is done.
@@ -123,7 +125,7 @@ This path does not yet include:
 
 - faithful tooth, slot, coil, or magnet geometry
 - real conductor subregions from preprocessing
-- machine-grade torque and field export
+- validated machine-grade torque and field export
 - nonlinear magnetic materials
 - validation against published motor targets
 
@@ -137,6 +139,7 @@ The current implementation adds:
 - unit coverage for linear magnetostatic assembly
 - unit coverage for the joint-motor linear smoke solver
 - integration coverage for `motor_pre -> motor_solve`
+- integration coverage for `motor_check --machine-regression`
 
 ## Next Steps
 
@@ -144,5 +147,5 @@ The shortest honest path forward is:
 
 1. keep the current linear source assembly and imported tetra path stable
 2. replace the concentric-envelope geometry with the first tooth/slot/magnet-resolved reconstruction
-3. add torque evaluation and stable regression thresholds on imported-machine outputs
+3. tighten scalar regression thresholds once Gmsh-backed meshes are available in CI
 4. promote the smoke path into the first true `v1.0.0` machine solve path

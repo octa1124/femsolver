@@ -17,6 +17,7 @@ Rules:
 - [Testing And Quality Gates](./testing-and-quality.md)
 - [GitHub Automation And Release Flow](./github-automation-and-release.md)
 - [v1 Solver Implementation Path](./v1.0.0-solver-implementation-path.md)
+- [v1 To v2 Readiness Review](../architecture/v1-v2-readiness-review.md)
 
 ## `v0.2.0` Kernel Foundation Documents
 

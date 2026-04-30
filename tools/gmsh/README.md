@@ -64,6 +64,8 @@ The manifest always records:
 - geometry parameters
 - mesh-generation status
 
+For 3D variants, the current contract also declares `airgap_torque_surface` so the solver can run the first Maxwell-stress-style torque estimate. In the present simplified concentric geometry this surface is an air-gap lateral-surface approximation, not a validated production integration surface.
+
 ## Important Limitation
 
 The current generated geometry is a simplified concentric envelope. It is suitable for schema tests, preprocessing integration tests, and early workflow bring-up, but it is not yet a faithful production motor geometry.

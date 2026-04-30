@@ -21,6 +21,8 @@ std::string SolutionBundle::Summary() const {
          << ", magnetic_energy=" << magnetic_energy << ", torque_estimate=" << torque_estimate
          << ", average_flux_density_magnitude=" << average_flux_density_magnitude
          << ", max_flux_density_magnitude=" << max_flux_density_magnitude
+         << ", torque_surface_area=" << torque_surface_area
+         << ", torque_surface_face_count=" << torque_surface_face_count
          << ", primary_dofs=" << primary_dof_count
          << ", linear_iterations=" << linear_iterations
          << ", residual_norm=" << residual_norm

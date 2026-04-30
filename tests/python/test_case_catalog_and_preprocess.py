@@ -99,6 +99,8 @@ def test_preprocess_generator_supports_extruded_envelope_case(tmp_path: Path) ->
     assert manifest["slot_count"] is None
     assert manifest["space_family"] == "nedelec"
     assert manifest["mesh_generation"]["dimension"] == 3
+    assert "airgap_torque_surface" in manifest["boundary_names"]
     assert 'Physical Volume("magnet_ring")' in geometry_text
     assert 'Physical Surface("outer_air_boundary") = {outer_air_extrude[2]' in geometry_text
+    assert 'Physical Surface("airgap_torque_surface")' in geometry_text
     assert 'Physical Surface("axial_plus")' in geometry_text

@@ -16,17 +16,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A linear magnetostatic source assembly path for current density and remanent flux density, plus the first machine-coupled smoke solve in `motor_solve`.
 - A first Gmsh `MSH2` tetrahedral mesh import path plus recovered flux-density summaries for the joint-motor smoke solve.
 - An explicit joint-motor linear profile-binding layer that maps current case metadata into solver-owned material and excitation coefficients.
+- A first `airgap_torque_surface` preprocessing contract, Maxwell-stress-style torque estimate, and `motor_check --machine-regression` gate for `joint_type_i_12s10p`.
 
 ### Changed
 
 - Case metadata now declares the intended production discretization family as `nedelec` for the robot-joint motor path.
 - `motor_check` now accepts combinable benchmark flags and runs both scalar and vector canonical checks by default.
+- `motor_check` now accepts `--machine-regression --case <path> --manifest <path>` for the first machine scalar regression gate.
 - `motor_solve` now accepts `--case` and `--manifest` and can execute the current linear joint-motor smoke path instead of acting only as a placeholder.
 
 ### Docs
 
 - Added detailed technical documentation for the machine-case catalog, preprocessing path, and the current `v0.3.0` vector-kernel baseline.
 - Added a dedicated implementation note for the linear magnetostatic smoke path and solver-side case/manifest loading.
+- Added a `v1` to `v2` readiness review that narrows the multiphysics coupling design around field-state and physics-operator contracts.
 
 ## [0.2.0] - 2026-04-22
 

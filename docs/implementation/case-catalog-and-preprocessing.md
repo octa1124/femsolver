@@ -56,6 +56,7 @@ Today the preprocessing path can:
 - generate simplified concentric-envelope `.geo` files
 - optionally invoke `gmsh` if it is installed
 - emit an ASCII `MSH2` tetrahedral mesh artifact for the first native solver-side import path
+- declare an `airgap_torque_surface` on 3D variants for the first torque post-processing gate
 - emit a stable `mesh_manifest.yaml`
 - emit a human-readable `preprocess_summary.txt`
 

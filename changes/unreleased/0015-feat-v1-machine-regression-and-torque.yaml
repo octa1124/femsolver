@@ -1,0 +1,4 @@
+type: added
+scope: solver
+summary: Add air-gap torque-surface preprocessing metadata, Maxwell-stress-style torque estimation, and a motor_check machine regression gate for the first joint motor case.
+breaking: false

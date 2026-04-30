@@ -216,11 +216,20 @@ post::SolutionBundle RunJointMotorLinearSmokeSolve(const case_config::CaseSpec& 
       resolved_mesh.tetra_mesh, dof_map, result.solution);
   bundle.average_flux_density_magnitude = flux_summary.average_magnitude;
   bundle.max_flux_density_magnitude = flux_summary.max_magnitude;
-  bundle.torque_estimate = 0.0;
+  const int torque_boundary_id =
+      AttributeId(resolved_mesh.boundary_attributes, "airgap_torque_surface", 0);
+  const auto torque_summary = post::EstimateMaxwellStressTorqueZ(
+      resolved_mesh.tetra_mesh, dof_map, result.solution, torque_boundary_id, 1.0);
+  bundle.torque_estimate = torque_summary.torque_z;
+  bundle.torque_surface_area = torque_summary.surface_area;
+  bundle.torque_surface_face_count = torque_summary.face_count;
   bundle.warnings = resolved_mesh.warnings;
   bundle.warnings.insert(bundle.warnings.end(), linear_model.warnings().begin(),
                          linear_model.warnings().end());
   bundle.warnings.push_back("joint-motor-smoke-path-uses-simplified-linear-region-models");
+  if (torque_summary.face_count == 0) {
+    bundle.warnings.push_back("airgap-torque-surface-missing-or-empty");
+  }
   if (std::abs(bundle.magnetic_energy) <= 1.0e-14) {
     bundle.warnings.push_back("smoke-energy-is-near-zero");
   }

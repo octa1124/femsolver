@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 
@@ -15,7 +16,7 @@ std::string MinimalJointMotorMsh2Fixture() {
 2.2 0 8
 $EndMeshFormat
 $PhysicalNames
-10
+11
 3 1 "outer_air"
 3 2 "stator_core"
 3 3 "magnet_ring"
@@ -26,6 +27,7 @@ $PhysicalNames
 2 12 "shaft_boundary"
 2 13 "axial_minus"
 2 14 "axial_plus"
+2 15 "airgap_torque_surface"
 $EndPhysicalNames
 $Nodes
 5
@@ -36,15 +38,16 @@ $Nodes
 50 0.25 0.25 0.25
 $EndNodes
 $Elements
-8
+9
 1 2 2 11 0 10 30 20
 2 2 2 11 0 10 20 40
 3 2 2 11 0 20 30 40
 4 2 2 11 0 10 40 30
-5 4 2 1 0 10 20 30 50
-6 4 2 2 0 10 20 50 40
-7 4 2 3 0 20 30 50 40
-8 4 2 4 0 10 50 30 40
+5 2 2 15 0 10 30 20
+6 4 2 1 0 10 20 30 50
+7 4 2 2 0 10 20 50 40
+8 4 2 3 0 20 30 50 40
+9 4 2 4 0 10 50 30 40
 $EndElements
 )";
 }
@@ -91,6 +94,7 @@ TEST(JointMotorLinearSmokeTest, SmokeSolveConvergesOnManifestTaggedSyntheticMesh
   EXPECT_GT(bundle.magnetic_energy, 0.0);
   EXPECT_GT(bundle.average_flux_density_magnitude, 0.0);
   EXPECT_GT(bundle.max_flux_density_magnitude, 0.0);
+  EXPECT_EQ(bundle.torque_surface_face_count, 0);
   EXPECT_FALSE(bundle.warnings.empty());
 }
 
@@ -109,8 +113,8 @@ TEST(JointMotorLinearSmokeTest, SmokeSolveImportsManifestMeshWhenAvailable) {
   manifest.polynomial_order = 1;
   manifest.region_names = {"outer_air", "stator_core", "airgap", "magnet_ring", "rotor_core",
                            "shaft"};
-  manifest.boundary_names = {"outer_air_boundary", "shaft_boundary", "axial_minus",
-                             "axial_plus"};
+  manifest.boundary_names = {"outer_air_boundary", "shaft_boundary", "airgap_torque_surface",
+                             "axial_minus", "axial_plus"};
   manifest.files["mesh_msh"] = mesh_path.string();
   manifest.mesh_generated = true;
   manifest.mesh_status = "generated";
@@ -123,7 +127,11 @@ TEST(JointMotorLinearSmokeTest, SmokeSolveImportsManifestMeshWhenAvailable) {
   EXPECT_GT(bundle.magnetic_energy, 0.0);
   EXPECT_GT(bundle.average_flux_density_magnitude, 0.0);
   EXPECT_GT(bundle.max_flux_density_magnitude, 0.0);
+  EXPECT_TRUE(std::isfinite(bundle.torque_estimate));
+  EXPECT_GT(bundle.torque_surface_area, 0.0);
+  EXPECT_GT(bundle.torque_surface_face_count, 0);
   EXPECT_FALSE(ContainsWarning(bundle, "joint-motor-smoke-path-uses-synthetic-region-tagged-kernel-mesh"));
+  EXPECT_FALSE(ContainsWarning(bundle, "airgap-torque-surface-missing-or-empty"));
   EXPECT_TRUE(ContainsWarning(bundle, "joint-motor-smoke-path-uses-simplified-linear-region-models"));
 
   std::error_code error_code;

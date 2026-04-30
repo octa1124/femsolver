@@ -83,7 +83,7 @@ Remaining before the milestone is truly complete:
 
 - canonical vector-field validation cases
 - documented interface planning for hexahedral and higher-order extensions without rewriting upper layers
-- replace the synthetic smoke mesh in `motor_solve` with imported preprocessing mesh data
+- keep imported preprocessing mesh coverage stable across local and CI environments
 
 Explicitly deferred:
 
@@ -108,6 +108,8 @@ Already started toward this milestone:
 - solver-side case and manifest loading
 - solver-side linear source assembly for `J` and `B_r`
 - first machine-coupled smoke execution in `motor_solve`
+- imported preprocessing mesh execution when Gmsh output is available
+- `B = curl(A)`, magnetic energy, first air-gap torque-surface metadata, and machine regression checks
 
 Explicitly deferred:
 
@@ -131,11 +133,15 @@ Planned deliverables:
 
 Planned deliverables:
 
-- block-system architecture for coupled fields
+- block-system architecture for coupled fields, built by lifting magnetostatics into a reusable physics-operator contract
 - shared time-stepping and nonlinear-problem interfaces
 - first electro-thermal or magneto-thermal coupling path
 - extensible interfaces for later magneto-mechanical work
 - stronger canonical validation and expanded convergence coverage
+
+Design guardrail:
+
+- `v2.0.0` should establish coupling contracts and one small canonical coupling path; motion, eddy-current production runs, surrogate modeling, RL, and sensor feedback stay out of scope until later versions.
 
 ## `v3.0.0` Design Studies And Physics-AI Interfaces
 

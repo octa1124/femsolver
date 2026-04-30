@@ -66,6 +66,13 @@ add_test(
 set_tests_properties(
   motor_solve_joint_linear_smoke
   PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} FIXTURES_REQUIRED joint_motor_manifest)
+add_test(
+  NAME motor_check_joint_machine_regression
+  COMMAND motor_check --machine-regression --case cases/machines/joint_type_i_12s10p/case.yaml
+          --manifest ${CMAKE_BINARY_DIR}/generated/motor_pre_joint_extruded_3d/mesh_manifest.yaml)
+set_tests_properties(
+  motor_check_joint_machine_regression
+  PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} FIXTURES_REQUIRED joint_motor_manifest)
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 execute_process(

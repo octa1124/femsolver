@@ -86,13 +86,13 @@ Status rule:
 
 - `[x]` Compute `B = curl(A)` on machine results
 - `[x]` Compute magnetic energy
-- `[ ]` Compute Maxwell-stress torque on a declared air-gap surface
+- `[x]` Compute Maxwell-stress torque on a declared air-gap surface
 - `[x]` Emit solver summary plus stable scalar outputs for regression
 
 ### Case Bring-Up
 
 - `[x]` Use `joint_type_i_12s10p extruded_3d` as the first machine electromagnetics smoke case
-- `[ ]` Promote `joint_type_i_12s10p` to regression coverage
+- `[x]` Promote `joint_type_i_12s10p` to regression coverage
 - `[ ]` Bring `exo_outer_rotor_36s40p extruded_3d` into validation once the `v1.0.0` path is stable
 - `[ ]` Keep `tbm76_envelope` as preprocessing and packaging regression only unless fidelity improves
 
@@ -100,7 +100,7 @@ Status rule:
 
 - `[ ]` Add unit tests for source-term assembly
 - `[x]` Add integration tests for machine-case solve orchestration
-- `[ ]` Add regression checks for selected scalar machine outputs
+- `[x]` Add regression checks for selected scalar machine outputs
 - `[ ]` Add validation hooks for `exo_outer_rotor_36s40p`
 
 ## `v1.1.0` Nonlinear, `RT`, And Higher-Order First Slice
@@ -145,13 +145,13 @@ Status rule:
 
 - `[-]` `motor_pre`: usable for case-driven preprocessing, still Python-bridged
 - `[-]` `motor_solve`: promoted from placeholder to a first linear machine smoke path
-- `[-]` `motor_check`: scalar and vector benchmark runner present, needs machine regression orchestration
+- `[-]` `motor_check`: scalar and vector benchmark runner plus first machine regression orchestration present, needs validation orchestration
 
 ### `src/case`, `src/mesh`, `src/io`
 
 - `[x]` `CaseSpec`: richer schema contract exists and now supports native file parsing for the current repository schema
 - `[-]` `MeshManifest`: generated manifest semantics now load in C++, and the first Gmsh `MSH2` tetra import path exists, but broader mesh semantics and formats are still missing
-- `[-]` Reporting: machine smoke summaries exist, but post-processing and regression summaries are still incomplete
+- `[-]` Reporting: machine smoke summaries now include field, energy, torque-surface, and regression signals, but field export is still missing
 
 ### `src/kernel`
 
@@ -165,12 +165,12 @@ Status rule:
 
 - `[-]` material-law objects beyond placeholders
 - `[ ]` real nonlinear update policies
-- `[ ]` real field and torque post-processing
+- `[-]` real field and torque post-processing
 
 ## Recommended Next Sequence
 
 1. Replace the concentric-envelope preprocessing geometry with the first tooth/slot/magnet-resolved reconstruction while preserving the imported tetra path.
-2. Promote `joint_type_i_12s10p extruded_3d` from smoke coverage to scalar regression thresholds on imported-machine outputs.
-3. Add Maxwell-stress torque and air-gap-specific post-processing for the `v1.0.0` gate.
-4. Promote `exo_outer_rotor_36s40p` into validation once the first machine path is stable.
+2. Tighten `joint_type_i_12s10p extruded_3d` regression thresholds once Gmsh-backed meshes are available in CI.
+3. Promote `exo_outer_rotor_36s40p` into validation once the first machine path is stable.
+4. Introduce `FieldState` and `PhysicsOperator` design contracts before opening `v2.0.0` coupling work.
 5. Only then open the `v1.1.0` nonlinear material and `RT` workstream.

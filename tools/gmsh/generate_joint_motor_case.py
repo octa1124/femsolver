@@ -106,7 +106,7 @@ def build_manifest(
 ) -> dict[str, Any]:
     boundary_names = ["outer_air_boundary", "shaft_boundary"]
     if variant != "section_2d":
-        boundary_names.extend(["axial_minus", "axial_plus"])
+        boundary_names.extend(["airgap_torque_surface", "axial_minus", "axial_plus"])
 
     return {
         "case_id": case_spec["case_id"],
@@ -291,12 +291,14 @@ def render_geo(case_spec: dict[str, Any], geometry: dict[str, Any], variant: str
         lines.append("")
         outer_air_boundary_surfaces = ", ".join(f"outer_air_extrude[{index}]" for index in range(2, 6))
         shaft_boundary_surfaces = ", ".join(f"shaft_extrude[{index}]" for index in range(2, 6))
+        airgap_torque_surfaces = ", ".join(f"airgap_extrude[{index}]" for index in range(2, 10))
         lines.append(
             f'Physical Surface("outer_air_boundary") = {{{outer_air_boundary_surfaces}}};'
         )
         lines.append(
             f'Physical Surface("shaft_boundary") = {{{shaft_boundary_surfaces}}};'
         )
+        lines.append(f'Physical Surface("airgap_torque_surface") = {{{airgap_torque_surfaces}}};')
         axial_surfaces = ", ".join(f"{name}_extrude[0]" for name in REGION_NAMES)
         lines.append(f'Physical Surface("axial_plus") = {{{axial_surfaces}}};')
         lines.append(
