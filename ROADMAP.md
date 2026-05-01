@@ -120,22 +120,62 @@ Explicitly deferred:
 
 ## `v1.1.0` Nonlinear And Anisotropic Magnetic Materials
 
-Planned deliverables:
+Implemented foundation:
 
-- nonlinear isotropic `B-H`
-- local-frame anisotropic and orthotropic magnetic material support
-- consistent tangent construction
-- nonlinear solve stabilization and regression coverage
+- monotone piecewise-linear `B-H` curve representation
+- energy density, secant reluctivity, and differential reluctivity evaluation
+- orthotropic local-frame response from independent axis curves
+- consistent tangent construction and finite-difference validation
+
+Still deferred:
+
+- global nonlinear magnetostatic residual/Jacobian assembly
+- nonlinear solve stabilization and machine regression coverage
 - `quadruped_joint_36s32p` as the staged nonlinear and overload-oriented validation case
-- staged expansion toward hexahedral and higher-order `H1`/`Nedelec`/`Raviart-Thomas` support on the same kernel contracts
+
+## `v1.2.0` Raviart-Thomas H(div) Foundation
+
+Implemented foundation:
+
+- reference tetrahedral lowest-order `Raviart-Thomas`
+- face-flux interpolation checks
+- constant-divergence checks
+- canonical H(div) benchmark wired into `motor_check --hdiv-benchmark`
+
+Still deferred:
+
+- physical H(div) Piola mapping
+- signed global face DoF maps
+- flux-conforming post-processing systems
+
+## `v1.3.0` Hex And High-Order H1 Foundation
+
+Implemented foundation:
+
+- reference hexahedron
+- hexahedral Gauss-Legendre quadrature rules
+- hexahedral `H1 Q1` basis and gradients
+- hexahedral `H1 Q2` basis and gradients
+
+Still deferred:
+
+- physical hexahedral mesh and geometry mapping
+- hexahedral scalar assembly
+- tetra `H1 P2`
+- high-order `Nedelec` and `Raviart-Thomas`
 
 ## `v2.0.0` Multiphysics Coupling Foundation
 
-Planned deliverables:
+Implemented foundation:
 
 - block-system architecture for coupled fields, built by lifting magnetostatics into a reusable physics-operator contract
+- first canonical magneto-thermal coupling path
+- field-offset support for coupled matrix block embedding
+- version-readiness analysis for the `v1.0 -> v2.0` chain
+
+Still deferred:
+
 - shared time-stepping and nonlinear-problem interfaces
-- first electro-thermal or magneto-thermal coupling path
 - extensible interfaces for later magneto-mechanical work
 - stronger canonical validation and expanded convergence coverage
 
@@ -148,7 +188,9 @@ Implemented first slice:
 - `FieldState` for owned named field blocks
 - callback-based `PhysicsOperator` to avoid deep inheritance hierarchies
 - `CoupledProblem` aggregation for residual and matrix contributions
-- non-visual analysis scripts for machine report completion scoring and inheritance-depth checks
+- magnetostatic operator adapter
+- canonical magneto-thermal heat operator adapter
+- non-visual analysis scripts for machine report completion scoring, version readiness, and inheritance-depth checks
 
 ## `v3.0.0` Design Studies And Physics-AI Interfaces
 

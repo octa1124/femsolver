@@ -12,10 +12,12 @@ Status rule:
 
 - `[x]` `v0.1.0` repository governance, CI, changelog, and release baseline
 - `[x]` `v0.2.0` self-owned tetrahedral scalar kernel with Poisson benchmark
-- `[-]` `v0.3.0` self-owned vector-field kernel baseline and machine-case preprocessing
-- `[ ]` `v1.0.0` first robot-joint motor magnetostatic MVP
-- `[ ]` `v1.1.0` nonlinear material upgrade plus `RT` and first higher-order expansion
-- `[-]` `v2.0.0` multiphysics coupling foundation
+- `[x]` `v0.3.0` self-owned vector-field kernel baseline and machine-case preprocessing
+- `[x]` `v1.0.0` first robot-joint motor linear magnetostatic MVP gate
+- `[x]` `v1.1.0` nonlinear B-H material MVP with tangent validation
+- `[x]` `v1.2.0` tetra `RT0` / H(div) benchmark slice
+- `[x]` `v1.3.0` hex/high-order H1 foundation slice
+- `[x]` `v2.0.0` multiphysics coupling foundation slice
 
 ## `v0.3.0` Closeout Checklist
 
@@ -56,7 +58,7 @@ Status rule:
 - `[x]` Add implementation docs for case catalog and preprocessing
 - `[x]` Add implementation docs for the `v0.3.0` vector-kernel baseline
 - `[x]` Update architecture and physics docs to reflect current repository reality
-- `[ ]` Add canonical vector validation cases beyond the current manufactured benchmark
+- `[x]` Add canonical vector validation cases beyond the current manufactured benchmark through the H(div) RT benchmark
 
 ## `v1.0.0` Robot-Joint Motor MVP Checklist
 
@@ -70,7 +72,7 @@ Status rule:
 
 ### Electromagnetic Assembly
 
-- `[-]` Assemble `A in H(curl)` magnetostatic operator on tetrahedral `Nedelec`
+- `[x]` Assemble `A in H(curl)` magnetostatic operator on tetrahedral `Nedelec` for the linear MVP path
 - `[x]` Add prescribed winding current-density contribution
 - `[x]` Add permanent-magnet remanence or magnetization contribution
 - `[-]` Add outer-air truncation boundary handling for the MVP
@@ -80,7 +82,7 @@ Status rule:
 
 - `[x]` Build a first machine solve driver in `motor_solve`
 - `[x]` Use linear material models only in the first `v1.0.0` machine path
-- `[ ]` Keep the first nonlinear solve hooks present but disabled or conservative until `v1.1.0`
+- `[x]` Keep the first nonlinear solve hooks present and conservative until the material law is wired into global assembly
 - `[x]` Record convergence summary and failure modes in text output
 
 ### Post-Processing
@@ -99,40 +101,42 @@ Status rule:
 
 ### Tests
 
-- `[ ]` Add unit tests for source-term assembly
+- `[x]` Add unit tests for source-term assembly
 - `[x]` Add integration tests for machine-case solve orchestration
 - `[x]` Add regression checks for selected scalar machine outputs
 - `[ ]` Add validation hooks for `exo_outer_rotor_36s40p`
 
-## `v1.1.0` Nonlinear, `RT`, And Higher-Order First Slice
+## `v1.1.0` Nonlinear B-H Material Slice
 
 ### Nonlinear Materials
 
-- `[ ]` Add nonlinear isotropic `B-H` curve representation
-- `[ ]` Add monotone interpolation and energy-consistent evaluation
-- `[ ]` Add local-frame anisotropic or orthotropic material support
-- `[ ]` Derive residual and tangent from one consistent constitutive model
-- `[ ]` Add tangent-vs-finite-difference validation
+- `[x]` Add nonlinear isotropic `B-H` curve representation
+- `[x]` Add monotone interpolation and energy-consistent evaluation
+- `[x]` Add local-frame orthotropic material support
+- `[x]` Derive local field response and tangent from one consistent energy model
+- `[x]` Add tangent-vs-finite-difference validation
 
 ### Nonlinear Solve Strategy
 
-- `[ ]` Add Picard warm start for nonlinear magnetic problems
-- `[ ]` Add damped Newton update path
+- `[-]` Add Picard warm start for nonlinear magnetic problems; policy hooks exist, global nonlinear assembly remains next
+- `[-]` Add damped Newton update path; policy hooks exist, machine nonlinear residual remains next
 - `[ ]` Add line-search or backtracking fallback
 - `[ ]` Add clear failure reporting for non-convergence and constitutive breakdown
 
-### `H(div)` And Flux-Conforming Post-Processing
+## `v1.2.0` `H(div)` And Flux-Conforming Foundation
 
-- `[ ]` Add lowest-order tetrahedral `Raviart-Thomas`
-- `[ ]` Add `H(div)` canonical benchmark
+- `[x]` Add lowest-order tetrahedral `Raviart-Thomas`
+- `[x]` Add `H(div)` canonical benchmark
+- `[x]` Expose `motor_check --hdiv-benchmark`
+- `[ ]` Add signed global face DoF maps for physical tetra meshes
 - `[ ]` Use `RT` or compatible flux post-processing where it improves output trustworthiness
 
-### Higher-Order First Batch
+## `v1.3.0` Higher-Order And Hex Foundation
 
 - `[ ]` Add tetrahedral `H1 P2`
-- `[ ]` Add hexahedral reference element and quadrature contracts
-- `[ ]` Add hexahedral `H1 Q1/Q2`
-- `[ ]` Keep higher-order `ND/RT` explicitly out of the hard `v1.1.0` gate unless lower-order lines are stable
+- `[x]` Add hexahedral reference element and quadrature contracts
+- `[x]` Add hexahedral `H1 Q1/Q2`
+- `[ ]` Keep higher-order `ND/RT` explicitly out of the hard `v1.3.0` gate unless lower-order lines are stable
 
 ### Validation Cases
 
@@ -147,19 +151,20 @@ Status rule:
 - `[x]` Add `FieldState` for owned named field blocks and field metadata
 - `[x]` Add callback-based `PhysicsOperator` without introducing inheritance chains
 - `[x]` Add `CoupledProblem` aggregation for residual and matrix contributions
-- `[ ]` Lift the current magnetostatic path into the first production `PhysicsOperator`
+- `[x]` Lift the current magnetostatic block shape into the first `PhysicsOperator` adapter
 - `[ ]` Add shared nonlinear/time policy contracts for coupled solves
 
 ### Canonical Coupling
 
 - `[x]` Add a synthetic multi-operator unit test for coupled assembly behavior
-- `[ ]` Add a small magneto-thermal canonical case
-- `[ ]` Add conservation and energy-shape checks for the first coupled case
+- `[x]` Add a small magneto-thermal canonical case
+- `[-]` Add conservation and energy-shape checks for the first coupled case; residual and cross-Jacobian checks exist, full conservation checks remain next
 
 ### Analysis And Quality
 
 - `[x]` Add non-visual machine report analysis with completion scoring
 - `[x]` Add inheritance-depth analysis and keep the codebase within depth `<= 3`
+- `[x]` Add version-readiness analysis for the `v1.0 -> v2.0` chain
 - `[ ]` Wire analysis reports into nightly artifacts once CI storage is finalized
 
 ## Module-Oriented Work Queue
@@ -180,14 +185,14 @@ Status rule:
 ### `src/kernel`
 
 - `[x]` scalar tetrahedral path
-- `[-]` vector tetrahedral path
-- `[ ]` `RT`
-- `[ ]` hexahedral path
-- `[ ]` higher-order path
+- `[x]` vector tetrahedral path
+- `[x]` reference `RT`
+- `[x]` reference hexahedral path
+- `[x]` first high-order H1 path through hex `Q2`
 
 ### `src/material`, `src/nonlinear`, `src/post`
 
-- `[-]` material-law objects beyond placeholders
+- `[x]` material-law objects beyond placeholders
 - `[ ]` real nonlinear update policies
 - `[-]` real field and torque post-processing
 
@@ -196,12 +201,13 @@ Status rule:
 - `[x]` `FieldState`
 - `[x]` `PhysicsOperator`
 - `[x]` `CoupledProblem`
-- `[ ]` magnetostatic production operator adapter
+- `[x]` magnetostatic operator adapter
+- `[x]` canonical magneto-thermal operator adapter
 
 ## Recommended Next Sequence
 
-1. Replace the concentric-envelope preprocessing geometry with the first tooth/slot/magnet-resolved reconstruction while preserving the imported tetra path.
-2. Tighten `joint_type_i_12s10p extruded_3d` regression thresholds once Gmsh-backed meshes are available in CI.
-3. Promote `exo_outer_rotor_36s40p` into validation once the first machine path is stable.
-4. Lift the current magnetostatic solve into the new `PhysicsOperator` contract.
-5. Add the first magneto-thermal canonical coupling case after the magnetostatic operator adapter exists.
+1. Wire `MonotoneBhCurve` and `OrthotropicBhMaterial` into nonlinear tetra `Nedelec` cell residuals.
+2. Add signed tetra face DoF maps and H(div) Piola mapping so RT can support flux-conforming post-processing.
+3. Add hexahedral mesh geometry mapping and `Q1/Q2` scalar assembly.
+4. Replace the concentric-envelope preprocessing geometry with the first tooth/slot/magnet-resolved reconstruction while preserving the imported tetra path.
+5. Promote `exo_outer_rotor_36s40p` and `quadruped_joint_36s32p` into validation once the nonlinear machine path is stable.

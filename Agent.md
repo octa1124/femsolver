@@ -6,7 +6,7 @@ This file defines the repository engineering rules for `femsolver`. It is the hi
 
 `femsolver` is being built as a self-owned, controllable, and explainable finite element solver that is intended to expand into a multiphysics coupled solver.
 
-The current implementation target is `v0.3.0`, which extends the delivered `v0.2.0` tetrahedral scalar kernel toward a generic, self-owned discretization architecture that can host tetrahedral and hexahedral elements, multiple polynomial orders, and multiple finite-element families, while also establishing a real machine-case catalog and preprocessing path for robot-joint motor examples.
+The current implementation baseline is `v2.0.0-dev`. It contains a first executable foundation chain from the delivered `v0.2.0` tetrahedral scalar kernel through `v0.3.0` vector-field electromagnetics, the `v1.0` robot-joint motor linear smoke path, `v1.1` nonlinear B-H material evaluation, `v1.2` RT/H(div), `v1.3` hexahedral/high-order H1, and `v2.0` coupled-field operator contracts.
 
 ## Version Scope
 
@@ -14,7 +14,9 @@ The current implementation target is `v0.3.0`, which extends the delivered `v0.2
 - `v0.2.0`: self-owned kernel foundation with tetra mesh, quadrature, `H1`, and scalar assembly
 - `v0.3.0`: generic element/space/order contracts plus vector-field FEM foundation with `H(curl)` support
 - `v1.0.0`: robot-joint motor electromagnetics MVP
-- `v1.1.0`: nonlinear and anisotropic magnetic materials plus broader element-family expansion
+- `v1.1.0`: nonlinear and anisotropic magnetic materials with tangent validation
+- `v1.2.0`: lowest-order Raviart-Thomas H(div) foundation
+- `v1.3.0`: hexahedral and high-order H1 foundation
 - `v2.0.0`: multiphysics coupling foundation
 - `v3.0.0`: design-study and physics-AI interfaces
 - `v4.0.0`: motion and low-frequency transients
@@ -66,6 +68,7 @@ Hard dependency rules:
 - Keep implementation details in `src/...`.
 - Avoid implicit ownership; prefer value types or `std::unique_ptr`.
 - New solver-facing APIs must be documented in headers.
+- Prefer composition, small value types, and callbacks over inheritance; inheritance depth should stay at or below three levels.
 - Do not introduce third-party dependencies casually; justify new dependencies in an ADR when they affect build or runtime behavior.
 
 ### Python

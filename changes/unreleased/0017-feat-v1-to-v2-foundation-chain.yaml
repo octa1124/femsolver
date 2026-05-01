@@ -1,0 +1,4 @@
+type: added
+scope: kernel/material/coupling/analysis
+summary: Add v1.1 nonlinear B-H, v1.2 RT/H(div), v1.3 hex Q1/Q2, and v2 operator-adapter foundation slices
+breaking: false

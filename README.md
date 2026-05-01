@@ -2,16 +2,24 @@
 
 `femsolver` is a self-owned, controllable, and explainable finite element solver project that is intended to grow into a multiphysics coupled solver.
 
-The repository now contains two delivered layers:
+The repository now contains the first executable chain from the self-owned kernel foundation through the `v2.0` coupling foundation:
 
 - the completed `v0.2.0` scalar-kernel baseline
-- the first implemented slice of the in-progress `v0.3.0` vector-field and case-preprocessing baseline
+- the `v0.3.0` vector-field and case-preprocessing baseline
+- the `v1.0` linear robot-joint motor smoke/regression path
+- the `v1.1` nonlinear B-H material MVP
+- the `v1.2` lowest-order RT/H(div) benchmark
+- the `v1.3` hex/high-order H1 foundation
+- the `v2.0` coupled-field operator foundation
 
 That means the repository already includes:
 
 - repository governance and project conventions from `v0.1.0`
 - a self-owned tetrahedral scalar kernel for mesh, reference elements, quadrature, `H1` basis, scalar assembly, sparse algebra, and a Poisson benchmark
 - the first self-owned tetrahedral `H(curl)` slice with edge topology, edge DoF maps, first-order `Nedelec` basis functions, curl-curl assembly, and a canonical vector benchmark
+- nonlinear monotone and orthotropic B-H material evaluation with consistent tangent checks
+- lowest-order tetrahedral `Raviart-Thomas` reference basis and H(div) benchmark
+- hexahedral reference, quadrature, and H1 `Q1/Q2` basis functions
 - a tracked machine-case catalog for robot-joint motors and an industrial envelope case
 - a simplified Gmsh-oriented preprocessing path that emits `.geo`, manifest, and summary artifacts through `motor_pre`
 - a CMake/CTest bootstrap for C++ applications and libraries
@@ -29,9 +37,9 @@ The project direction is:
 
 ## Repository Status
 
-- Latest completed milestone: `v0.2.0`
-- Current development baseline: `v0.3.0-dev`
-- Current focus: self-owned vector-field FEM foundations and real machine-case preprocessing that lead toward a robot-joint motor electromagnetics MVP
+- Latest completed baseline in code: `v2.0.0-dev` foundation chain
+- Current development baseline: `v2.0.0-dev`
+- Current focus: turning the current foundation chain into production nonlinear machine solves and richer coupled physics
 - Implemented now:
   - tetra mesh container with cell orientation normalization, edge extraction, boundary-node discovery, and boundary-edge discovery
   - reference tetrahedron, centroid quadrature, linear `H1` basis, scalar Poisson local/global assembly, Dirichlet elimination, and a canonical scalar benchmark wired into `motor_check`
@@ -43,13 +51,17 @@ The project direction is:
   - a first linear joint-motor profile binding layer that resolves case-declared material and excitation metadata into the current smoke-model coefficients
   - a first linear magnetostatic smoke solve in `motor_solve` that binds real case and manifest semantics, assembles `J` and `B_r` sources, imports the generated tetra mesh when available, and reports magnetic-energy, flux-density, and air-gap torque-surface summaries
   - `motor_check --machine-regression` for the first scalar regression gate on `joint_type_i_12s10p`
-  - first `v2.0` coupling contracts: `FieldState`, callback-based `PhysicsOperator`, and `CoupledProblem`
-  - non-visual analysis tooling for machine reports, completion scores, and inheritance-depth checks
+  - nonlinear `B-H` curve and orthotropic material evaluation with finite-difference tangent validation
+  - tetra `RT0` basis and `motor_check --hdiv-benchmark`
+  - hexahedral reference element, quadrature, `Q1`, and `Q2` H1 basis functions
+  - first `v2.0` coupling contracts: `FieldState`, callback-based `PhysicsOperator`, `CoupledProblem`, magnetostatic operator adapter, and canonical magneto-thermal heat coupling
+  - non-visual analysis tooling for machine reports, version-readiness scores, completion scores, and inheritance-depth checks
 - Explicitly not implemented yet:
   - detailed slot/tooth/magnet OCC geometry reconstruction
   - general-purpose mesh import beyond the current Gmsh `MSH2` tetrahedral bridge
   - machine-grade field export and validated torque accuracy on real machine meshes
-  - nonlinear magnetic materials or production coupled multiphysics behavior
+  - nonlinear global magnetostatic Newton assembly on real machine cases
+  - production thermal/mechanical physics and time stepping
 
 ## Quick Start
 
@@ -76,6 +88,12 @@ Run the canonical scalar and vector kernel checks:
 
 ```bash
 ./build/gcc-debug/src/motor_check
+```
+
+Run the H(div) RT benchmark directly:
+
+```bash
+./build/gcc-debug/src/motor_check --hdiv-benchmark
 ```
 
 Run the current linear joint-motor smoke solve after preprocessing:
@@ -107,6 +125,9 @@ Run the first machine regression gate:
 - Case catalog and preprocessing implementation: `docs/implementation/case-catalog-and-preprocessing.md`
 - Vector-kernel implementation baseline: `docs/implementation/v0.3.0-vector-kernel-baseline.md`
 - Linear magnetostatic smoke path: `docs/implementation/linear-magnetostatic-smoke-path.md`
+- Nonlinear B-H material implementation: `docs/implementation/v1.1.0-nonlinear-bh-material.md`
+- H(div) RT implementation: `docs/implementation/v1.2.0-hdiv-rt-benchmark.md`
+- Hex/high-order H1 implementation: `docs/implementation/v1.3.0-hex-high-order-foundation.md`
 - Functional architecture: `docs/architecture/functional-architecture.md`
 - Kernel architecture: `docs/architecture/kernel-architecture.md`
 - Kernel module boundaries: `docs/architecture/kernel-module-boundaries.md`
@@ -116,7 +137,7 @@ Run the first machine regression gate:
 - Analysis tooling: `tools/analysis/README.md`
 - Physical architecture: `docs/physics/physical-architecture.md`
 - GitHub administration notes: `docs/governance/github-admin.md`
-- Draft release summaries: `docs/releases/v0.1.0.md`, `docs/releases/v0.2.0.md`, `docs/releases/v0.3.0.md`
+- Draft release summaries: `docs/releases/v0.1.0.md`, `docs/releases/v0.2.0.md`, `docs/releases/v0.3.0.md`, `docs/releases/v1.0.0.md`, `docs/releases/v1.1.0.md`, `docs/releases/v1.2.0.md`, `docs/releases/v1.3.0.md`, `docs/releases/v2.0.0.md`
 
 ## Repository Layout
 

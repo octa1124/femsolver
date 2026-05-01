@@ -19,14 +19,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A first `airgap_torque_surface` preprocessing contract, Maxwell-stress-style torque estimate, and `motor_check --machine-regression` gate for `joint_type_i_12s10p`.
 - First `v2.0` coupling contracts for field state, callback-based physics operators, and coupled assembly aggregation.
 - Non-visual analysis tools for machine report completion scoring and C++ inheritance-depth checks.
+- `v1.1` nonlinear material MVP with monotone B-H curves, orthotropic response, energy evaluation, and finite-difference tangent checks.
+- `v1.2` tetrahedral `RT0` reference basis plus H(div) face-flux/divergence benchmark exposed through `motor_check --hdiv-benchmark`.
+- `v1.3` hexahedral reference element, Gauss-Legendre quadrature, and H1 `Q1/Q2` basis functions.
+- `v2.0` operator adapters for magnetostatic block embedding and canonical magneto-thermal coupling.
+- Version-readiness analysis tooling for the `v1.0` through `v2.0` feature chain.
 
 ### Changed
 
 - Case metadata now declares the intended production discretization family as `nedelec` for the robot-joint motor path.
 - `motor_check` now accepts combinable benchmark flags and runs both scalar and vector canonical checks by default.
+- `motor_check` now includes the H(div) benchmark in default checks and accepts `--hdiv-benchmark`.
 - `motor_check` now accepts `--machine-regression --case <path> --manifest <path>` for the first machine scalar regression gate.
 - `motor_solve` now accepts `--case` and `--manifest` and can execute the current linear joint-motor smoke path instead of acting only as a placeholder.
-- The active delivery tracker now extends through the first `v2.0` coupling foundation workstream.
+- The active delivery tracker now splits `v1.1`, `v1.2`, `v1.3`, and `v2.0` into explicit completed foundation slices with remaining production gaps.
 
 ### Docs
 
@@ -34,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a dedicated implementation note for the linear magnetostatic smoke path and solver-side case/manifest loading.
 - Added a `v1` to `v2` readiness review that narrows the multiphysics coupling design around field-state and physics-operator contracts.
 - Added implementation documentation for the first coupling foundation and text-based analysis framework.
+- Added implementation documentation for nonlinear B-H materials, RT/H(div), and hex/high-order H1 foundations.
 
 ## [0.2.0] - 2026-04-22
 

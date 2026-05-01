@@ -11,15 +11,19 @@ The repository now has a running self-owned path for:
 - linear magnetostatic smoke solving with `J` and `B_r` source terms
 - cell-wise `B = curl(A)` summaries, magnetic energy, and first air-gap torque-surface metadata
 - `motor_check --machine-regression` as the first machine scalar regression gate
+- nonlinear B-H material evaluation with orthotropic tangent checks
+- tetrahedral `RT0` reference basis with H(div) flux/divergence benchmark
+- hexahedral reference/quadrature and H1 `Q1/Q2` basis checks
+- magnetostatic and canonical magneto-thermal adapters inside the coupled-operator contract
 
-This means `v1.0.0` is no longer just an architecture target. It has an executable spine.
+This means the repository has an executable `v1.0 -> v2.0` foundation chain. It is still a foundation chain, not yet an industrial nonlinear multiphysics motor product.
 
 ## Code Review Findings
 
 - The current motor geometry is still a concentric-envelope reconstruction. It is useful for regression and interface stability, but it is not yet a faithful slot, tooth, winding, and magnet model.
 - The torque calculation now exists, but its surface is only as good as the generated `airgap_torque_surface`. Until tooth/slot geometry exists, torque should be treated as a smoke and regression scalar rather than a validated machine value.
 - The `motor_pre` C++ entrypoint still shells out to Python. That is acceptable before `v2.0.0`, but the boundary should be kept stable: generated manifest plus mesh should remain the solver input contract.
-- `motor_check` is becoming the right place for quality gates. Before `v2.0.0`, it should grow validation orchestration rather than putting checks into ad hoc scripts.
+- `motor_check` is becoming the right place for quality gates. It now owns scalar, H(curl), H(div), and machine-regression checks; broader validation orchestration remains next.
 
 ## Optimized `v1.0.0` Exit Criteria
 
@@ -40,7 +44,7 @@ The solver now has the first version of three stable contracts:
 - `PhysicsOperator`: assemble residual/Jacobian contributions for one physics domain without owning the global coupled solve
 - `CoupledProblem`: registers physics operators, shared parameters, coupling variables, and solve policy
 
-The current magnetostatic path should become the first `PhysicsOperator`, not a one-off application branch.
+The current magnetostatic block shape now has a `PhysicsOperator` adapter. The application-level `motor_solve` path still runs directly for the linear machine smoke solve, so the next production step is to route machine assembly through `CoupledProblem` without losing the existing regression output.
 
 The current implementation uses callback-based operators rather than inheritance. That keeps the extension model shallow while the contracts are still settling.
 
@@ -51,9 +55,13 @@ The current implementation uses callback-based operators rather than inheritance
 Recommended hard scope:
 
 - block-system assembly interfaces
-- shared nonlinear/time policy objects
 - first magneto-thermal data exchange on a small canonical case
-- validation hooks for conservation, energy consistency, and coupling data shape
+- validation hooks for residual shape, cross-Jacobian shape, and version readiness
+
+Still deferred from the current foundation slice:
+
+- shared nonlinear/time policy objects
+- full conservation and energy-consistency checks for coupled production physics
 
 Recommended deferrals:
 

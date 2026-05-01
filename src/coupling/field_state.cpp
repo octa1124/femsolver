@@ -31,6 +31,21 @@ FieldBlock& FieldState::MutableField(const std::string& name) {
   return fields_.at(name);
 }
 
+int FieldState::FieldOffset(const std::string& name) const {
+  int offset = 0;
+  for (const auto& [field_name, field] : fields_) {
+    if (field_name == name) {
+      return offset;
+    }
+    offset += static_cast<int>(field.values.size());
+  }
+  throw std::out_of_range("FieldState field offset requested for unknown field: " + name);
+}
+
+int FieldState::FieldSize(const std::string& name) const {
+  return static_cast<int>(Field(name).values.size());
+}
+
 const std::map<std::string, FieldBlock>& FieldState::fields() const {
   return fields_;
 }

@@ -10,8 +10,10 @@ add_executable(
   femsolver_unit_tests
   unit/case_spec_test.cpp
   unit/coupling_contract_test.cpp
+  unit/coupling_operator_adapters_test.cpp
   unit/excitation_def_test.cpp
   unit/gmsh_tetra_mesh_import_test.cpp
+  unit/kernel_hex_high_order_test.cpp
   unit/kernel_discretization_descriptor_test.cpp
   unit/kernel_curl_curl_benchmark_test.cpp
   unit/kernel_element_geometry_test.cpp
@@ -21,6 +23,7 @@ add_executable(
   unit/kernel_poisson_benchmark_test.cpp
   unit/kernel_quadrature_basis_test.cpp
   unit/kernel_reference_tetrahedron_test.cpp
+  unit/kernel_rt_hdiv_benchmark_test.cpp
   unit/kernel_sparse_matrix_test.cpp
   unit/kernel_space_dof_map_test.cpp
   unit/kernel_tetra_mesh_test.cpp
@@ -30,6 +33,7 @@ add_executable(
   unit/project_status_test.cpp
   unit/joint_motor_linear_smoke_test.cpp
   unit/joint_motor_linear_model_test.cpp
+  unit/material_bh_curve_test.cpp
   unit/solution_bundle_test.cpp)
 
 target_link_libraries(femsolver_unit_tests PRIVATE femsolver_core GTest::gtest_main)
@@ -43,6 +47,7 @@ add_test(NAME motor_solve_help COMMAND motor_solve --help)
 add_test(NAME motor_check_help COMMAND motor_check --help)
 add_test(NAME motor_check_poisson_benchmark COMMAND motor_check --poisson-benchmark)
 add_test(NAME motor_check_curl_curl_benchmark COMMAND motor_check --curl-curl-benchmark)
+add_test(NAME motor_check_hdiv_benchmark COMMAND motor_check --hdiv-benchmark)
 add_test(
   NAME motor_pre_joint_section_2d
   COMMAND motor_pre --case cases/machines/joint_type_i_12s10p/case.yaml --variant section_2d

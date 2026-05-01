@@ -2,9 +2,9 @@
 
 #include <array>
 
-namespace femsolver::kernel::basis {
+#include "femsolver/kernel/basis/vector_types.hpp"
 
-using Vector3 = std::array<double, 3>;
+namespace femsolver::kernel::basis {
 
 class FirstOrderNedelecTetrahedron {
  public:

@@ -27,6 +27,8 @@ class FieldState {
   [[nodiscard]] bool HasField(const std::string& name) const;
   [[nodiscard]] const FieldBlock& Field(const std::string& name) const;
   [[nodiscard]] FieldBlock& MutableField(const std::string& name);
+  [[nodiscard]] int FieldOffset(const std::string& name) const;
+  [[nodiscard]] int FieldSize(const std::string& name) const;
   [[nodiscard]] const std::map<std::string, FieldBlock>& fields() const;
   [[nodiscard]] int TotalDofCount() const;
   [[nodiscard]] std::string Summary() const;

@@ -32,6 +32,12 @@ Rules:
 - [Vector-Kernel Baseline](./v0.3.0-vector-kernel-baseline.md)
 - [Linear Magnetostatic Smoke Path](./linear-magnetostatic-smoke-path.md)
 
+## `v1.x` Solver And Kernel Expansion Documents
+
+- [Nonlinear B-H Material](./v1.1.0-nonlinear-bh-material.md)
+- [Raviart-Thomas H(div) Benchmark](./v1.2.0-hdiv-rt-benchmark.md)
+- [Hex And High-Order H1 Foundation](./v1.3.0-hex-high-order-foundation.md)
+
 ## `v2.0.0` Coupling Documents
 
 - [Coupling Foundation](./v2.0.0-coupling-foundation.md)

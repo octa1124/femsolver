@@ -6,6 +6,7 @@
 #include "femsolver/case/case_spec.hpp"
 #include "femsolver/io/text_report.hpp"
 #include "femsolver/kernel/benchmark/curl_curl_benchmark.hpp"
+#include "femsolver/kernel/benchmark/hdiv_benchmark.hpp"
 #include "femsolver/kernel/benchmark/poisson_benchmark.hpp"
 #include "femsolver/mesh/mesh_manifest.hpp"
 #include "femsolver/post/solution_bundle.hpp"
@@ -15,14 +16,16 @@ namespace {
 
 constexpr std::string_view kUsage =
     "Usage: motor_check [--help] [--poisson-benchmark] [--curl-curl-benchmark] "
+    "[--hdiv-benchmark] "
     "[--machine-regression --case <path> --manifest <path>]\n"
-    "Run kernel verification checks. The default check runs both scalar and vector canonical "
+    "Run kernel verification checks. The default check runs scalar, H(curl), and H(div) canonical "
     "benchmarks.\n";
 
 struct CliOptions {
   bool help = false;
   bool run_poisson = false;
   bool run_curl_curl = false;
+  bool run_hdiv = false;
   bool run_machine_regression = false;
   std::string case_path;
   std::string manifest_path;
@@ -42,6 +45,10 @@ CliOptions ParseArguments(const int argc, char** argv) {
     }
     if (argument == "--curl-curl-benchmark") {
       options.run_curl_curl = true;
+      continue;
+    }
+    if (argument == "--hdiv-benchmark") {
+      options.run_hdiv = true;
       continue;
     }
     if (argument == "--machine-regression") {
@@ -89,6 +96,7 @@ int main(const int argc, char** argv) {
     const bool run_default = argc == 1;
     const bool run_poisson = run_default || options.run_poisson;
     const bool run_curl_curl = run_default || options.run_curl_curl;
+    const bool run_hdiv = run_default || options.run_hdiv;
     if (options.run_machine_regression &&
         (options.case_path.empty() || options.manifest_path.empty())) {
       throw std::runtime_error("motor_check machine regression requires --case and --manifest");
@@ -105,6 +113,10 @@ int main(const int argc, char** argv) {
       const auto curl_curl_result = femsolver::kernel::benchmark::RunCurlCurlBenchmark(
           femsolver::kernel::benchmark::MakeManufacturedCurlCurlBenchmark());
       std::cout << femsolver::io::RenderKernelCurlCurlBenchmarkReport(curl_curl_result) << '\n';
+    }
+    if (run_hdiv) {
+      const auto hdiv_result = femsolver::kernel::benchmark::RunReferenceTetraRtP0Benchmark();
+      std::cout << "hdiv benchmark: " << hdiv_result.Summary() << '\n';
     }
     if (options.run_machine_regression) {
       const auto spec = femsolver::case_config::CaseSpec::LoadFromFile(options.case_path);

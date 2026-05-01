@@ -6,6 +6,7 @@ from pathlib import Path
 
 from tools.analysis.analyze_machine_report import analyze_solution_metrics, parse_solution_summary
 from tools.analysis.check_inheritance_depth import analyze_inheritance_depth, scan_inheritance
+from tools.analysis.version_readiness import VERSION_REQUIREMENTS, analyze_version_readiness
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -65,3 +66,42 @@ def test_inheritance_depth_analysis_accepts_current_repo_style() -> None:
 
     assert analysis["passed"] is True
     assert analysis["max_observed_depth"] <= 3
+
+
+def test_version_readiness_analysis_reports_full_chain_completion() -> None:
+    evidence = {
+        feature: True
+        for requirements in VERSION_REQUIREMENTS.values()
+        for feature in requirements
+    }
+
+    analysis = analyze_version_readiness(evidence)
+
+    assert analysis["overall_pass"] is True
+    assert analysis["versions"]["v1.1"]["completion_score"] == 1.0
+    assert analysis["versions"]["v1.2"]["missing"] == []
+    assert analysis["versions"]["v2.0"]["overall_pass"] is True
+
+
+def test_version_readiness_cli_reports_missing_features(tmp_path: Path) -> None:
+    evidence_path = tmp_path / "evidence.json"
+    evidence_path.write_text('{"tetra_nedelec": true}', encoding="utf-8")
+
+    completed = subprocess.run(
+        [
+            sys.executable,
+            str(REPO_ROOT / "tools/analysis/version_readiness.py"),
+            "--evidence-file",
+            str(evidence_path),
+            "--format",
+            "text",
+        ],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert completed.returncode == 1
+    assert "v1.0.pass=false" in completed.stdout
+    assert "linear_magnetostatic" in completed.stdout

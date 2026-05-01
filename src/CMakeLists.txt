@@ -6,12 +6,17 @@ add_library(
   kernel/assembly/element_geometry.cpp
   kernel/assembly/linear_magnetostatic_assembler.cpp
   kernel/assembly/poisson_assembler.cpp
+  kernel/basis/lagrange_hex_hexahedron.cpp
   kernel/basis/lagrange_p1_tetrahedron.cpp
   kernel/basis/nedelec_p1_tetrahedron.cpp
+  kernel/basis/raviart_thomas_p0_tetrahedron.cpp
   kernel/benchmark/curl_curl_benchmark.cpp
+  kernel/benchmark/hdiv_benchmark.cpp
   kernel/benchmark/poisson_benchmark.cpp
   kernel/mesh/tetra_mesh.cpp
+  kernel/quadrature/hexahedron_quadrature.cpp
   kernel/quadrature/tetrahedron_quadrature.cpp
+  kernel/reference/reference_hexahedron.cpp
   kernel/reference/reference_tetrahedron.cpp
   kernel/space/tetra_dof_map.cpp)
 
@@ -23,10 +28,12 @@ add_library(
   case/case_spec.cpp
   coupling/coupled_problem.cpp
   coupling/field_state.cpp
+  coupling/operator_adapters.cpp
   coupling/physics_operator.cpp
   excitation/excitation_def.cpp
   fem/discretization_strategy.cpp
   io/text_report.cpp
+  material/bh_curve.cpp
   material/material_catalog.cpp
   mesh/gmsh_tetra_mesh_import.cpp
   mesh/mesh_manifest.cpp

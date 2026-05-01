@@ -10,7 +10,9 @@ std::vector<RoadmapMilestone> BootstrapRoadmap() {
        "case catalog and preprocessing baseline plus generic element/space/order contracts and "
        "self-owned vector-field FEM foundation with H(curl) support"},
       {"v1.0.0", "robot-joint permanent-magnet motor electromagnetics MVP"},
-      {"v1.1.0", "nonlinear and anisotropic magnetic materials plus broader element-family expansion"},
+      {"v1.1.0", "nonlinear and anisotropic magnetic materials with consistent tangent checks"},
+      {"v1.2.0", "lowest-order Raviart-Thomas H(div) basis and canonical flux benchmark"},
+      {"v1.3.0", "hexahedral H1 Q1/Q2 and high-order element foundation"},
       {"v2.0.0", "multiphysics coupling foundation"},
       {"v3.0.0", "design-study and physics-AI interfaces"},
       {"v4.0.0", "motion and low-frequency transients"}};
