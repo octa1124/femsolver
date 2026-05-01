@@ -1,16 +1,18 @@
 # femsolver
 
-`femsolver` is a self-owned, controllable, and explainable finite element solver project that is intended to grow into a multiphysics coupled solver.
+`femsolver` is a self-owned, controllable, and explainable finite element solver project targeting an industrial-grade nonlinear multiphysics motor solver.
 
-The repository now contains the first executable chain from the self-owned kernel foundation through the `v2.0` coupling foundation:
+The repository currently contains foundation slices, not the complete industrial product. The implemented chain runs from the self-owned kernel foundation through the `v2.0` coupling foundation:
 
 - the completed `v0.2.0` scalar-kernel baseline
 - the `v0.3.0` vector-field and case-preprocessing baseline
 - the `v1.0` linear robot-joint motor smoke/regression path
-- the `v1.1` nonlinear B-H material MVP
-- the `v1.2` lowest-order RT/H(div) benchmark
-- the `v1.3` hex/high-order H1 foundation
+- the `v1.1` local nonlinear B-H material MVP
+- the `v1.2` reference lowest-order RT/H(div) benchmark
+- the `v1.3` reference hex/high-order H1 foundation
 - the `v2.0` coupled-field operator foundation
+
+The controlling gap audit for the industrial target is `docs/architecture/industrial-nonlinear-multiphysics-gap-audit.md`.
 
 That means the repository already includes:
 
@@ -37,9 +39,9 @@ The project direction is:
 
 ## Repository Status
 
-- Latest completed baseline in code: `v2.0.0-dev` foundation chain
+- Latest implemented baseline in code: `v2.0.0-dev` foundation chain
 - Current development baseline: `v2.0.0-dev`
-- Current focus: turning the current foundation chain into production nonlinear machine solves and richer coupled physics
+- Current focus: turning the current foundation chain into full nonlinear electromagnetic solves, higher-fidelity motor preprocessing, and production magneto-thermal coupling
 - Implemented now:
   - tetra mesh container with cell orientation normalization, edge extraction, boundary-node discovery, and boundary-edge discovery
   - reference tetrahedron, centroid quadrature, linear `H1` basis, scalar Poisson local/global assembly, Dirichlet elimination, and a canonical scalar benchmark wired into `motor_check`
@@ -62,6 +64,7 @@ The project direction is:
   - machine-grade field export and validated torque accuracy on real machine meshes
   - nonlinear global magnetostatic Newton assembly on real machine cases
   - production thermal/mechanical physics and time stepping
+  - an industrial-grade complete nonlinear multiphysics motor workflow
 
 ## Quick Start
 
@@ -129,6 +132,7 @@ Run the first machine regression gate:
 - H(div) RT implementation: `docs/implementation/v1.2.0-hdiv-rt-benchmark.md`
 - Hex/high-order H1 implementation: `docs/implementation/v1.3.0-hex-high-order-foundation.md`
 - Functional architecture: `docs/architecture/functional-architecture.md`
+- Industrial nonlinear multiphysics gap audit: `docs/architecture/industrial-nonlinear-multiphysics-gap-audit.md`
 - Kernel architecture: `docs/architecture/kernel-architecture.md`
 - Kernel module boundaries: `docs/architecture/kernel-module-boundaries.md`
 - Element-family and order strategy: `docs/architecture/element-family-and-order-strategy.md`

@@ -10,6 +10,7 @@ Rules:
 
 ## `v0.1.0` Baseline Documents
 
+- [Industrial Nonlinear Multiphysics Gap Audit](../architecture/industrial-nonlinear-multiphysics-gap-audit.md)
 - [Repository Baseline Overview](./v0.1.0-repository-baseline.md)
 - [Governance And Documentation Workflow](./governance-and-docs.md)
 - [Build System And Code Layout](./build-system-and-layout.md)

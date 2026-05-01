@@ -1,5 +1,17 @@
 # Roadmap
 
+## Product Target
+
+The target is an industrial-grade, self-owned nonlinear multiphysics motor solver. The current repository is not that product yet. It contains an executable foundation chain that must now be converted into full nonlinear electromagnetic, thermal, coupling, validation, and industrial workflow capability.
+
+The controlling gap audit is:
+
+- `docs/architecture/industrial-nonlinear-multiphysics-gap-audit.md`
+
+## Roadmap Interpretation
+
+Version names before and including `v2.0.0` currently describe foundation slices, not full industrial product completion. A version is allowed to be marked as a foundation milestone when its stated local capability is implemented and tested, but that must not be read as completion of the industrial solver.
+
 ## `v0.1.0` Repository Baseline
 
 Completed or in progress:
@@ -191,6 +203,85 @@ Implemented first slice:
 - magnetostatic operator adapter
 - canonical magneto-thermal heat operator adapter
 - non-visual analysis scripts for machine report completion scoring, version readiness, and inheritance-depth checks
+
+## Industrial Completion Sequence
+
+### `v2.1.0` Nonlinear Electromagnetic Core
+
+Planned deliverables:
+
+- nonlinear tetra Nedelec residual and Jacobian from the B-H energy model
+- finite-difference Jacobian validation on one-cell and small-mesh benchmarks
+- Picard warm start, damped Newton, line search, and failure diagnostics
+- nonlinear material binding from case metadata
+- first nonlinear machine smoke run for `joint_type_i_12s10p`
+
+Exit criteria:
+
+- nonlinear benchmark passes tangent verification
+- assembled nonlinear solve converges on a small controlled mesh
+- machine smoke reports nonlinear convergence status and material warnings
+
+### `v2.2.0` Geometry And Validation Fidelity
+
+Planned deliverables:
+
+- tooth/slot/magnet-resolved reconstruction for the first joint motor case
+- winding slot and phase region semantics
+- region/boundary validation hard gates
+- validated air-gap torque surface contract
+- `exo_outer_rotor_36s40p` validation entry with declared reconstruction assumptions
+
+Exit criteria:
+
+- preprocessing fails on missing required regions or boundaries
+- machine regression uses geometry richer than concentric envelopes
+- validation report distinguishes smoke, regression, and validation cases
+
+### `v2.3.0` Flux, Torque, And Analysis Completion
+
+Planned deliverables:
+
+- flux linkage, magnet working point, air-gap harmonic, and torque summaries
+- RT-based flux recovery and conservation checks
+- non-visual analysis reports for thresholds and run-to-run comparisons
+- release evidence bundle generation
+
+Exit criteria:
+
+- post-processing outputs stable JSON/text schemas
+- validation thresholds are machine-readable
+- nightly can compare current results to baselines without visualization
+
+### `v2.4.0` Steady Magneto-Thermal Coupling
+
+Planned deliverables:
+
+- H1 thermal conduction operator
+- thermal material and boundary-condition schema
+- electromagnetic loss mapping to thermal source terms
+- steady coupled magnetic-thermal benchmark and solve path
+- coupled energy-shape/conservation checks
+
+Exit criteria:
+
+- canonical thermal benchmark passes
+- magneto-thermal case converges with stable residual and coupling reports
+- thermal outputs are included in analysis tooling
+
+### `v2.5.0` Hex, High Order, And Solver Scaling
+
+Planned deliverables:
+
+- physical hex mesh and geometry mapping
+- tetra P2 and hex Q1/Q2 scalar assembly
+- high-order Nedelec planning or first implementation slice
+- solver/preconditioner strategy and performance baselines
+
+Exit criteria:
+
+- convergence/performance matrix runs in nightly
+- high-order or hex path demonstrates lower error or fewer cells on canonical problems
 
 ## `v3.0.0` Design Studies And Physics-AI Interfaces
 

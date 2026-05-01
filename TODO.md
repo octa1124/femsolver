@@ -1,213 +1,203 @@
 # TODO
 
-This file tracks the executable delivery checklist from the current repository state through `v2.0.0`.
+This file tracks two different things:
+
+- foundation slices that already exist in the repository
+- the remaining path to an industrial-grade nonlinear multiphysics motor solver
 
 Status rule:
 
-- `[x]` completed in the repository
-- `[-]` in progress or partially implemented
-- `[ ]` not started yet
+- `[x]` implemented and tested in the repository
+- `[-]` partially implemented or usable only as a foundation slice
+- `[ ]` not implemented yet
 
-## Current Snapshot
+Controlling audit:
 
-- `[x]` `v0.1.0` repository governance, CI, changelog, and release baseline
-- `[x]` `v0.2.0` self-owned tetrahedral scalar kernel with Poisson benchmark
-- `[x]` `v0.3.0` self-owned vector-field kernel baseline and machine-case preprocessing
-- `[x]` `v1.0.0` first robot-joint motor linear magnetostatic MVP gate
-- `[x]` `v1.1.0` nonlinear B-H material MVP with tangent validation
-- `[x]` `v1.2.0` tetra `RT0` / H(div) benchmark slice
-- `[x]` `v1.3.0` hex/high-order H1 foundation slice
-- `[x]` `v2.0.0` multiphysics coupling foundation slice
+- `docs/architecture/industrial-nonlinear-multiphysics-gap-audit.md`
 
-## `v0.3.0` Closeout Checklist
+## Current Truth Snapshot
 
-### Case Catalog And Preprocessing
+- `[x]` `v0.1.0` repository governance, build/test, changelog, and release baseline
+- `[x]` `v0.2.0` tetrahedral scalar H1 kernel foundation
+- `[-]` `v0.3.0` vector-field and preprocessing foundation; not industrial geometry/preprocessing
+- `[-]` `v1.0.0` linear robot-joint motor smoke/regression path; not validated motor design output
+- `[-]` `v1.1.0` local nonlinear B-H material foundation; not global nonlinear solve
+- `[-]` `v1.2.0` reference RT/H(div) foundation; not physical flux-conforming post-processing
+- `[-]` `v1.3.0` reference hex/Q1/Q2 foundation; not physical hex assembly
+- `[-]` `v2.0.0` coupled-operator foundation; not production multiphysics
 
-- `[x]` Add tracked machine cases for `joint_type_i_12s10p`, `exo_outer_rotor_36s40p`, `quadruped_joint_36s32p`, and `tbm76_envelope`
-- `[x]` Require source provenance, reconstruction level, and declared geometry variants
-- `[x]` Support `section_2d` and `extruded_3d` across all real cases
-- `[x]` Support provisional `full_3d` declaration for `exo_outer_rotor_36s40p`
-- `[x]` Generate simplified concentric-envelope `.geo` files
-- `[x]` Emit `mesh_manifest.yaml` and `preprocess_summary.txt`
-- `[x]` Wire `motor_pre --case --variant --output-dir`
-- `[x]` Add Python schema tests and `CTest` preprocessing integration tests
-- `[-]` Replace Python bridge in `motor_pre` with native C++ case loading and preprocessing orchestration
-- `[ ]` Upgrade from concentric-envelope geometry to first tooth/slot/magnet-resolved reconstruction where public data is sufficient
+The project is therefore not complete as an industrial nonlinear multiphysics motor solver. It has a useful self-owned foundation chain that must now be converted into full physics, validation, and industrial workflows.
 
-### Kernel Contracts
+## Foundation Inventory
 
-- `[x]` Keep explicit discretization descriptors for cell family, space family, and polynomial order
-- `[x]` Extend tetra mesh topology to extract edges and boundary edges
-- `[x]` Add dedicated `kernel/space` ownership for DoF maps and orientation
-- `[x]` Document `kernel/common -> mesh/reference/quadrature/basis/space/algebra -> assembly -> benchmark` layering
-- `[ ]` Add a first element-agnostic assembly selector above tetra-specific implementations
+### `v0.1.0` Governance
 
-### `H(curl)` Baseline
+- `[x]` Repository layout
+- `[x]` CMake/CTest bootstrap
+- `[x]` Changelog fragments
+- `[x]` Release summary convention
+- `[x]` Engineering rules in `Agent.md`
+- `[ ]` Fully enforced GitHub branch rules and release evidence automation
 
-- `[x]` Implement tetrahedral first-order `Nedelec`
-- `[x]` Implement edge-based DoF numbering and sign handling
-- `[x]` Implement `H(curl)` geometric mapping in `ElementGeometry`
-- `[x]` Implement tetrahedral curl-curl local/global assembly
-- `[x]` Add canonical curl-curl benchmark and expose it through `motor_check`
-- `[x]` Add current-source assembly tied to machine regions
-- `[x]` Add simple permanent-magnet source assembly tied to machine regions
-- `[x]` Add a first machine-coupled electromagnetics smoke path on `joint_type_i_12s10p`
+### `v0.2.0` Scalar Kernel
 
-### Validation And Docs
+- `[x]` Tetra mesh container
+- `[x]` Orientation normalization
+- `[x]` Reference tetrahedron
+- `[x]` Tetra quadrature
+- `[x]` H1 P1 basis
+- `[x]` Sparse matrix builder
+- `[x]` Scalar Poisson assembly and benchmark
+- `[ ]` Industrial mesh quality metrics
+- `[ ]` Scalable linear solver/preconditioner layer
 
-- `[x]` Add implementation docs for case catalog and preprocessing
-- `[x]` Add implementation docs for the `v0.3.0` vector-kernel baseline
-- `[x]` Update architecture and physics docs to reflect current repository reality
-- `[x]` Add canonical vector validation cases beyond the current manufactured benchmark through the H(div) RT benchmark
+### `v0.3.0` Vector Kernel And Preprocessing
 
-## `v1.0.0` Robot-Joint Motor MVP Checklist
+- `[x]` Tetra edge extraction and boundary-edge discovery
+- `[x]` First-order Nedelec basis
+- `[x]` Edge DoF map and orientations
+- `[x]` H(curl) mapping
+- `[x]` Curl-curl assembly and benchmark
+- `[x]` Current-density and remanence source assembly
+- `[x]` Simplified machine case catalog and preprocessing
+- `[x]` Gmsh MSH2 tetra import bridge
+- `[-]` `motor_pre` still bridges to Python
+- `[ ]` Tooth/slot/magnet-resolved geometry
+- `[ ]` Periodic-sector topology
+- `[ ]` Production mesh import/validation coverage
 
-### Input, Case, And Region Semantics
+### `v1.0.0` Linear Motor Smoke Path
 
-- `[x]` Load case metadata without placeholder bootstrap shortcuts
-- `[-]` Load mesh manifest and validate region/boundary names against solver expectations
-- `[x]` Bind named regions to material descriptors
-- `[x]` Bind named regions to excitation descriptors
-- `[-]` Fail clearly on unsupported requests instead of silently degrading
+- `[x]` `motor_solve --case --manifest`
+- `[x]` Linear magnetostatic `A in H(curl)` smoke solve
+- `[x]` Current-density and permanent-magnet source binding
+- `[x]` B-field summary and magnetic energy
+- `[x]` Preliminary air-gap torque-surface scalar
+- `[x]` `motor_check --machine-regression`
+- `[-]` Region/boundary validation is incomplete
+- `[-]` Torque is a regression smoke scalar, not validated industrial torque
+- `[ ]` Flux linkage output
+- `[ ]` Magnet working point output
+- `[ ]` Multi-angle locked-rotor sweep
+- `[ ]` Validated `exo_outer_rotor_36s40p` case
 
-### Electromagnetic Assembly
+### `v1.1.0` Nonlinear B-H Foundation
 
-- `[x]` Assemble `A in H(curl)` magnetostatic operator on tetrahedral `Nedelec` for the linear MVP path
-- `[x]` Add prescribed winding current-density contribution
-- `[x]` Add permanent-magnet remanence or magnetization contribution
-- `[-]` Add outer-air truncation boundary handling for the MVP
-- `[x]` Define the conservative gauge/boundary strategy used by the first machine solves
+- `[x]` Monotone B-H curve
+- `[x]` Energy density, secant reluctivity, and differential reluctivity
+- `[x]` Orthotropic local material response
+- `[x]` Consistent tangent finite-difference test
+- `[ ]` Nonlinear Nedelec cell residual
+- `[ ]` Nonlinear Nedelec cell Jacobian
+- `[ ]` Local material axis rotation from case/mesh metadata
+- `[ ]` Picard warm start on assembled nonlinear problem
+- `[ ]` Damped Newton with line search
+- `[ ]` Nonlinear machine regression and overload validation
 
-### Solve Path
+### `v1.2.0` RT/H(div) Foundation
 
-- `[x]` Build a first machine solve driver in `motor_solve`
-- `[x]` Use linear material models only in the first `v1.0.0` machine path
-- `[x]` Keep the first nonlinear solve hooks present and conservative until the material law is wired into global assembly
-- `[x]` Record convergence summary and failure modes in text output
+- `[x]` Reference tetra RT0 basis
+- `[x]` Face-flux interpolation benchmark
+- `[x]` Constant-divergence benchmark
+- `[x]` `motor_check --hdiv-benchmark`
+- `[ ]` Physical H(div) Piola mapping
+- `[ ]` Signed global face DoF map
+- `[ ]` RT-based flux recovery
+- `[ ]` Conservation checks on motor results
 
-### Post-Processing
+### `v1.3.0` Hex And High-Order Foundation
 
-- `[x]` Compute `B = curl(A)` on machine results
-- `[x]` Compute magnetic energy
-- `[x]` Compute Maxwell-stress torque on a declared air-gap surface
-- `[x]` Emit solver summary plus stable scalar outputs for regression
+- `[x]` Reference hexahedron
+- `[x]` Hex Gauss quadrature
+- `[x]` H1 Q1 basis and gradients
+- `[x]` H1 Q2 basis and gradients
+- `[ ]` Tetra H1 P2
+- `[ ]` Physical hex mesh and geometry mapping
+- `[ ]` Hex Q1/Q2 assembly
+- `[ ]` High-order Nedelec
+- `[ ]` High-order RT
 
-### Case Bring-Up
-
-- `[x]` Use `joint_type_i_12s10p extruded_3d` as the first machine electromagnetics smoke case
-- `[x]` Promote `joint_type_i_12s10p` to regression coverage
-- `[ ]` Bring `exo_outer_rotor_36s40p extruded_3d` into validation once the `v1.0.0` path is stable
-- `[ ]` Keep `tbm76_envelope` as preprocessing and packaging regression only unless fidelity improves
-
-### Tests
-
-- `[x]` Add unit tests for source-term assembly
-- `[x]` Add integration tests for machine-case solve orchestration
-- `[x]` Add regression checks for selected scalar machine outputs
-- `[ ]` Add validation hooks for `exo_outer_rotor_36s40p`
-
-## `v1.1.0` Nonlinear B-H Material Slice
-
-### Nonlinear Materials
-
-- `[x]` Add nonlinear isotropic `B-H` curve representation
-- `[x]` Add monotone interpolation and energy-consistent evaluation
-- `[x]` Add local-frame orthotropic material support
-- `[x]` Derive local field response and tangent from one consistent energy model
-- `[x]` Add tangent-vs-finite-difference validation
-
-### Nonlinear Solve Strategy
-
-- `[-]` Add Picard warm start for nonlinear magnetic problems; policy hooks exist, global nonlinear assembly remains next
-- `[-]` Add damped Newton update path; policy hooks exist, machine nonlinear residual remains next
-- `[ ]` Add line-search or backtracking fallback
-- `[ ]` Add clear failure reporting for non-convergence and constitutive breakdown
-
-## `v1.2.0` `H(div)` And Flux-Conforming Foundation
-
-- `[x]` Add lowest-order tetrahedral `Raviart-Thomas`
-- `[x]` Add `H(div)` canonical benchmark
-- `[x]` Expose `motor_check --hdiv-benchmark`
-- `[ ]` Add signed global face DoF maps for physical tetra meshes
-- `[ ]` Use `RT` or compatible flux post-processing where it improves output trustworthiness
-
-## `v1.3.0` Higher-Order And Hex Foundation
-
-- `[ ]` Add tetrahedral `H1 P2`
-- `[x]` Add hexahedral reference element and quadrature contracts
-- `[x]` Add hexahedral `H1 Q1/Q2`
-- `[ ]` Keep higher-order `ND/RT` explicitly out of the hard `v1.3.0` gate unless lower-order lines are stable
-
-### Validation Cases
-
-- `[ ]` Use `quadruped_joint_36s32p extruded_3d` for nonlinear and overload-oriented validation
-- `[ ]` Extend `exo_outer_rotor_36s40p` into nightly validation coverage
-- `[ ]` Add stable validation thresholds for saturation-sensitive outputs
-
-## `v2.0.0` Coupling Foundation Checklist
-
-### Core Contracts
-
-- `[x]` Add `FieldState` for owned named field blocks and field metadata
-- `[x]` Add callback-based `PhysicsOperator` without introducing inheritance chains
-- `[x]` Add `CoupledProblem` aggregation for residual and matrix contributions
-- `[x]` Lift the current magnetostatic block shape into the first `PhysicsOperator` adapter
-- `[ ]` Add shared nonlinear/time policy contracts for coupled solves
-
-### Canonical Coupling
-
-- `[x]` Add a synthetic multi-operator unit test for coupled assembly behavior
-- `[x]` Add a small magneto-thermal canonical case
-- `[-]` Add conservation and energy-shape checks for the first coupled case; residual and cross-Jacobian checks exist, full conservation checks remain next
-
-### Analysis And Quality
-
-- `[x]` Add non-visual machine report analysis with completion scoring
-- `[x]` Add inheritance-depth analysis and keep the codebase within depth `<= 3`
-- `[x]` Add version-readiness analysis for the `v1.0 -> v2.0` chain
-- `[ ]` Wire analysis reports into nightly artifacts once CI storage is finalized
-
-## Module-Oriented Work Queue
-
-### `src/app`
-
-- `[-]` `motor_pre`: usable for case-driven preprocessing, still Python-bridged
-- `[-]` `motor_solve`: promoted from placeholder to a first linear machine smoke path
-- `[-]` `motor_check`: scalar and vector benchmark runner plus first machine regression orchestration present, needs validation orchestration
-- `[-]` analysis tooling: text/JSON report analysis exists, needs CI artifact wiring
-
-### `src/case`, `src/mesh`, `src/io`
-
-- `[x]` `CaseSpec`: richer schema contract exists and now supports native file parsing for the current repository schema
-- `[-]` `MeshManifest`: generated manifest semantics now load in C++, and the first Gmsh `MSH2` tetra import path exists, but broader mesh semantics and formats are still missing
-- `[-]` Reporting: machine smoke summaries now include field, energy, torque-surface, and regression signals, but field export is still missing
-
-### `src/kernel`
-
-- `[x]` scalar tetrahedral path
-- `[x]` vector tetrahedral path
-- `[x]` reference `RT`
-- `[x]` reference hexahedral path
-- `[x]` first high-order H1 path through hex `Q2`
-
-### `src/material`, `src/nonlinear`, `src/post`
-
-- `[x]` material-law objects beyond placeholders
-- `[ ]` real nonlinear update policies
-- `[-]` real field and torque post-processing
-
-### `src/coupling`
+### `v2.0.0` Coupling Foundation
 
 - `[x]` `FieldState`
 - `[x]` `PhysicsOperator`
 - `[x]` `CoupledProblem`
-- `[x]` magnetostatic operator adapter
-- `[x]` canonical magneto-thermal operator adapter
+- `[x]` Magnetostatic operator adapter
+- `[x]` Canonical magneto-thermal residual/Jacobian test
+- `[x]` Version-readiness analysis
+- `[ ]` Production thermal conduction operator
+- `[ ]` Loss-to-thermal source mapping
+- `[ ]` Coupled nonlinear/time policy
+- `[ ]` Route production motor solve through `CoupledProblem`
+- `[ ]` Coupled conservation and energy checks
 
-## Recommended Next Sequence
+## Industrial Product Backlog
 
-1. Wire `MonotoneBhCurve` and `OrthotropicBhMaterial` into nonlinear tetra `Nedelec` cell residuals.
-2. Add signed tetra face DoF maps and H(div) Piola mapping so RT can support flux-conforming post-processing.
-3. Add hexahedral mesh geometry mapping and `Q1/Q2` scalar assembly.
-4. Replace the concentric-envelope preprocessing geometry with the first tooth/slot/magnet-resolved reconstruction while preserving the imported tetra path.
-5. Promote `exo_outer_rotor_36s40p` and `quadruped_joint_36s32p` into validation once the nonlinear machine path is stable.
+### P0: Nonlinear Electromagnetic Core
+
+- `[ ]` Define nonlinear magnetostatic residual API for tetra Nedelec elements
+- `[ ]` Implement local nonlinear cell residual from B-H energy
+- `[ ]` Implement consistent local Jacobian from the same model
+- `[ ]` Add finite-difference Jacobian tests on one-cell and small-mesh cases
+- `[ ]` Implement Picard warm start around assembled nonlinear systems
+- `[ ]` Implement damped Newton with line search and failure diagnostics
+- `[ ]` Bind nonlinear material profiles from `case.yaml`
+- `[ ]` Add nonlinear smoke case for `joint_type_i_12s10p`
+- `[ ]` Add overload/saturation validation using `quadruped_joint_36s32p`
+
+### P0: Geometry And Mesh Fidelity
+
+- `[ ]` Replace concentric-envelope geometry with tooth/slot/magnet-resolved reconstruction
+- `[ ]` Add winding phase/slot region generation
+- `[ ]` Add magnet region orientation and segmentation metadata
+- `[ ]` Validate region and boundary names against solver requirements
+- `[ ]` Add mesh quality checks and hard failure thresholds
+- `[ ]` Preserve simplified cases as smoke tests, not validation cases
+
+### P1: Post-Processing And Validation
+
+- `[ ]` Add stable field-export schema
+- `[ ]` Add flux linkage and phase quantity summaries
+- `[ ]` Add magnet working point summaries
+- `[ ]` Add validated Maxwell stress torque integration
+- `[ ]` Add torque ripple and air-gap harmonic analysis after multi-angle sweep exists
+- `[ ]` Add RT-based flux recovery and conservation analysis
+- `[ ]` Add non-visual comparison reports for validation cases
+
+### P1: Thermal And Coupled Multiphysics
+
+- `[ ]` Implement H1 thermal conduction operator
+- `[ ]` Add thermal material catalog and boundary conditions
+- `[ ]` Map copper/core/magnet losses into thermal sources
+- `[ ]` Add magnetic-to-thermal coupled canonical benchmark
+- `[ ]` Add steady-state coupled solve path
+- `[ ]` Add transient/time-policy contracts only after steady state is stable
+
+### P2: Hex, High Order, And Performance
+
+- `[ ]` Add physical hex mesh container and mappings
+- `[ ]` Add H1 tetra P2
+- `[ ]` Add hex Q1/Q2 assembly
+- `[ ]` Add high-order Nedelec path
+- `[ ]` Add high-order RT path
+- `[ ]` Add convergence/performance benchmark matrix
+- `[ ]` Add preconditioner strategy and solver scaling analysis
+
+### P2: Industrial Workflow
+
+- `[ ]` Add nightly validation suite
+- `[ ]` Add release evidence bundle generation
+- `[ ]` Add run-to-run result comparison
+- `[ ]` Add CI artifact publication for reports
+- `[ ]` Add benchmark dashboards after text/JSON analysis is stable
+
+## Next Implementation Cut
+
+The next correct code cut is not another roadmap document. It is:
+
+1. Nonlinear tetra Nedelec cell residual and Jacobian using the existing B-H material model.
+2. A one-cell nonlinear benchmark with finite-difference Jacobian verification.
+3. A small assembled nonlinear benchmark with Picard/Newton solve control.
+4. Only then, a machine-level nonlinear smoke path for `joint_type_i_12s10p`.
+
+That sequence is the shortest credible route from the current foundation code toward an industrial nonlinear motor solver.

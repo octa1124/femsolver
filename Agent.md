@@ -4,9 +4,9 @@ This file defines the repository engineering rules for `femsolver`. It is the hi
 
 ## Mission
 
-`femsolver` is being built as a self-owned, controllable, and explainable finite element solver that is intended to expand into a multiphysics coupled solver.
+`femsolver` is being built as a self-owned, controllable, and explainable finite element solver targeting an industrial-grade nonlinear multiphysics motor solver.
 
-The current implementation baseline is `v2.0.0-dev`. It contains a first executable foundation chain from the delivered `v0.2.0` tetrahedral scalar kernel through `v0.3.0` vector-field electromagnetics, the `v1.0` robot-joint motor linear smoke path, `v1.1` nonlinear B-H material evaluation, `v1.2` RT/H(div), `v1.3` hexahedral/high-order H1, and `v2.0` coupled-field operator contracts.
+The current implementation baseline is `v2.0.0-dev`. It contains a first executable foundation chain from the delivered `v0.2.0` tetrahedral scalar kernel through `v0.3.0` vector-field electromagnetics, the `v1.0` robot-joint motor linear smoke path, `v1.1` local nonlinear B-H material evaluation, `v1.2` reference RT/H(div), `v1.3` reference hexahedral/high-order H1, and `v2.0` coupled-field operator contracts. It is not yet the complete industrial nonlinear multiphysics motor product.
 
 ## Version Scope
 
@@ -20,6 +20,12 @@ The current implementation baseline is `v2.0.0-dev`. It contains a first executa
 - `v2.0.0`: multiphysics coupling foundation
 - `v3.0.0`: design-study and physics-AI interfaces
 - `v4.0.0`: motion and low-frequency transients
+
+## Attribution And Commit Identity
+
+- Repository commits made during assisted development should use `Louis` as the author identity.
+- Do not introduce generated text or metadata that claims implementation authorship by an assistant name.
+- Existing pushed history must not be rewritten for author cleanup unless Louis explicitly asks for a history rewrite plan.
 
 ## Repository Structure
 
@@ -103,6 +109,8 @@ Hard dependency rules:
 - Any change to `material`, `fem`, `nonlinear`, or `post` must ship with tests.
 - Any change to `B-H` constitutive behavior must ship with a consistent-tangent validation.
 - Important numerical-strategy changes require an ADR under `docs/adr/`.
+- Do not mark a foundation slice as an industrial product feature. Documentation must distinguish implemented foundation code from full nonlinear multiphysics capability.
+- The industrial gap audit in `docs/architecture/industrial-nonlinear-multiphysics-gap-audit.md` is the source of truth for remaining product gaps.
 
 ## Testing Obligations
 

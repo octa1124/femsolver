@@ -24,9 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `v1.3` hexahedral reference element, Gauss-Legendre quadrature, and H1 `Q1/Q2` basis functions.
 - `v2.0` operator adapters for magnetostatic block embedding and canonical magneto-thermal coupling.
 - Version-readiness analysis tooling for the `v1.0` through `v2.0` feature chain.
+- An industrial nonlinear multiphysics gap audit that checks `v0.1` through `v2.0-dev` against the full product target.
 
 ### Changed
 
+- Documentation now distinguishes foundation-slice completion from industrial nonlinear multiphysics product completion.
+- Repository assisted-development attribution rules now require `Louis` as the commit identity.
 - Case metadata now declares the intended production discretization family as `nedelec` for the robot-joint motor path.
 - `motor_check` now accepts combinable benchmark flags and runs both scalar and vector canonical checks by default.
 - `motor_check` now includes the H(div) benchmark in default checks and accepts `--hdiv-benchmark`.
